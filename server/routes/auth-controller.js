@@ -6,16 +6,14 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 exports.login = (req, res) => {
-  passport.authenticate("local", function (err, user) {
-      if (err) {
-        return res.status(400).json({errors: err})
-      }
+  passport.authenticate("local", function (err, user, info) {
       if (!user) {
-        return res.status(400).json({errors: "User nicht gefunden"})
+        return res.status(400).json({error: info.message})
       }
       req.logIn(user, function (err) {
         if (err) {
-          return res.status(400).json({errors: err});
+          console.error("error desde el auth controller");
+          return res.status(400).json({error: err});
         }
         return res.status(200).json({sucess: `logged in ${user.id}`})
       })
