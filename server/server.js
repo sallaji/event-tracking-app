@@ -13,7 +13,6 @@ const dispatcher = require('./routes/dispatcher');
 
 const url = `mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DATABASE}`;
 
-
 mongoose.connect(url, {useNewUrlParser: true});
 const app = express();
 
@@ -22,12 +21,11 @@ app.use(express.urlencoded({extended: false}));
 
 //express session
 app.use(session({
-  secret: "muy screto",
-  resave: false,
-  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET,
+  resave: false, // resaves session variables if nothing is changed
+  saveUninitialized: false, //allows saving empty values in session
   store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
-
 
 app.use(passport.initialize());
 app.use(passport.session());
