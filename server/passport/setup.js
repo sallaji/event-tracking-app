@@ -18,7 +18,7 @@ passport.use(
             if (!user) {
               return done(null, false, {message: 'Inkorrekter Name'});
             }
-            if (!user.validPassword(password, user.password)) {
+            if (!User.validPassword(password, user.password)) {
               return done(null, false, {message: 'Falsches Passwort.'});
             }
             return done(null, user);
