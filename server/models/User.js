@@ -11,10 +11,13 @@ const UserSchema = new Schema(
         unique: true
       },
       password: {
-        type: String
+        type: String,
+        required:true
       },
-      type:{
-        type: String
+      type: {
+        type: String,
+        required:true,
+        enum: ['administrator', 'user']
       }
     },
     {
@@ -22,30 +25,31 @@ const UserSchema = new Schema(
     }
 );
 
-UserSchema.methods.validPassword = async (password, userPassword) =>
+UserSchema.pre('save', function (next) {
+  var user = this;
+  if (!user.isModified('password')) {
+    return next();
+  }
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      return next(err);
+    }
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) {
+        return err;
+      }
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+UserSchema.statics.validPassword = async (password, userPassword) =>
     await bcrypt.compare(password, userPassword, (err, isMatch) => {
       if (err) {
         throw err;
       }
       return isMatch;
     });
-
-UserSchema.methods.hashPassword = (password) => new Promise(
-    (resolve, reject) => {
-      bcrypt.genSalt(10,
-          (err, salt) => {
-            bcrypt.hash(password, salt, (err, hash) => {
-              if (err) {
-                reject(err);
-              }
-              resolve(hash);
-            })
-          })
-    });
-const userTypes = ['administrator','user'];
-UserSchema.methods.userTypeIsValid = (userType) => {
-  console.log(userTypes.includes(userType))
-  return userTypes.includes(userType)
-};
 
 module.exports = mongoose.model('User', UserSchema);

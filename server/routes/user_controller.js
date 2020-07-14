@@ -10,34 +10,17 @@ exports.users = (req, res) => {
   });
 };
 
+//TODO: Create custom validation messages in german! Check for unique name error message validation
 exports.createUser = (req, res) => {
   const name = req.body.name;
   const password = req.body.password;
-  const type = req.body.type.toLowerCase();
-  User.findOne({name: name})
-  .then(user => {
-    if (user) {
-      return res.status(400).json(
-          {errors: "name bereits verwendet"})
-    }
-
-    //TODO: Refactoring, DRY too many status codes
-    const newUser = new User();
-    if (newUser.userTypeIsValid(type)) {
-      newUser.type = type;
-      newUser.name = name;
-      newUser.hashPassword(password).then(hash => {
-        newUser.password = hash;
-        newUser.save((err, createdUser) => {
-          if (err) {
-            res.status(412).send(err)
-          } else {
-            res.status(201).json(createdUser)
-          }
-        })
-      }).catch(err => res.status(412).send(err));
+  const type = req.body.type;
+  const newUser = User({name: name, password: password, type: type});
+  newUser.save((err, createdUser) => {
+    if (err) {
+      res.status(412).json(err)
     } else {
-      res.status(412).send('Invalid data')
+      res.status(201).json(createdUser)
     }
   })
 };
