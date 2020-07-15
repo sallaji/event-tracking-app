@@ -10,7 +10,6 @@ exports.login = (req, res) => {
     }
     req.logIn(user, function (err) {
       if (err) {
-        console.error("error desde el auth controller");
         return res.status(400).json({error: err});
       }
       return res.status(200).json({sucess: `logged in ${user.id}`})

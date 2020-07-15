@@ -7,13 +7,16 @@ const UserSchema = new Schema(
     {
       name: {
         type: String,
-        required: [true, 'Benutzername nicht eingegeben'],
+        required: 'Benutzername nicht eingegeben',
         unique: true,
         validate: {
           validator: async function (v) {
+            let self = this;
             let userIsUnique = true;
             await this.constructor.findOne({name: v},
-                (err, user) => userIsUnique = !user);
+                (err, user) => {
+                  userIsUnique = user? self.id === user.id : !user
+                });
             return userIsUnique;
           },
           message: props => `Name '${props.value}' ist nicht verfügbar`,
@@ -23,7 +26,7 @@ const UserSchema = new Schema(
       },
       password: {
         type: String,
-        required: [true, 'Passwort nicht eingegeben'],
+        required: 'Passwort nicht eingegeben',
         validate: {
           validator: function (v) {
             return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/.test(v)
@@ -37,12 +40,13 @@ const UserSchema = new Schema(
       },
       type: {
         type: String,
-        required: [true, 'Benutzertyp nicht eingegeben'],
+        required: 'Benutzertyp nicht eingegeben',
         enum: {
           values: ['administrator', 'user'],
-          message: 'falscher Benutzertyp'
+          message: 'Falscher Benutzertyp'
         }
       }
+      // events: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
     },
     {
       collection: 'users'
