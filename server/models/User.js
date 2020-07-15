@@ -1,4 +1,4 @@
-// "use strict";
+"use strict";
 const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
@@ -7,17 +7,41 @@ const UserSchema = new Schema(
     {
       name: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'Benutzername nicht eingegeben'],
+        unique: true,
+        validate: {
+          validator: async function (v) {
+            let userIsUnique = true;
+            await this.constructor.findOne({name: v},
+                (err, user) => userIsUnique = !user);
+            return userIsUnique;
+          },
+          message: props => `Name '${props.value}' ist nicht verfügbar`,
+          type: "String",
+          path: "name"
+        }
       },
       password: {
         type: String,
-        required:true
+        required: [true, 'Passwort nicht eingegeben'],
+        validate: {
+          validator: function (v) {
+            return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/.test(v)
+          },
+          message: 'Das Passwort muss mindestens sechs Zeichen lang sein und'
+              + ' mindestens ein Kleinbuchstaben, einen Grossbuchstaben und '
+              + 'eine Zahl enthalten.',
+          type: "String",
+          path: "password"
+        }
       },
       type: {
         type: String,
-        required:true,
-        enum: ['administrator', 'user']
+        required: [true, 'Benutzertyp nicht eingegeben'],
+        enum: {
+          values: ['administrator', 'user'],
+          message: 'falscher Benutzertyp'
+        }
       }
     },
     {
@@ -44,12 +68,8 @@ UserSchema.pre('save', function (next) {
   });
 });
 
-UserSchema.statics.validPassword = async (password, userPassword) =>
-    await bcrypt.compare(password, userPassword, (err, isMatch) => {
-      if (err) {
-        throw err;
-      }
-      return isMatch;
-    });
+UserSchema.statics.validPassword = async (password, userPassword, callback) =>
+    await bcrypt.compare(password, userPassword, (err, isMatch) =>
+        callback(isMatch));
 
 module.exports = mongoose.model('User', UserSchema);

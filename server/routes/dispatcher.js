@@ -15,6 +15,6 @@ dispatcher.route('/login')
 
 dispatcher.route('/users')
 .get(isLoggedIn, user_controller.users)
-.post(user_controller.createUser);
+.post(isLoggedIn, user_controller.createUser);
 
 module.exports = dispatcher;

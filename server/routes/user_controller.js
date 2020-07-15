@@ -10,7 +10,6 @@ exports.users = (req, res) => {
   });
 };
 
-//TODO: Create custom validation messages in german! Check for unique name error message validation
 exports.createUser = (req, res) => {
   const name = req.body.name;
   const password = req.body.password;
@@ -18,7 +17,7 @@ exports.createUser = (req, res) => {
   const newUser = User({name: name, password: password, type: type});
   newUser.save((err, createdUser) => {
     if (err) {
-      res.status(412).json(err)
+        res.status(412).json(err.errors)
     } else {
       res.status(201).json(createdUser)
     }
