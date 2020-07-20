@@ -2,20 +2,18 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const TicketSchema = new Schema(
+const ProfitSchema = new Schema(
     {
-      price: {
+      bar: {
         type: Number
       },
-      quantity: {
-        type: Number,
+      entrance: {
+        type: Number
       },
       event: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
-        required: 'Es wurde dem Ticket kein Event zugewiesen'
+        autopopulate: true
       }
     }
 );
-
-module.exports = mongoose.model('Ticket', TicketSchema);

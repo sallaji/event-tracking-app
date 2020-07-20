@@ -1,9 +1,4 @@
 const Event = require('../models/Event');
-const User = require('../models/User');
-const mongoose = require('mongoose');
-
-console.log("mirame" + mongoose.connection);
-// const Ticket = require('../models/Ticket');
 
 exports.create = (req, res) => {
   const {name, date, responsible, uid} = req.body;
@@ -16,7 +11,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  Event.find().populate('user', ['name', 'type'])
+  Event.find()
   .then(events => res.status(200).json(events))
   .catch(err => res.status(500).send('Database Error'));
 };
@@ -32,9 +27,7 @@ exports.update = (req, res) => {
     event.user = userId;
     event.save()
     .then(updatedEvent => {
-      Event.populate(updatedEvent, {path: 'user', select: ['name', 'type']})
-      .then(populated => res.status(200).json(populated))
-      .catch(err => res.status(412).send('Benutzerdaten nicht zurückgegeben'))
+      res.status(200).json(updatedEvent)
     })
     .catch(err => res.status(412).send(err))
   })
