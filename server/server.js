@@ -4,8 +4,8 @@ const config = require('dotenv-extended').load({
   errorOnExtra: true
 });
 
+const cors = require('cors');
 const express = require('express');
-
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -28,6 +28,7 @@ app.use(session({
   store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
 

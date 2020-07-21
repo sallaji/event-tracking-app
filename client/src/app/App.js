@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 // import logo from '../logo.svg';
 import './App.css';
+import EventContainer from "../events/EventContainer";
 import {Container} from 'reactstrap'
 import doFetch from "../network/NetworkUtil";
 
@@ -17,8 +18,10 @@ const App = () => {
       messageFn: setMessage,
       errorText: 'Konfigurationsfehler'
     })
-  }, [])
+  }, []);
 
+  const renderEventContainer = config =>
+      config? <EventContainer/>: null
 };
 
 export default App;
