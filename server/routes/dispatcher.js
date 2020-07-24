@@ -9,7 +9,7 @@ const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
   }
-  res.status(401).json({error: 'Zugriff verboten'})
+  res.status(401).send('Zugriff verboten')
 };
 
 dispatcher.route('/login')

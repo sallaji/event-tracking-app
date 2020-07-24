@@ -4,6 +4,7 @@ import './App.css';
 import EventContainer from "../events/EventContainer";
 import {Container} from 'reactstrap'
 import doFetch from "../network/NetworkUtil";
+import Message from "./Message";
 
 const App = () => {
   const [config, setConfig] = useState(null);
@@ -20,8 +21,15 @@ const App = () => {
     })
   }, []);
 
+  const renderMessage = () =>
+      error? <Message message={message}/>:null;
+
   const renderEventContainer = config =>
-      config? <EventContainer/>: null
+      config? <EventContainer serverUrl={`${config.url}/events`}/>: null;
+  return <Container>
+    {renderEventContainer(config)}
+    {renderMessage()}
+  </Container>
 };
 
 export default App;

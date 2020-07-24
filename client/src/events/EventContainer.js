@@ -1,6 +1,8 @@
-import {useEffect, useState} from "react";
+import React,{useEffect, useState} from "react";
 import doFetch from "../network/NetworkUtil";
-
+import Message from '../app/Message'
+import Loader from '../app/Loader'
+import EventTable from './EventTable'
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
 
 const EventContainer = ({serverUrl}) => {
@@ -13,7 +15,7 @@ const EventContainer = ({serverUrl}) => {
     doFetch({
       url: serverUrl,
       dataFn: setEvents,
-      errorFn, setError,
+      errorFn: setError,
       messageFn: setMessage,
       loadingFn: setLoading,
       errorText: 'Events Nicht Gefunden'
@@ -22,10 +24,11 @@ const EventContainer = ({serverUrl}) => {
   useEffect(readAll, []);
   const renderMessage = () => error ? <Message message={message}/> : null;
   const renderEventTable = (events) =>
-      loading? <Loader /> : <EventTable events={events}/>
-      //TODO Terminar de crear los componentes faltantes: Message, Loader,
-      // EventTable, concrete errorFn y probar el fetch.. :)
-
+      loading ? <Loader/> : <EventTable events={events}/>;
+  return <div>
+    {renderMessage()}
+    {renderEventTable(events)}
+  </div>
 
 };
 export default EventContainer
