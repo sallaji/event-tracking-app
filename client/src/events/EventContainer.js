@@ -3,6 +3,7 @@ import doFetch from "../network/NetworkUtil";
 import Message from '../app/Message'
 import Loader from '../app/Loader'
 import EventTable from './EventTable'
+import './events.css'
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
 
 const EventContainer = ({serverUrl}) => {
@@ -25,10 +26,10 @@ const EventContainer = ({serverUrl}) => {
   const renderMessage = () => error ? <Message message={message}/> : null;
   const renderEventTable = (events) =>
       loading ? <Loader/> : <EventTable events={events}/>;
-  return <div>
+  return <section>
     {renderMessage()}
     {renderEventTable(events)}
-  </div>
+  </section>
 
 };
 export default EventContainer

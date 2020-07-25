@@ -1,16 +1,26 @@
 import React from "react";
-import {Col, Row, Container} from "reactstrap";
+// import {Col, Row, Container} from "reactstrap";
 import _ from 'lodash'
 import EventElement from './EventElement'
+
 const EventTable = ({events}) =>
-    <Container>
+    <table className="event-table">
+      <thead>
+      <tr>
+        <th>Datum</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody>
       {
-        _.map(events, event =>
+        _.map(events, (event, idx) =>
             <EventElement
-                key={event.id}
+                idx={idx}
+                key={event._id}
                 event={event}/>
         )
       }
-    </Container>;
+      </tbody>
+    </table>;
 
 export default EventTable;

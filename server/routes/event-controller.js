@@ -31,5 +31,6 @@ exports.update = (req, res) => {
     })
     .catch(err => res.status(412).send(err))
   })
-  .catch(err => res.status(404).send('Event nicht gefunden'));
+  // .catch(err => res.status(404).send('Event nicht gefunden'));
+.catch(err => res.status(404).send('Event nicht gefunden'));
 };

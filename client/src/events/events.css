@@ -1,0 +1,28 @@
+table{
+  width: 100%;
+}
+
+tr{
+}
+td{
+  padding: 1rem 2rem;
+}
+.event-item {
+  transition: 0.3s;
+  cursor: pointer;
+
+}
+
+.event-item:hover {
+  transition: 0.3s;
+  background-color: #282c34 !important;
+  color: white;
+}
+
+.event-item.even {
+  background-color: #fbfbff;
+}
+
+.event-item.odd {
+  background-color: #eeeef2;
+}
