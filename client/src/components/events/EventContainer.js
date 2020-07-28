@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from "react";
-import doFetch from "../network/NetworkUtil";
-import Message from '../app/Message'
-import Loader from '../app/Loader'
+import doFetch from "../../network/NetworkUtil";
+import Message from '../../app/Message'
+import Loader from '../../app/Loader'
 import EventTable from './EventTable'
 import './events.css'
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};

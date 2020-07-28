@@ -1,18 +1,24 @@
-import React from 'react'
-import {Router, Route} from 'react-router-dom'
-import history from './history'
-import UserProvider from './contexts/UserProvider'
-import MenuBar from "./components/menus/MenuBar";
-import Home from "./pages/Home"
-import Events from "./pages/Events"
+import React, {useEffect, useState} from 'react'
+import Router from './services/router';
+import doFetch from "./network/NetworkUtil";
 
-const App = () => <Router history={history}>
-  <UserProvider>
-    <Route path="/" component={MenuBar}/>
-    <Route path="/events" component={Events}/>
-  </UserProvider>
-  <Route path="/" exact component={Home}>
-  </Route>
-</Router>;
+const App = () => {
+  const [config, setConfig] = useState(null);
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
 
-export default App
+  useEffect(() => {
+    doFetch({
+      url: 'application.json',
+      dataFn: setConfig,
+      errorFn: setError,
+      messageFn: setMessage,
+      errorText: 'Konfiguationsfehler'
+    })
+  }, []);
+  const renderRouter = config => config ? <Router
+      serverUrl={`${config.url}`}/> : null;
+  return (renderRouter(config));
+};
+
+export default App;

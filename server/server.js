@@ -16,7 +16,7 @@ const url = `mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DATABASE}`;
 
 mongoose.connect(url, {useNewUrlParser: true});
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
@@ -28,7 +28,7 @@ app.use(session({
   store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-app.use(cors());
+
 app.use(passport.initialize());
 app.use(passport.session());
 

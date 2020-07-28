@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 // import logo from '../logo.svg';
 import Header from "./Header";
-import EventContainer from "../events/EventContainer";
+import EventContainer from "../components/events/EventContainer";
 import './app.css'
 import doFetch from "../network/NetworkUtil";
 import Message from "./Message";
