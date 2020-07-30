@@ -1,6 +1,7 @@
 const dispatcher = require('express').Router();
-
 const auth_controller = require('./auth-controller');
+const {authJwt} = require("../middlewares");
+
 const user_controller = require('./user_controller');
 const event_controller = require('./event-controller');
 const ticket_controller = require('./ticket_controller');
@@ -14,7 +15,7 @@ const isLoggedIn = (req, res, next) => {
 
 dispatcher.route('/login')
 .post(auth_controller.login)
-.get(auth_controller.isLoggedIn);
+.get(authJwt.verifyToken, auth_controller.isLoggedIn);
 
 dispatcher.route('/users')
 .get(isLoggedIn, user_controller.users)

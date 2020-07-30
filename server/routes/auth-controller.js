@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 exports.isLoggedIn = (req, res) => {
   if (req.isAuthenticated()) {
     return res.status(200).json(req.user)
@@ -19,8 +21,10 @@ exports.login = (req, res) => {
       if (err) {
         return res.status(400).json({error: err});
       }
-      console.log(user);
-      return res.status(200).json(user)
+      var token = jwt.sign({id: user.id}, process.env.SESSION_SECRET, {
+        expiresIn: 86400 //24 Stunden
+      });
+      return res.status(200).json({...user, accessToken: token})
     })
   })(req, res)
 };

@@ -11,21 +11,27 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('./passport/setup');
 const dispatcher = require('./routes/dispatcher');
+const cookieParser = require('cookie-parser');
 
 const url = `mongodb://${process.env.MONGO_HOST}/${process.env.MONGO_DATABASE}`;
 
 mongoose.connect(url, {useNewUrlParser: true});
 const app = express();
-app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+
+const corsOptions = {
+  origin: "http://localhost:3000"
+};
+app.use(cors(corsOptions));
 
 //express session
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false, // resaves session variables if nothing is changed
   saveUninitialized: false, //allows saving empty values in session
-  store: new MongoStore({mongooseConnection: mongoose.connection})
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
 }));
 
 

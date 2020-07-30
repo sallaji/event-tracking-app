@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useReducer, useState} from 'react';
 // import {Router, Route} from 'react-router-dom'
 import {Router} from '@reach/router'
 import history from '../history'
@@ -7,6 +7,7 @@ import Events from "../pages/Events"
 import Login from "../pages/Login"
 import {UserContext} from "../contexts/UserContext";
 import doFetch from "../network/NetworkUtil";
+import AuthService from "../services/auth-service"
 
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
 
@@ -16,29 +17,41 @@ const AppRouter = ({serverUrl}) => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const providerValue = useMemo(() => ({user, setUser}), [user, setUser]);
-  const userFetch = ({method, userData = {}}) => {
-    doFetch(
-        {
-          url: `${serverUrl}/login`,
-          requestObject: {
-            method: method,
-            body: JSON.stringify(userData), ...headers
-          },
-          dataFn: user => setUser(user),
-          errorFn: setError,
-          messageFn: setMessage,
-          loadingFn: setLoading,
-          errorText: 'Kein nutzer gefunden'
-        }
-    )
-  };
-  //TODO: replace with context component with children as props
-  // useEffect(
-  //     userFetch({method: 'GET'}), [providerValue]);
 
   const doLogin = userData => {
-    userFetch({method: 'POST', userData})
+    AuthService.login({serverUrl, userData});
   };
+  // const doLogin = userData => {
+  //   doFetch(
+  //       {
+  //         url: `${serverUrl}/login`,
+  //         requestObject: {
+  //           method: 'POST',
+  //           body: JSON.stringify(userData), ...headers
+  //         },
+  //         dataFn: user => setUser(user),
+  //         errorFn: setError,
+  //         messageFn: setMessage,
+  //         loadingFn: setLoading,
+  //         errorText: 'Kein nutzer gefunden'
+  //       }
+  //   );
+  //
+  // };
+  //
+  // useEffect(() => {
+  //   doFetch(
+  //       {
+  //         url: `${serverUrl}/login`,
+  //         dataFn: user => setUser(user),
+  //         errorFn: setError,
+  //         messageFn: setMessage,
+  //         loadingFn: setLoading,
+  //         errorText: 'Kein nutzer gefunden'
+  //       }
+  //   )
+  // }, []);
+
   return (
       <UserContext.Provider value={providerValue}>
         <Router>
