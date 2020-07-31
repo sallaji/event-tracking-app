@@ -6,7 +6,6 @@ import _ from 'lodash'
 const Header = () => {
 
   const {user, setUser} = useContext(UserContext);
-
   return (
       <div className="menu-bar">
         {

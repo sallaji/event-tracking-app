@@ -35,14 +35,21 @@ const register = async ({serverUrl, newUserData}) => {
   }
 };
 
-const getCurrentUser = async (serverUrl) =>{
-    const response = await fetch(`${serverUrl}/login`, {
-      ...authHeader()})
+const getCurrentUser =  (serverUrl) =>{
+    fetch(`${serverUrl}/login`, {method:'GET',
+      headers:  authHeader()})
     .then(response => {
+      console.log(response.data)
       if (!response.ok) {
         return null;
       }
       return response.json()
+      .then(json=> {
+
+        if(json.token){
+          localStorage.setItem('user', JSON.stringify(json))
+        }
+      })
     }).catch(e => console.error("error desde auth-service getcurrentUser"));
 };
 
