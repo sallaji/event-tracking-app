@@ -15,7 +15,7 @@ const isLoggedIn = (req, res, next) => {
 
 dispatcher.route('/login')
 .post(auth_controller.login)
-.get(authJwt.verifyToken, auth_controller.isLoggedIn);
+.get(auth_controller.isLoggedIn);
 
 dispatcher.route('/users')
 .get(isLoggedIn, user_controller.users)

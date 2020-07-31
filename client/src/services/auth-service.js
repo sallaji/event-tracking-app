@@ -1,26 +1,25 @@
+import authHeader from '../services/data_service'
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
 
-const login = async ({serverUrl, userData}) => {
-
-  try {
-
-    const response = await fetch(`${serverUrl}/login`, {
+const login = ({serverUrl, userData}) =>
+    fetch(`${serverUrl}/login`, {
       method: 'POST',
-      body: JSON.stringify(userData), ...headers
-    });
-    if (response.ok) {
-      console.log(response);
-
-      if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data))
+      body: JSON.stringify(userData),
+      ...headers
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Login fehlgeschlagen')
       }
-      return response.data;
+      return response.json()
+    })
+    .then(json => {
 
-    }
-  } catch (e) {
-    console.error("Kein User gefunden", serverUrl, userData)
-  }
-};
+      if (json.token) {
+        localStorage.setItem("user", JSON.stringify(json))
+      }
+      return json
+    })
+    .catch(e => console.error(e));
 
 const logout = () => {
   localStorage.removeItem("user");
@@ -36,8 +35,15 @@ const register = async ({serverUrl, newUserData}) => {
   }
 };
 
-const getCurrentUser = () => {
-  return JSON.parse(localStorage.getItem('user'));
+const getCurrentUser = async (serverUrl) =>{
+    const response = await fetch(`${serverUrl}/login`, {
+      ...authHeader()})
+    .then(response => {
+      if (!response.ok) {
+        return null;
+      }
+      return response.json()
+    }).catch(e => console.error("error desde auth-service getcurrentUser"));
 };
 
 const authService = {

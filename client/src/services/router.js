@@ -6,51 +6,30 @@ import Home from "../pages/Home"
 import Events from "../pages/Events"
 import Login from "../pages/Login"
 import {UserContext} from "../contexts/UserContext";
-import doFetch from "../network/NetworkUtil";
 import AuthService from "../services/auth-service"
 
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
 
 const AppRouter = ({serverUrl}) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(AuthService.getCurrentUser(serverUrl));
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const providerValue = useMemo(() => ({user, setUser}), [user, setUser]);
 
   const doLogin = userData => {
-    AuthService.login({serverUrl, userData});
+    AuthService.login({serverUrl, userData})
+    .then(user => {
+      setUser(user);
+      // history.push("/");
+      // window.location.reload()
+    })
+    .catch(error=>{
+      setError(error)
+    });
   };
-  // const doLogin = userData => {
-  //   doFetch(
-  //       {
-  //         url: `${serverUrl}/login`,
-  //         requestObject: {
-  //           method: 'POST',
-  //           body: JSON.stringify(userData), ...headers
-  //         },
-  //         dataFn: user => setUser(user),
-  //         errorFn: setError,
-  //         messageFn: setMessage,
-  //         loadingFn: setLoading,
-  //         errorText: 'Kein nutzer gefunden'
-  //       }
-  //   );
-  //
-  // };
-  //
-  // useEffect(() => {
-  //   doFetch(
-  //       {
-  //         url: `${serverUrl}/login`,
-  //         dataFn: user => setUser(user),
-  //         errorFn: setError,
-  //         messageFn: setMessage,
-  //         loadingFn: setLoading,
-  //         errorText: 'Kein nutzer gefunden'
-  //       }
-  //   )
-  // }, []);
+
+  // useEffect(() => setUser(AuthService.getCurrentUser()));
 
   return (
       <UserContext.Provider value={providerValue}>

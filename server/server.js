@@ -9,7 +9,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const passport = require('./passport/setup');
+const passport = require('passport');
+// Pass the global passport object into the configuration function
+require('./passport/setup')(passport);
 const dispatcher = require('./routes/dispatcher');
 const cookieParser = require('cookie-parser');
 
@@ -29,8 +31,8 @@ app.use(cors(corsOptions));
 //express session
 app.use(session({
   secret: process.env.SESSION_SECRET,
-  resave: false, // resaves session variables if nothing is changed
-  saveUninitialized: false, //allows saving empty values in session
+  resave: true, // resaves session variables if nothing is changed
+  saveUninitialized: true, //allows saving empty values in session
   store: new MongoStore({mongooseConnection: mongoose.connection}),
 }));
 
