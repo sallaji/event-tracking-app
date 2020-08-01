@@ -1,9 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import _ from 'lodash';
 
 import Layout from '../components/layout'
 import {UserContext} from "../contexts/UserContext";
-import {Redirect} from "@reach/router";
 
 const Login = ({doLogin}) => {
   const [loginUser, setLoginUser] = useState({name: '', password: ''});
@@ -14,7 +13,6 @@ const Login = ({doLogin}) => {
     (actionFn || _.identity)(loginUser);
   };
 
-  useEffect(() => console.log(user));
   // const renderLogin = () => user ? <Redirect to="/login"/> : <Layout>
     const renderLogin = () => <Layout>
     <form>

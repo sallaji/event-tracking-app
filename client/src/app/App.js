@@ -1,3 +1,4 @@
+//TODO Replace everything with new component, page and services based project structure
 import React, {useState, useEffect} from 'react';
 // import logo from '../logo.svg';
 import Header from "./Header";

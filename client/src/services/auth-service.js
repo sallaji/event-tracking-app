@@ -1,4 +1,5 @@
 import authHeader from '../services/data_service'
+
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
 
 const login = ({serverUrl, userData}) =>
@@ -35,22 +36,23 @@ const register = async ({serverUrl, newUserData}) => {
   }
 };
 
-const getCurrentUser =  (serverUrl) =>{
-    fetch(`${serverUrl}/login`, {method:'GET',
-      headers:  authHeader()})
-    .then(response => {
-      console.log(response.data)
-      if (!response.ok) {
-        return null;
-      }
-      return response.json()
-      .then(json=> {
-
-        if(json.token){
-          localStorage.setItem('user', JSON.stringify(json))
+const getCurrentUser = (serverUrl) => {
+  return fetch(`${serverUrl}/login`, {
+    method: 'GET',
+    ...authHeader()
+  })
+  .then(response => {
+        if (!response.ok) {
+          return null;
         }
-      })
-    }).catch(e => console.error("error desde auth-service getcurrentUser"));
+        return response.json()
+      }
+  ).then(json => {
+    if (json.token) {
+      localStorage.setItem('user', JSON.stringify(json))
+    }
+    return json
+  }).catch(e => console.error("error desde auth-service getcurrentUser"));
 };
 
 const authService = {

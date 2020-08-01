@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+//TODO Replace with jwt passport structure
 const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {

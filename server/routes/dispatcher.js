@@ -1,11 +1,13 @@
 const dispatcher = require('express').Router();
 const auth_controller = require('./auth-controller');
+//TODO: IMplement authjwt
 const {authJwt} = require("../middlewares");
 
 const user_controller = require('./user_controller');
 const event_controller = require('./event-controller');
 const ticket_controller = require('./ticket_controller');
 
+//TODO: Reeplace with jwt based authorization
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next()
