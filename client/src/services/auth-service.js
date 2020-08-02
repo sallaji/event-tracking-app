@@ -2,7 +2,7 @@ import authHeader from '../services/data_service'
 
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
 
-const login = ({serverUrl, userData}) =>
+const login = (serverUrl, userData) =>
     fetch(`${serverUrl}/login`, {
       method: 'POST',
       body: JSON.stringify(userData),

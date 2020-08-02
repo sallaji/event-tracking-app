@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Router from './services/router';
 import doFetch from "./network/NetworkUtil";
+import GlobalStyles from "./styles/Global";
 
 const App = () => {
   const [config, setConfig] = useState(null);
@@ -18,7 +19,11 @@ const App = () => {
   }, []);
   const renderRouter = config => config ? <Router
       serverUrl={`${config.url}`}/> : null;
-  return (renderRouter(config));
+  return (
+      <>
+        {renderRouter(config)}
+        <GlobalStyles/>
+      </>);
 };
 
 export default App;

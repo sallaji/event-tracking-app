@@ -21,6 +21,10 @@ const options = {
 const jwtStrategy = new JwtStrategy(options, (payload, done) => {
   User.findOne({_id: payload.sub})
       .then(user => {
+        if(payload.exp < new Date().getTime() / 1000){
+          console.info("Token expired");
+          return done(null,false)
+        }
         if (user) {
           return done(null, user)
         } else {

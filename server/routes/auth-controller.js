@@ -3,11 +3,17 @@ const passport = require('passport');
 
 exports.isLoggedIn = (req, res) => {
   passport.authenticate('jwt', function (err, user, info) {
-     if(user){
-       res.status(200).json(user)
-     } else{
-       res.status(403).send("error logged in")
-     }
+    if (user) {
+      res.status(200).send({
+        id: user.id,
+        name: user.name,
+        type: user.type,
+        // token: user.token,
+        // expiresIn: user.expires
+      })
+    } else {
+      res.status(403).send("User not logged in")
+    }
   })(req, res)
 };
 

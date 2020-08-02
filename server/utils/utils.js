@@ -7,7 +7,7 @@ const verifyPassword = async (password, userPassword, callback) =>
 
 const issueJWT = (user) => {
   const _id = user._id;
-  const expiresIn = '1d';
+  const expiresIn = 86400;
   const payload = {
     sub: _id,
     iat: Date.now()
