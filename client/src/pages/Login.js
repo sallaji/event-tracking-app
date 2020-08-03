@@ -4,6 +4,11 @@ import {Input} from "../components/inputs";
 import {UserContext} from "../contexts/UserContext";
 import AuthService from "../services/auth-service";
 import history from "../history";
+import {Button} from "../components/buttons";
+import {
+  CenteredSectionContainer,
+  LoginFormContainer
+} from "../components/container";
 
 const Login = ({serverUrl}) => {
   const [loginUser, setLoginUser] = useState({name: '', password: ''});
@@ -24,15 +29,27 @@ const Login = ({serverUrl}) => {
       // setError(error)
     });
   };
-  const renderLogin = () => <Layout>
-    <form>
-      <Input type="text" name="name" placeholder="Name"
-             onChange={handleChange}/>
-      <Input type="password" name="password" placeholder="Passwort"
-             onChange={handleChange}/>
 
-      <input type="button" onClick={doLogin} value="login"/>
-    </form>
+  const renderLogin = () => <Layout>
+    <CenteredSectionContainer>
+      <LoginFormContainer>
+        <form>
+          <Input type="text"
+                 name="name"
+                 placeholder="Name"
+                 onChange={handleChange}/>
+          <Input type="password"
+                 name="password"
+                 placeholder="Passwort"
+                 onChange={handleChange}/>
+          <Button text="Einloggen"
+                  color="yellow"
+                  onCLick={doLogin}
+          />
+        </form>
+      </LoginFormContainer>
+    </CenteredSectionContainer>
+
   </Layout>;
   return (renderLogin())
 };

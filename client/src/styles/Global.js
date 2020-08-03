@@ -7,7 +7,7 @@ const GlobalStyles = createGlobalStyle`
 --color-primary-dark: #262931;
 --color-primary-dark-hover: #41464c;
 --color-yellow: #fbb900;
-
+--color-yellow-hover: rgba(255,188,0,0.85);
 }
 
 *,
@@ -20,10 +20,13 @@ box-sizing: inherit;
 
 html{
 font-size: 62.5%;
+
 }
 body {
 box-sizing: border-box;
 font-family: 'Quicksand', sans-serif;
+height:100vh;
+width: 100vw;
 }
 `;
 export default GlobalStyles;

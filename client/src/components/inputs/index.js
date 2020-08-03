@@ -7,7 +7,7 @@ const InputComponent = styled.input`
   margin: 0 0 0.5em;
   font-size: 1.6rem;
   padding: 1rem;
-  
+  width: ${props => props.width? props.width: "100%"};
   ::placeholder{
   color: var(color-primary-dark);
   }
@@ -16,5 +16,9 @@ const InputComponent = styled.input`
   }
 
 `;
-export const Input = ({name, type, placeholder, onChange}) =>
-    (<InputComponent type={type} name={name} placeholder={placeholder} onChange={onChange}/>);
+export const Input = ({name, type, width, placeholder, onChange}) =>
+    (<InputComponent type={type}
+                     name={name}
+                     width={width}
+                     placeholder={placeholder}
+                     onChange={onChange}/>);
