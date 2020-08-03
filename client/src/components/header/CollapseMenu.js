@@ -10,14 +10,14 @@ const CollapseMenu = ({routes, navbarOpen, handleNavbar}) => {
     return (
         <CollapseWrapper style={{
           transform: open.interpolate({
-            range: [0, 0.2, 0.3, 1],
-            output: [0, -20, 0, -200],
+            range: [0, 0, 0, 100],
+            output: [0, 0, 0, -100],
           }).interpolate(openValue => `translate3d(0, ${openValue}px, 0`),
         }}
         >
           <NavLinks>
-            {_.map(routes, route =>
-                <li><a href={route.path} onClick={handleNavbar}>{route.name}</a>
+            {_.map(routes, (route, index) =>
+                <li key={index}><a href={route.path} onClick={handleNavbar}>{route.name}</a>
                 </li>
             )}
           </NavLinks>
@@ -30,17 +30,20 @@ const CollapseMenu = ({routes, navbarOpen, handleNavbar}) => {
 export default CollapseMenu;
 
 const CollapseWrapper = styled(animated.div)`
-  background: #2d3436;
+  background: var(--color-primary-dark);
   position: fixed;
-  top: 4.5rem;
+  top: 4rem;
   left: 0;
   right: 0;
+  z-index: 1;
+  
+      @media (min-width: 768px) {
+      display: none;
+    }
 `;
 
 const NavLinks = styled.ul`
   list-style-type: none;
-  padding: 2rem 1rem 2rem 2rem;
-
   & li {
     transition: all 300ms linear 0s;
   }
@@ -51,10 +54,14 @@ const NavLinks = styled.ul`
     color: #dfe6e9;
     text-decoration: none;
     cursor: pointer;
+    display: block;
+        transition: all 300ms linear 0s;
+        padding: 0.5rem 2.5rem;
 
     &:hover {
+      transition: all 300ms linear 0s;
       color: #fdcb6e;
-      border-bottom: 1px solid #fdcb6e;
+      background-color: var(--color-primary-dark-hover);
     }
   }
 `;

@@ -4,10 +4,10 @@ import styled from "styled-components";
 export const ContentWrapper = ({children}) =>
     <div>{children}</div>;
 
-const SectionContainer = styled.div`
+const SectionContainerComponent = styled.div`
 width: 100vw;
-
-`
-export const MainContent = ({children}) => {
-
-}
+transform: translate(0,4rem);
+`;
+export const SectionContainer = ({children}) => (
+    <SectionContainerComponent>{children}</SectionContainerComponent>
+);
