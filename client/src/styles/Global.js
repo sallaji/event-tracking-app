@@ -7,7 +7,13 @@ const GlobalStyles = createGlobalStyle`
 --color-primary-dark: #262931;
 --color-primary-dark-hover: #41464c;
 --color-yellow: #fbb900;
---color-yellow-hover: rgba(255,188,0,0.85);
+--color-yellow-hover: rgb(255,213,45);
+--color-violet:#7500fb;
+--color-violet-hover:#b659ff;
+--color-pink: #fb0086;
+--color-pink-hover: #fb63b3;
+--color-green:#86fb00;
+--color-green-hover:#b8ff52;
 }
 
 *,

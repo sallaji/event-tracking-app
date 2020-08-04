@@ -13,6 +13,12 @@ const colors = {
     color: "var(--color-primary-dark)",
     backgroundHover: "var(--color-yellow-hover)",
     colorHover: "var(--color-primary-dark-hover)"
+  },
+  pink: {
+    background: "var(--color-pink)",
+    color: "white",
+    backgroundHover: "var(--color-pink-hover)",
+    colorHover: "white)"
   }
 };
 
