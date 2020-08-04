@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import Layout from '../components/layout'
 import {Input} from "../components/inputs";
 import {UserContext} from "../contexts/UserContext";
-import AuthService from "../services/auth-service";
+import authService from "../services/auth-service";
 import history from "../history";
 import {Button} from "../components/buttons";
 import {
@@ -18,12 +18,11 @@ const Login = ({serverUrl}) => {
   };
 
   const doLogin = () => {
-    console.log(loginUser);
-    AuthService.login(serverUrl, loginUser)
+    authService.login(serverUrl, loginUser)
     .then(user => {
       setUser(user);
-      history.push("/home");
-      // window.location.reload()
+      history.push("/events");
+      window.location.reload()
     })
     .catch(error => {
       // setError(error)

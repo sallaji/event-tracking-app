@@ -5,6 +5,7 @@ import Home from "../pages/Home"
 import Login from "../pages/Login"
 import {UserContext} from "../contexts/UserContext";
 import AuthService from "../services/auth-service"
+import Events from "../pages/Events";
 
 const AppRouter = ({serverUrl}) => {
   const [user, setUser] = useState(null);
@@ -28,6 +29,7 @@ const AppRouter = ({serverUrl}) => {
       <UserContext.Provider value={providerValue}>
         <Router>
           <Login path="/login" serverUrl={serverUrl}>Login</Login>
+          <Events path="/events" serverUrl={serverUrl}>Events</Events>
           <Home path="/home"/>
         </Router>
       </UserContext.Provider>
