@@ -16,9 +16,12 @@ transform-origin: center;
 transition: 0.4s;
 cursor: pointer;
 :hover{
-background-image: linear-gradient(to bottom right, #f5f5f5, #f6f6f6);
+//background-image: linear-gradient(to bottom right, #f5f5f5, #f6f6f6);
+background-image: linear-gradient(to bottom right, var(--color-primary-dark), var(--color-primary-dark-hover));
+color: white;
 transform: scale(1.005);
 box-shadow: 5px 5px 20px #cecece ;
+
 border: 1px solid #c6c6c6;
 transition: 0.4s;
 z-index: 2;

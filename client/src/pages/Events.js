@@ -4,6 +4,7 @@ import {UserContext} from "../contexts/UserContext";
 import _ from 'lodash'
 import eventService from "../services/event-service";
 import EventList from "../components/events/EventList";
+import EventToolbar from "../components/events/EventToolbar";
 
 const Events = ({serverUrl}) => {
 
@@ -19,6 +20,7 @@ const Events = ({serverUrl}) => {
   };
   useEffect(loadEvents, [user]);
   const renderEventList = () => <Layout>
+    <EventToolbar/>
     <EventList events={events}/>
   </Layout>;
   return (renderEventList())

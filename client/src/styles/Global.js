@@ -6,6 +6,8 @@ const GlobalStyles = createGlobalStyle`
 :root{
 --color-primary-dark: #262931;
 --color-primary-dark-hover: #41464c;
+--color-white: white;
+--color-white-hover: #e4e4e4;
 --color-yellow: #fbb900;
 --color-yellow-hover: rgb(255,213,45);
 --color-violet:#7500fb;
