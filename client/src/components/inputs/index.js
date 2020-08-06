@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from "styled-components"
 
-const InputComponent = styled.input`
+const InputComponent = styled.input.attrs(props => ({
+  type: props.type || 'text'
+}))`
   border: 1px solid var(--color-primary-dark);
   display: block;
   margin: ${props => props.margin || "0 0 0.5em"};
@@ -17,7 +19,7 @@ const InputComponent = styled.input`
 
 `;
 export const Input = ({
-  name, type, width, padding, margin, placeholder,
+  name, value, type, width, padding, margin, placeholder,
   className, onChange
 }) =>
     (<InputComponent type={type}
@@ -27,4 +29,5 @@ export const Input = ({
                      margin={margin}
                      placeholder={placeholder}
                      className={className}
-                     onChange={onChange}/>);
+                     onChange={onChange}
+                     value={value}/>);

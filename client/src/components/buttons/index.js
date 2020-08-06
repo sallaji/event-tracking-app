@@ -36,7 +36,6 @@ const colors = {
 
 const DefaultButtonComponent = styled.button.attrs(props => ({
   type: props.type || "button",
-  // className: props.className
 }))`
 display: flex;
 justify-content: center;
@@ -46,7 +45,7 @@ color: ${props => colors[props.color].color};
 border: none;
 font-weight: 200;
 width: ${props => props.width ? props.width : "100%"};
-padding: 1.075rem;
+padding: ${props => props.padding || "1.075rem;"};
 transition:  0.3s ;
 :hover{
 background: ${props => colors[props.color].backgroundHover};
@@ -55,14 +54,41 @@ transition:  0.3s ;
 cursor: pointer;
 }
 `;
+
+const DefaultButtonDisabledComponent = styled(DefaultButtonComponent)`
+background: white;
+ color: #9f9f9f;
+:hover{
+background: white;
+ color: #9f9f9f;
+}
+`;
+
 export const Button = ({
-  text, color = 'primary', width, onCLick, type, className,
-  children
-}) => (
-    <DefaultButtonComponent color={color}
-                            width={width}
-                            onClick={onCLick}
-                            type={type}
-                            className={className}>
+  text, color = 'primary', padding, width, onClick, onSubmit, type, className,
+  disabled, children
+}) => {
+  if (disabled) {
+    return <DefaultButtonDisabledComponent color={color}
+                                           padding={padding}
+                                           width={width}
+                                           onClick={onClick}
+                                           onSubmit={onSubmit}
+                                           type={type}
+                                           disabled={disabled}
+                                           className={className}>
       {children}{text}
-    </DefaultButtonComponent>);
+    </DefaultButtonDisabledComponent>
+  } else {
+    return <DefaultButtonComponent color={color}
+                                   padding={padding}
+                                   width={width}
+                                   onClick={onClick}
+                                   onSubmit={onSubmit}
+                                   type={type}
+                                   disabled={disabled}
+                                   className={className}>
+      {children}{text}
+    </DefaultButtonComponent>;
+  }
+};

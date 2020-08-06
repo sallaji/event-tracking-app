@@ -1,7 +1,6 @@
-import React from 'react'
+import React, {createRef, useEffect, useRef, useState} from 'react'
 import styled from "styled-components";
 import {Button} from '../buttons/index'
-import history from "../../history";
 import {ArrowDropDown} from '@styled-icons/material/ArrowDropDown'
 import {Icon} from "../icons";
 
@@ -17,32 +16,26 @@ background-color: #f1f1f1
 }
 `;
 
-export const DropdownItem = ({text, fn}) => (<DropdownItemComponent
-    className="dropdown-item"
-    onClick={e => {
-      e.preventDefault();
-      return fn;
-    }}>{text}</DropdownItemComponent>);
+export const DropdownItem = ({text, name, onClick}) => (
+    <DropdownItemComponent
+        className="dropdown-item"
+        onClick={onClick}
+        name={name}>
+      {text}
+    </DropdownItemComponent>);
 
 const DropdownContentComponent = styled.div`
 width: 100%;
-display: none;
+display: block;
 position:absolute;
 background: white;
 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 z-index: 2;
 
-&:hover .dropdown-item{
-  color: black;
-  //padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-
 `;
-const DropdownContent = ({children}) => (
-    <DropdownContentComponent className="dropdown-content">
+const DropdownContent = ({onClick, children}) => (
+    <DropdownContentComponent onClick={onClick}
+                              className="dropdown-content">
       {children}
     </DropdownContentComponent>);
 
@@ -75,14 +68,52 @@ transition: 0.4s;
 
 const DropdownButton = ({children}) => (<DropdownButtonComponent>{children}
 </DropdownButtonComponent>);
-export const Dropdown = ({width, text, children}) => (
-    <DropdownComponent width={width}>
-      <DropdownButton>
-        <Button text={text} color="white" className="dropdown-btn"><Icon><ArrowDropDownComponent className="arrow-dropdown"/></Icon></Button>
-      </DropdownButton>
-      <DropdownContent>
-        {children}
-      </DropdownContent>
-    </DropdownComponent>);
+
+export const Dropdown = ({width, text, children}) => {
+  const [open, setOpen] = useState(false);
+  const node = useRef(null);
+
+  const handleClickOutside = e => {
+    if (node.current.contains(e.target)) {
+      return;
+    }
+    setOpen(false);
+  };
+  const handleChange = value => {
+    // onChange(selectedValue);
+    setOpen(!open);
+  };
+  useEffect(() => {
+    if (open) {
+      // add when mounted
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      // return function to be called when unmounted
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+
+  }, [open]);
+
+  return <DropdownComponent width={width} ref={node}>
+    <DropdownButton>
+      <Button text={text}
+              color="white"
+              className="dropdown-btn"
+              onClick={e => setOpen(!open)}
+      >
+        <Icon>
+          <ArrowDropDownComponent
+              className="arrow-dropdown"/>
+        </Icon>
+      </Button>
+    </DropdownButton>
+    {open &&
+    <DropdownContent onClick={e => setOpen(false)}>
+      {children}
+    </DropdownContent>
+    }
+  </DropdownComponent>;
+};
 
 

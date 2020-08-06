@@ -11,6 +11,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+  console.log(req.query);
   Event.find()
   .then(events => res.status(200).json(events))
   .catch(err => res.status(500).send('Database Error'));

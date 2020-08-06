@@ -4,6 +4,7 @@ import {Input} from "../components/inputs";
 import {UserContext} from "../contexts/UserContext";
 import authService from "../services/auth-service";
 import history from "../history";
+import {navigate} from "@reach/router";
 import {Button} from "../components/buttons";
 import {
   CenteredSectionContainer,
@@ -20,9 +21,12 @@ const Login = ({serverUrl}) => {
   const doLogin = () => {
     authService.login(serverUrl, loginUser)
     .then(user => {
-      setUser(user);
-      history.push("/events");
-      window.location.reload()
+      if(user){
+        setUser(user);
+        // history.push("/events");
+        // window.location.reload()
+        navigate("/events")
+      }
     })
     .catch(error => {
       // setError(error)
