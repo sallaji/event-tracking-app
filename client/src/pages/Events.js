@@ -24,15 +24,8 @@ const Events = ({serverUrl}) => {
   };
   useEffect(loadEvents, [user, queryStringParams]);
 
-  const query = (updatedQueryObject) => {
-    let queryString = '?';
-    let keys = Object.keys(updatedQueryObject);
-    keys.forEach((key, index) => {
-      if (updatedQueryObject[key] && updatedQueryObject[key] !== '') {
-        queryString = queryString + `${key}=${updatedQueryObject[key]}`;
-        queryString = queryString + (index < keys.length - 1 ? '&' : '');
-      }
-    });
+  const query = (queryString) => {
+
     history.push({pathname: "/events", search: queryString});
     setQueryStringParams(queryString)
   };

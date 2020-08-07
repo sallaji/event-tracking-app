@@ -30,15 +30,10 @@ const EventToolbar = ({query, queryObject: qobj}) => {
   const [queryObject, setQueryObject] = useState(qobj);
   const [raiseQuery, setRaiseQuery] = useState(false);
   const [disabled, setDisabled] = useState(!qobj.search);
-  const [sortOptions, setSortOptions] = useState();
-
-  const ami = {
-    date: {
-      ascending: true,
-      value: "datum"
-    }
-  };
-  const handleChange = (e) => {
+  const [ascending, setAscending] = useState(qobj.ascending);
+  const [searchDelayTime, setSearchDelayTime] = useState(null);
+  const handleInputValueChangeAndSearchAfterDelay = async (e) => {
+    clearTimeout(searchDelayTime);
     let value = e.target.value;
     if (value.length !== 0) {
       setDisabled(false)
@@ -47,19 +42,33 @@ const EventToolbar = ({query, queryObject: qobj}) => {
       setDisabled(true)
     }
     updateQueryObject({search: value});
+    setSearchDelayTime(setTimeout(() => {
+      setRaiseQuery(true)
+    }, 1500));
   };
+
   const doSort = e => {
     updateQueryObject({sort: e.target.name});
     setRaiseQuery(true)
   };
-  const doSearch = () => {
-    setRaiseQuery(true)
-  };
 
   const doQuery = () => {
-    (query || _.identity)(queryObject);
+    (query || _.identity)(getQueryString());
   };
 
+  const getQueryString = () => {
+    let queryString = '?';
+    let keys = Object.keys(queryObject);
+    keys.forEach((key, index) => {
+      if (queryObject[key] && queryObject[key].trim() !== '') {
+        queryString = queryString + `${key}=${queryObject[key]}`;
+        if (index < keys.length - 1 && queryObject[key].trim() !== '') {
+          queryString = queryString + '&';
+        }
+      }
+    });
+    return queryString;
+  };
   const updateQueryObject = (value) => {
     setQueryObject({...queryObject, ...value})
   };
@@ -67,24 +76,18 @@ const EventToolbar = ({query, queryObject: qobj}) => {
   useEffect(() => {
     if (raiseQuery) {
       doQuery(queryObject);
-      setRaiseQuery(false)
+      setRaiseQuery(false);
     }
   }, [raiseQuery]);
   return <EventToolbarComponent>
     <div className="event-search">
       <Input margin="0"
              name="search"
-             onChange={handleChange}
+             onChange={handleInputValueChangeAndSearchAfterDelay}
              placeholder="Eventsuche"
              value={queryObject.search}
-             type="text"/>
-      <Button text="Suchen"
-              type="submit"
-              color="white"
-              width="100px"
-              disabled={disabled}
-              onClick={doSearch}>
-        <Icon><Search/></Icon></Button>
+             type="text"
+             onClick={e => e.target.select()}/>
     </div>
     <div className="add-event">
       <Button text="Event Hinzufügen"
