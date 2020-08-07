@@ -9,12 +9,28 @@ exports.create = (req, res) => {
   .then(createdEvent => res.status(200).json(createdEvent))
   .catch(err => res.status(412).json(err.errors))
 };
+//
+// exports.findAll = (req, res) => {
+//   console.log(req.query);
+//   Event.find()
+//   .then(events => res.status(200).json(events))
+//   .catch(err => res.status(500).send('Database Error'));
+// };
 
 exports.findAll = (req, res) => {
-  console.log(req.query);
-  Event.find()
-  .then(events => res.status(200).json(events))
-  .catch(err => res.status(500).send('Database Error'));
+  let dic = req.query;
+  console.log(dic)
+  // let query = Event.find();
+  // query.sort('name').then(e=>console.log(e))
+  // query.then(epa => epa.sort({name: 'asc'})).then(mi=>{
+  //   console.log(mi)
+  // });
+  // promise.sort({name:'asc'}).exec().then(bla =>{
+  //   console.log("aleluya", bla)
+  // })
+  //
+  // .then(events => res.status(200).json(events))
+  // .catch(err => res.status(500).send('Database Error'));
 };
 
 exports.update = (req, res) => {

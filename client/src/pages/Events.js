@@ -22,50 +22,25 @@ const Events = ({serverUrl}) => {
       })
     }
   };
-  useEffect(loadEvents, [user]);
+  useEffect(loadEvents, [user, queryStringParams]);
 
-  // const updateQuery = (queryObj) => {
-  //   //   let queryParams = parseQuery();
-  //   //   queryParams = {...queryParams, ...queryObj};
-  //   //   console.log(queryParams);
-  //   //   let queryString = '';
-  //   //   let keys = Object.keys(queryParams);
-  //   //   keys.forEach((key, index) => {
-  //   //     queryString = queryString + `${key}=${queryParams[key]}`;
-  //   //     queryString = queryString + (index < keys.length -1 ? '&' : '');
-  //   //   });
-  //   //   history.push({
-  //   //     search: queryString
-  //   //   });
-  //   //   setQueryStringParams(location.search)
-  //   // };
-  const updateQuery = (updatedQueryObject) => {
-    // setQueryObject({...queryObject, ...updatedQuery});
+  const query = (updatedQueryObject) => {
+    let queryString = '?';
     let keys = Object.keys(updatedQueryObject);
-    let queryString = '';
     keys.forEach((key, index) => {
       if (updatedQueryObject[key] && updatedQueryObject[key] !== '') {
         queryString = queryString + `${key}=${updatedQueryObject[key]}`;
         queryString = queryString + (index < keys.length - 1 ? '&' : '');
       }
     });
-    history.push({
-      search: queryString
-    });
-    setQueryStringParams(location.search)
+    history.push({pathname: "/events", search: queryString});
+    setQueryStringParams(queryString)
   };
 
   const parseQuery = () => parse(location.search, {ignoreQueryPrefix: true});
 
-  const search = (queryObject) => {
-    updateQuery(queryObject);
-  };
-  const filter = (queryObject) => {
-    updateQuery(queryObject);
-  };
-
   const renderEventList = () => <Layout>
-    <EventToolbar search={search} filter={filter} queryObject={parseQuery()}/>
+    <EventToolbar query={query} queryObject={parseQuery()}/>
     <EventList events={events}/>
   </Layout>;
   return (renderEventList())

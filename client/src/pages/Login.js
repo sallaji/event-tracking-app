@@ -23,8 +23,6 @@ const Login = ({serverUrl}) => {
     .then(user => {
       if(user){
         setUser(user);
-        // history.push("/events");
-        // window.location.reload()
         navigate("/events")
       }
     })
@@ -47,7 +45,7 @@ const Login = ({serverUrl}) => {
                  onChange={handleChange}/>
           <Button text="Einloggen"
                   color="yellow"
-                  onCLick={doLogin}
+                  onClick={doLogin}
           />
         </form>
       </LoginFormContainer>

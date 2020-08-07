@@ -25,32 +25,51 @@ justify-self: right;
 }
 `;
 
-const EventToolbar = ({search, filter, queryObject: qobj}) => {
+const EventToolbar = ({query, queryObject: qobj}) => {
 
   const [queryObject, setQueryObject] = useState(qobj);
-  const [disabled, setDisabled] = useState(true);
+  const [raiseQuery, setRaiseQuery] = useState(false);
+  const [disabled, setDisabled] = useState(!qobj.search);
+  const [sortOptions, setSortOptions] = useState();
+
+  const ami = {
+    date: {
+      ascending: true,
+      value: "datum"
+    }
+  };
   const handleChange = (e) => {
     let value = e.target.value;
-    if (value.length >= 2) {
+    if (value.length !== 0) {
       setDisabled(false)
     } else {
+      setQueryObject(_.omit(queryObject, 'search'));
       setDisabled(true)
     }
     updateQueryObject({search: value});
   };
-  const doFilter = e => {
-    //TODO: updates only after second onclick!!!!
-    updateQueryObject({filter: e.target.name});
-    (filter || _.identity)(queryObject);
+  const doSort = e => {
+    updateQueryObject({sort: e.target.name});
+    setRaiseQuery(true)
   };
   const doSearch = () => {
-    (search || _.identity)(queryObject);
+    setRaiseQuery(true)
   };
 
+  const doQuery = () => {
+    (query || _.identity)(queryObject);
+  };
 
   const updateQueryObject = (value) => {
     setQueryObject({...queryObject, ...value})
   };
+
+  useEffect(() => {
+    if (raiseQuery) {
+      doQuery(queryObject);
+      setRaiseQuery(false)
+    }
+  }, [raiseQuery]);
   return <EventToolbarComponent>
     <div className="event-search">
       <Input margin="0"
@@ -76,10 +95,10 @@ const EventToolbar = ({search, filter, queryObject: qobj}) => {
         </Icon>
       </Button>
     </div>
-    <Dropdown text={`Sortiert Nach ${queryObject.filter || "Datum"}`}>
-      <DropdownItem text="Datum" name="date" onClick={doFilter}/>
-      <DropdownItem text="Sparte" name="sparte" onClick={doFilter}/>
-      <DropdownItem text="A-Z" name="az" onClick={doFilter}/>
+    <Dropdown text={`Sortiert nach ${queryObject.sort || "Datum"}`}>
+      <DropdownItem text="Datum" name="Datum" onClick={doSort}/>
+      <DropdownItem text="Sparte" name="sparte" onClick={doSort}/>
+      <DropdownItem text="A-Z" name="az" onClick={doSort}/>
     </Dropdown>
   </EventToolbarComponent>;
 };
