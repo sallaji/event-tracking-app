@@ -8,6 +8,12 @@ const colors = {
     backgroundHover: "var(--color-primary-hover)",
     colorHover: "var(--color-yellow-hover)"
   },
+  primaryOutline: {
+    background: "white",
+    color: "var(--color-primary)",
+    backgroundHover: "var(--color-primary-hover)",
+    colorHover: "var(--color-yellow-hover)"
+  },
   white: {
     background: "var(--color-white)",
     color: "var(--color-primary-dark)",
@@ -90,7 +96,7 @@ export const Button = ({
                                    disabled={disabled}
                                    className={className}
                                    error={error}>
-    {children}{text}
+      {children}{text}
     </DefaultButtonComponent>;
   }
 };

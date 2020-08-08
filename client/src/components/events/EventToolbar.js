@@ -11,7 +11,7 @@ import _ from 'lodash'
 
 const EventToolbarComponent = styled.div`
 display: grid;
-grid-template-columns: 70% 30%;
+grid-template-columns: auto auto;
 grid-template-rows: auto auto;
 width: 100%;
 
@@ -23,6 +23,11 @@ align-items: center;
 .add-event{
 justify-self: right;
 }
+.event-sort{
+display: flex;
+justify-content: center;
+align-items: center;
+}
 `;
 
 const EventToolbar = ({query, queryObject: qobj}) => {
@@ -30,7 +35,7 @@ const EventToolbar = ({query, queryObject: qobj}) => {
   const [queryObject, setQueryObject] = useState(qobj);
   const [raiseQuery, setRaiseQuery] = useState(false);
   const [disabled, setDisabled] = useState(!qobj.search);
-  const [ascending, setAscending] = useState(qobj.ascending);
+  // const [ascending, setAscending] = useState(qobj.ascending);
   const [searchDelayTime, setSearchDelayTime] = useState(null);
   const handleInputValueChangeAndSearchAfterDelay = async (e) => {
     clearTimeout(searchDelayTime);
@@ -41,6 +46,7 @@ const EventToolbar = ({query, queryObject: qobj}) => {
       setQueryObject(_.omit(queryObject, 'search'));
       setDisabled(true)
     }
+
     updateQueryObject({search: value});
     setSearchDelayTime(setTimeout(() => {
       setRaiseQuery(true)
@@ -52,15 +58,23 @@ const EventToolbar = ({query, queryObject: qobj}) => {
     setRaiseQuery(true)
   };
 
-  const doQuery = () => {
-    (query || _.identity)(getQueryString());
+  const doOrdering = () =>{
+    let value = queryObject.ascending;
+    if(value == 'true'){
+      value = 'false';
+    } else {
+      value = 'true'
+    }
+      updateQueryObject({ascending: value});
+    setRaiseQuery(true)
   };
 
   const getQueryString = () => {
     let queryString = '?';
     let keys = Object.keys(queryObject);
     keys.forEach((key, index) => {
-      if (queryObject[key] && queryObject[key].trim() !== '') {
+      let attribute = queryObject[key];
+      if (attribute && attribute.trim() !== '') {
         queryString = queryString + `${key}=${queryObject[key]}`;
         if (index < keys.length - 1 && queryObject[key].trim() !== '') {
           queryString = queryString + '&';
@@ -71,6 +85,11 @@ const EventToolbar = ({query, queryObject: qobj}) => {
   };
   const updateQueryObject = (value) => {
     setQueryObject({...queryObject, ...value})
+  };
+
+
+  const doQuery = () => {
+    (query || _.identity)(getQueryString());
   };
 
   useEffect(() => {
@@ -98,11 +117,17 @@ const EventToolbar = ({query, queryObject: qobj}) => {
         </Icon>
       </Button>
     </div>
-    <Dropdown text={`Sortiert nach ${queryObject.sort || "Datum"}`}>
-      <DropdownItem text="Datum" name="Datum" onClick={doSort}/>
-      <DropdownItem text="Sparte" name="sparte" onClick={doSort}/>
-      <DropdownItem text="A-Z" name="az" onClick={doSort}/>
-    </Dropdown>
+    <div className="event-sort">
+      <Dropdown text={`Sortiert nach ${queryObject.sort || "Datum"}`}>
+        <DropdownItem text="Datum" name="Datum" onClick={doSort}/>
+        <DropdownItem text="Sparte" name="sparte" onClick={doSort}/>
+        <DropdownItem text="A-Z" name="az" onClick={doSort}/>
+      </Dropdown>
+      <div>
+        <Button text={queryObject.ascending === 'true'? 'Aufsteigend': 'Absteigend'}
+                onClick={doOrdering} color="primaryOutline"/>
+      </div>
+    </div>
   </EventToolbarComponent>;
 };
 
