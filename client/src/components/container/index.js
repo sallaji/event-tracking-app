@@ -30,9 +30,7 @@ export const CenteredSectionContainer = ({children}) => (
 
 const LoginFormContainerComponent = styled.div`
 position: absolute;
-top:20rem;
 width:40%;
-
     @media (max-width: 768px) {
       width:80%;
     }

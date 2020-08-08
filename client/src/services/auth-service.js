@@ -9,18 +9,17 @@ const login = (serverUrl, userData) =>
       ...headers
     }).then(response => {
       if (!response.ok) {
-        throw new Error('Login fehlgeschlagen')
+        throw new Error('Login fehlgeschlagen');
       }
       return response.json()
     })
     .then(json => {
-
       if (json.token) {
         localStorage.setItem("user", JSON.stringify(json))
       }
       return json
-    })
-    .catch(e => console.error(e));
+    });
+
 
 const logout = () => {
   localStorage.removeItem("user");

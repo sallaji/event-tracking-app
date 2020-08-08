@@ -3,22 +3,22 @@ import React from 'react'
 
 const colors = {
   primary: {
-    background: "var(--color-primary-dark)",
+    background: "var(--color-primary)",
     color: "var(--color-yellow)",
-    backgroundHover: "var(--color-primary-dark-hover)",
+    backgroundHover: "var(--color-primary-hover)",
     colorHover: "var(--color-yellow-hover)"
   },
   white: {
     background: "var(--color-white)",
     color: "var(--color-primary-dark)",
     backgroundHover: "var(--color-white-hover)",
-    colorHover: "var(--color-primary-dark-hover)"
+    colorHover: "var(--color-primary-hover)"
   },
   yellow: {
     background: "var(--color-yellow)",
-    color: "var(--color-primary-dark)",
+    color: "var(--color-primary)",
     backgroundHover: "var(--color-yellow-hover)",
-    colorHover: "var(--color-primary-dark-hover)"
+    colorHover: "var(--color-primary-hover)"
   },
   pink: {
     background: "var(--color-pink)",
@@ -28,9 +28,9 @@ const colors = {
   },
   green: {
     background: "var(--color-green)",
-    color: "var(--color-primary-dark)",
+    color: "var(--color-primary)",
     backgroundHover: "var(--color-green-hover)",
-    colorHover: "var(--color-primary-dark)"
+    colorHover: "var(--color-primary)"
   }
 };
 
@@ -66,7 +66,7 @@ background: white;
 
 export const Button = ({
   text, color = 'primary', padding, width, onClick, onSubmit, type, className,
-  disabled, children
+  disabled, error, children
 }) => {
   if (disabled) {
     return <DefaultButtonDisabledComponent color={color}
@@ -76,7 +76,8 @@ export const Button = ({
                                            onSubmit={onSubmit}
                                            type={type}
                                            disabled={disabled}
-                                           className={className}>
+                                           className={className}
+                                           error={error}>
       {children}{text}
     </DefaultButtonDisabledComponent>
   } else {
@@ -87,8 +88,9 @@ export const Button = ({
                                    onSubmit={onSubmit}
                                    type={type}
                                    disabled={disabled}
-                                   className={className}>
-      {children}{text}
+                                   className={className}
+                                   error={error}>
+    {children}{text}
     </DefaultButtonComponent>;
   }
 };

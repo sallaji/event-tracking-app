@@ -2,10 +2,12 @@ import React from 'react'
 import styled from "styled-components"
 import PropTypes from 'prop-types';
 
-const InputComponent = styled.input.attrs(props=>({
-  value: props.value
+const InputComponent = styled.input.attrs(props => ({
+  value: props.value,
+  error: props.error
 }))`
-  border: 1px solid var(--color-primary-dark);
+  border: ${props => props.error?`1px solid var(--color-red)`:
+    `1px solid var(--color-primary)`};
   display: block;
   margin: ${props => props.margin || "0 0 0.5em"};
   font-size: 1.6rem;
@@ -31,9 +33,10 @@ InputComponent.propTypes = {
   onClick: PropTypes.func,
   value: PropTypes.string,
 };
+
 export const Input = ({
-  id, name, value='', type, width, padding, margin, placeholder,
-  className, onChange, onClick
+  id, name, value = '', type, width, padding, margin, placeholder,
+  className, onChange, onClick, error
 }) =>
     (<InputComponent id={id}
                      type={type}
@@ -45,4 +48,5 @@ export const Input = ({
                      className={className}
                      onChange={onChange}
                      onClick={onClick}
-                     value={value}/>);
+                     value={value}
+                     error={error}/>);

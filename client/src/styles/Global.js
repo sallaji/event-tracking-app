@@ -4,8 +4,8 @@ const GlobalStyles = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
 
 :root{
---color-primary-dark: #262931;
---color-primary-dark-hover: #41464c;
+--color-primary: #262931;
+--color-primary-hover: #41464c;
 --color-white: white;
 --color-white-hover: #e4e4e4;
 --color-yellow: #fbb900;
@@ -14,8 +14,12 @@ const GlobalStyles = createGlobalStyle`
 --color-violet-hover:#b659ff;
 --color-pink: #fb0086;
 --color-pink-hover: #fb63b3;
+--color-red: #fb105c;
+--color-red-hover: #fb6c9b;
 --color-green:#86fb00;
 --color-green-hover:#b8ff52;
+//--color-red: #fbb900;
+//--color-red-hover: rgb(255,213,45);
 }
 
 *,
