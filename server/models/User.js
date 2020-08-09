@@ -45,13 +45,15 @@ const UserSchema = new Schema(
           values: ['administrator', 'user'],
           message: 'Falscher Benutzertyp'
         }
-      }
+      },
       // events: [{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
     },
     {
       collection: 'users'
     }
 );
+
+UserSchema.index({name: 'text'});
 
 UserSchema.pre('save', function (next) {
   var user = this;

@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 import {Input} from "../inputs";
 import {AddCircle} from "@styled-icons/ionicons-solid";
-import {Search} from '@styled-icons/heroicons-outline'
-import history from "../../history";
 import {Button} from "../buttons";
 import {Icon} from "../icons";
 import {Dropdown, DropdownItem} from "../dropdowns";
@@ -35,18 +33,11 @@ const EventToolbar = ({query, queryObject: qobj}) => {
   const [queryObject, setQueryObject] = useState(qobj);
   const [raiseQuery, setRaiseQuery] = useState(false);
   const [disabled, setDisabled] = useState(!qobj.search);
-  // const [ascending, setAscending] = useState(qobj.ascending);
   const [searchDelayTime, setSearchDelayTime] = useState(null);
   const handleInputValueChangeAndSearchAfterDelay = async (e) => {
     clearTimeout(searchDelayTime);
     let value = e.target.value;
-    if (value.length !== 0) {
-      setDisabled(false)
-    } else {
       setQueryObject(_.omit(queryObject, 'search'));
-      setDisabled(true)
-    }
-
     updateQueryObject({search: value});
     setSearchDelayTime(setTimeout(() => {
       setRaiseQuery(true)
@@ -57,15 +48,19 @@ const EventToolbar = ({query, queryObject: qobj}) => {
     updateQueryObject({sort: e.target.name});
     setRaiseQuery(true)
   };
+  const getGermanSortName = englishWord => {
+    let dictionary = {
+      own: "meine Events",
+      name: "Eventname",
+      user: "Sparte",
+      date: "Datum"
+    };
+    return dictionary[englishWord] || dictionary.date
+  };
 
-  const doOrdering = () =>{
-    let value = queryObject.ascending;
-    if(value == 'true'){
-      value = 'false';
-    } else {
-      value = 'true'
-    }
-      updateQueryObject({ascending: value});
+  const doOrdering = e => {
+    let value = e.target.name === 'ascending'? 'true': 'false';
+    updateQueryObject({ascending: value});
     setRaiseQuery(true)
   };
 
@@ -83,10 +78,10 @@ const EventToolbar = ({query, queryObject: qobj}) => {
     });
     return queryString;
   };
+
   const updateQueryObject = (value) => {
     setQueryObject({...queryObject, ...value})
   };
-
 
   const doQuery = () => {
     (query || _.identity)(getQueryString());
@@ -98,6 +93,7 @@ const EventToolbar = ({query, queryObject: qobj}) => {
       setRaiseQuery(false);
     }
   }, [raiseQuery]);
+
   return <EventToolbarComponent>
     <div className="event-search">
       <Input margin="0"
@@ -118,14 +114,20 @@ const EventToolbar = ({query, queryObject: qobj}) => {
       </Button>
     </div>
     <div className="event-sort">
-      <Dropdown text={`Sortiert nach ${queryObject.sort || "Datum"}`}>
-        <DropdownItem text="Datum" name="Datum" onClick={doSort}/>
-        <DropdownItem text="Sparte" name="sparte" onClick={doSort}/>
-        <DropdownItem text="A-Z" name="az" onClick={doSort}/>
+      <Dropdown text={`Sortiert nach ${getGermanSortName(queryObject.sort)}`}>
+        <DropdownItem text={getGermanSortName('own')} name="own" onClick={doSort}/>
+        <DropdownItem text={getGermanSortName('date')} name="date" onClick={doSort}/>
+        <DropdownItem text={getGermanSortName('user')} name="user" onClick={doSort}/>
+        <DropdownItem text={getGermanSortName('name')} name="name" onClick={doSort}/>
       </Dropdown>
       <div>
-        <Button text={queryObject.ascending === 'true'? 'Aufsteigend': 'Absteigend'}
-                onClick={doOrdering} color="primaryOutline"/>
+        <Dropdown text={queryObject.ascending === 'true' ? 'Aufsteigend'
+            : 'Absteigend'}>
+          <DropdownItem text="Aufsteigend" name="ascending"
+                        onClick={doOrdering}/>
+          <DropdownItem text="Absteigend" name="descending"
+                        onClick={doOrdering}/>
+        </Dropdown>
       </div>
     </div>
   </EventToolbarComponent>;

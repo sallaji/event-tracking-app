@@ -1,6 +1,7 @@
 "use strict";
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('../models/User');
 
 const EventSchema = new Schema(
     {
@@ -36,11 +37,32 @@ const EventSchema = new Schema(
     }
 );
 
+EventSchema.statics = {
+  search: function (q) {
+    let searchOps = q ? {
+      $text: {
+        $search: q,
+        $caseSensitive: false
+      }
+    } : {};
+//TODO: Buscar por atributos de usuario y combinar con Eventos
+    let users = User.find(searchOps).then(u=> {
+      console.log(u[0].name);
+    })
+    return this.find(
+        searchOps)
+  }
+};
+
+EventSchema.index({name: 'text', date: 'text'});
+
 EventSchema.virtual('id').get(function () {
   return this._id.toHexString()
 });
+
 EventSchema.set('toJson', {
   virtuals: true
 });
 EventSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model('Event', EventSchema);
+

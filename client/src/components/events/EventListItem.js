@@ -17,7 +17,7 @@ transition: 0.4s;
 cursor: pointer;
 :hover{
 //background-image: linear-gradient(to bottom right, #f5f5f5, #f6f6f6);
-background-image: linear-gradient(to bottom right, var(--color-primary-dark), var(--color-primary-dark-hover));
+background-image: linear-gradient(to bottom right, var(--color-primary), var(--color-primary-hover));
 color: white;
 transform: scale(1.005);
 box-shadow: 5px 5px 20px #cecece ;
