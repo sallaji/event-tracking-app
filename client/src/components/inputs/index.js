@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from "styled-components"
 import PropTypes from 'prop-types';
 
@@ -36,7 +36,7 @@ InputComponent.propTypes = {
 
 export const Input = ({
   id, name, value = '', type, width, padding, margin, placeholder,
-  className, onChange, onClick, error
+  className, onChange, onClick, onFocus, error
 }) => {
   if (type === 'checkbox') {
     return (<CheckboxComponent id={id}
@@ -49,6 +49,7 @@ export const Input = ({
                                className={className}
                                onChange={onChange}
                                onClick={onClick}
+                               onFocus={onFocus}
                                value={value}
                                error={error}/>)
   } else {
@@ -62,6 +63,7 @@ export const Input = ({
                             className={className}
                             onChange={onChange}
                             onClick={onClick}
+                            onFocus={onFocus}
                             value={value}
                             error={error}/>)
   }

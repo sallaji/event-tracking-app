@@ -102,7 +102,8 @@ const EventToolbar = ({query, queryObject: qobj}) => {
              placeholder="Eventsuche"
              value={queryObject.search}
              type="text"
-             onClick={e => e.target.select()}/>
+             onFocus={e => e.target.select()}
+      />
     </div>
     <div className="add-event">
       <Button text="Event Hinzufügen"

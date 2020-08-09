@@ -24,7 +24,7 @@ const Navbar = ({routes, navbarOpen, handleNavbar}) => {
       <>
         <NavBar style={barAnimation}>
           <FlexContainer>
-            <Brand/>
+            {/*<Brand/>*/}
             <NavLinks style={linkAnimation}>
               {_.map(routes, (route, index) =>
                   <a key={index} href="" onClick={e => {

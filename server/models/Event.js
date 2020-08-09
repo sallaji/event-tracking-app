@@ -1,8 +1,7 @@
 "use strict";
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const User = require('../models/User');
-
+const User = require('./User');
 const EventSchema = new Schema(
     {
       user: {
@@ -38,26 +37,40 @@ const EventSchema = new Schema(
 );
 
 EventSchema.statics = {
+  // search: function (q) {
+  //   const query = (q && q !== '') ? {
+  //     $text: {
+  //       $search: q
+  //     }
+  //   } : {};
+  //   let users = User.find(query);
+  //   let usersIdMap = users.map((doc) => mongoose.Types.ObjectId(doc._id));
+  //   console.log(usersIdMap);
+  //   return this.find(query);
+  // }
   search: function (q) {
-    let searchOps = q ? {
-      $text: {
-        $search: q,
-        $caseSensitive: false
+    //TODO: Make the query retrieve all possible matches
+    const query = (q && q !== '') ? {
+      name: {
+        $regex: new RegExp(q),
+        $options: "i"
       }
     } : {};
-//TODO: Buscar por atributos de usuario y combinar con Eventos
-    let users = User.find(searchOps).then(u=> {
-      console.log(u[0].name);
-    })
-    return this.find(
-        searchOps)
+    // let users = User.find(query);
+    // let usersIdMap = users.map((doc) => mongoose.Types.ObjectId(doc._id));
+    // console.log(usersIdMap);
+    return this.find({$or: [{...query}]});
   }
 };
 
-EventSchema.index({name: 'text', date: 'text'});
+EventSchema.index({name: 'text', responsible: 'text'});
 
+EventSchema.virtual('_date').get(function () {
+  console.log("hola");
+  return this.date.toString();
+})
 EventSchema.virtual('id').get(function () {
-  return this._id.toHexString()
+  return this._id.toHexString();
 });
 
 EventSchema.set('toJson', {
