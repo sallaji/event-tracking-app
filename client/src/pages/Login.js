@@ -49,8 +49,7 @@ const Login = ({serverUrl}) => {
       <LoginFormContainer>
         <div
             style={{
-              marginBottom: "3rem",
-              height: "84px",
+              height: "76px",
               alignItems: "center",
               justifyContent: "center",
               display: "grid",
@@ -84,6 +83,7 @@ const Login = ({serverUrl}) => {
                  placeholder="Name"
                  margin="1.50rem 0rem"
                  error={error}
+                 onFocus={e=> e.target.select()}
                  onChange={handleChange}/>
           <Input type="password"
                  name="password"
@@ -91,6 +91,7 @@ const Login = ({serverUrl}) => {
                  placeholder="Passwort"
                  margin="1.50rem 0rem"
                  error={error}
+                 onFocus={e=> e.target.select()}
                  onChange={handleChange}/>
           <Button text="Einloggen"
                   color="yellow"

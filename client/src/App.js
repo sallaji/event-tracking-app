@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Router from './services/router';
-import doFetch from "./network/NetworkUtil";
+import doFetch from "./network/NetworkService";
 import GlobalStyles from "./styles/Global";
 
 const App = () => {

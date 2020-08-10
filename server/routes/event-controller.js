@@ -19,6 +19,16 @@ exports.findAll = (req, res) => {
   .catch(err => res.status(500).send('Database Error'));
 };
 
+exports.findById = (req, res) => {
+  Event.findById(req.params.id)
+  .then(event => {
+    res.status(200).json(event)
+  }).catch(err => {
+    res.status(404).send(err)
+  })
+};
+
+
 exports.update = (req, res) => {
   Event.findById(req.params.id)
   .then(event => {

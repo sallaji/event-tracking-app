@@ -36,7 +36,7 @@ InputComponent.propTypes = {
 
 export const Input = ({
   id, name, value = '', type, width, padding, margin, placeholder,
-  className, onChange, onClick, onFocus, error
+  className, onChange, onClick, onFocus, readOnly=false, error
 }) => {
   if (type === 'checkbox') {
     return (<CheckboxComponent id={id}
@@ -51,6 +51,7 @@ export const Input = ({
                                onClick={onClick}
                                onFocus={onFocus}
                                value={value}
+                               readOnly={readOnly}
                                error={error}/>)
   } else {
     return (<InputComponent id={id}
@@ -64,6 +65,7 @@ export const Input = ({
                             onChange={onChange}
                             onClick={onClick}
                             onFocus={onFocus}
+                            readOnly={readOnly}
                             value={value}
                             error={error}/>)
   }

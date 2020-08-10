@@ -1,28 +1,25 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
+import _ from 'lodash'
+import EventDetails from "./EventDetails";
 
 const EventListItemComponent = styled.div`
 width:97%;
 display: grid;
-grid-template-columns: 20% 80%;
 font-size: 1.4rem;
-padding: 1rem;
-background-image: linear-gradient(to bottom right, #f3f3f3, #ffffff);
+background-image: linear-gradient(to bottom right, #f0f0f0, #ffffff);
 margin: 0.25rem auto;
 border: 1px solid #f0f0f0;
-//overflow: hidden;
-position: relative;
-transform-origin: center;
 transition: 0.4s;
 cursor: pointer;
-:hover{
+.event-description{
+padding: 1rem;
+}
+.event-description:hover{
 //background-image: linear-gradient(to bottom right, #f5f5f5, #f6f6f6);
 background-image: linear-gradient(to bottom right, var(--color-primary), var(--color-primary-hover));
 color: white;
-transform: scale(1.005);
-box-shadow: 5px 5px 20px #cecece ;
-
-border: 1px solid #c6c6c6;
+//border: 1px solid #c6c6c6;
 transition: 0.4s;
 z-index: 2;
 }
@@ -40,27 +37,46 @@ text-align: left}
 align-self: center;
 }
 `;
-const EventListItem = ({event}) => {
-  return (<EventListItemComponent>
+const EventListItem = ({event, getEvent}) => {
+  //TODO CAM
+  const [showDialog, setShowDialog] = useState(true);
 
-    <div className="date-and-crew">
-      <div>
-        <small>
-          {new Intl.DateTimeFormat("de-CH", {
-            year: "numeric",
-            month: "numeric",
-            day: "2-digit"
-          }).format(new Date(event.date))}
-        </small>
+  const open = () => setShowDialog(true);
+
+  //TODO CAM
+  const close = () => setShowDialog(true);
+
+
+  const onAction = (id, getEvent) => {
+    (getEvent || _.identity)(id);
+    open()
+  };
+  return (<EventListItemComponent>
+    <div onClick={_.partial(onAction, event.id, getEvent)}
+         className="event-description">
+      <div className="date-and-crew">
+        <div>
+          <small>
+            {new Intl.DateTimeFormat("de-CH", {
+              year: "numeric",
+              month: "numeric",
+              day: "2-digit"
+            }).format(new Date(event.date))}
+          </small>
+        </div>
+        <div>
+          {event.user.name}
+        </div>
       </div>
-      <div>
-        {event.user.name}
+      <div className="description">
+        {event.name}
       </div>
     </div>
-    <div className="description">
-      {event.name}
-    </div>
+    {showDialog &&
+    <EventDetails event={event} close={close}/>
+    }
   </EventListItemComponent>)
+
 };
 
 export default EventListItem

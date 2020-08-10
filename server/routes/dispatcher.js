@@ -28,7 +28,8 @@ dispatcher.route('/events')
 .get(event_controller.findAll);
 
 dispatcher.route('/events/:id')
-.put(event_controller.update);
+.put(event_controller.update)
+.get(event_controller.findById);
 
 dispatcher.route('/events/:id/tickets')
 .post(ticket_controller.create)

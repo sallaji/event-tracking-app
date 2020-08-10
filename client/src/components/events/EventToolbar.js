@@ -9,10 +9,11 @@ import _ from 'lodash'
 
 const EventToolbarComponent = styled.div`
 display: grid;
-grid-template-columns: auto auto;
-grid-template-rows: auto auto;
+grid-template-columns: 50% 50%;
+grid-template-rows: 50% 50%;
 width: 100%;
-
+justify-content: center;
+align-items: center;
 .event-search{
 display: flex;
 justify-content: center;

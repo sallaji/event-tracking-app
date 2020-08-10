@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from "react";
-import doFetch from "../../network/NetworkUtil";
+import doFetch from "../../network/NetworkService";
 import Message from '../../app/Message'
 import Loader from '../../app/Loader'
 import EventTable from './EventTable'

@@ -7,6 +7,7 @@ import EventToolbar from "../components/events/EventToolbar";
 import history from "../history";
 import {useLocation} from "@reach/router";
 import {parse} from "qs"
+import _ from 'lodash'
 
 const Events = ({serverUrl}) => {
 
@@ -22,6 +23,15 @@ const Events = ({serverUrl}) => {
       })
     }
   };
+  const getEvent = (id) => {
+    if (user) {
+      eventService.getEvent(serverUrl, id)
+      .then(event => setEvents(
+          _.map(events, evt => evt.id === event.id ? event : evt)))
+      .catch(error => console.error(error))
+    }
+
+  };
   useEffect(loadEvents, [user, queryStringParams]);
 
   const query = (queryString) => {
@@ -34,7 +44,7 @@ const Events = ({serverUrl}) => {
 
   const renderEventList = () => <Layout>
     <EventToolbar query={query} queryObject={parseQuery()}/>
-    <EventList events={events}/>
+    <EventList events={events} getEvent={getEvent}/>
   </Layout>;
   return (renderEventList())
 };

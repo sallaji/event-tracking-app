@@ -4,7 +4,7 @@ import React, {useState, useEffect} from 'react';
 import Header from "./Header";
 import EventContainer from "../components/events/EventContainer";
 import './app.css'
-import doFetch from "../network/NetworkUtil";
+import doFetch from "../network/NetworkService";
 import Message from "./Message";
 const App = () => {
   const [config, setConfig] = useState(null);

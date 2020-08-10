@@ -33,4 +33,7 @@ const doFetch = async ({ url, requestObject, dataFn, errorFn, messageFn, loading
   (loadingFn || _.identity)(false)
 };
 
+const networkService = {
+  doFetch
+}
 export default doFetch

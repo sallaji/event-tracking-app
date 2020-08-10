@@ -1,7 +1,6 @@
 "use strict";
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const User = require('./User');
 const EventSchema = new Schema(
     {
       user: {
@@ -65,17 +64,14 @@ EventSchema.statics = {
 
 EventSchema.index({name: 'text', responsible: 'text'});
 
-EventSchema.virtual('_date').get(function () {
-  console.log("hola");
-  return this.date.toString();
-})
+
 EventSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
+EventSchema.plugin(require('mongoose-autopopulate'));
 
-EventSchema.set('toJson', {
+EventSchema.set('toJSON', {
   virtuals: true
 });
-EventSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model('Event', EventSchema);
 
