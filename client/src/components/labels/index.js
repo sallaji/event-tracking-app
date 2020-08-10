@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const LabelComponent = styled.p`
   margin: ${props => props.margin || "0.5rem 0"};
   color: var(--color-violet);
-  font-weight: 300;
+  font-weight: 500 !important;
   font-size: 1.4rem;
   //text-transform: uppercase;
 `;

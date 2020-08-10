@@ -21,7 +21,7 @@ const EventForm = ({fn, readOnly = false, event: evt}) => {
       <div>
         <form action="">
           <FormInput
-              labelText="holi"
+              labelText="Eventname"
               placeholder="Eventname"
               value={event.name}
               name="name"
@@ -29,10 +29,10 @@ const EventForm = ({fn, readOnly = false, event: evt}) => {
               onChange={change}/>
 
           <FormInput
-              labelText="holi"
-              placeholder="Eventname"
-              value={event.name}
-              name="name"
+              labelText="Verantwortliche"
+              placeholder="Verantwortliche"
+              value={event.responsible}
+              name="responsible"
               disabled={readOnly}
               onChange={change}/>
 

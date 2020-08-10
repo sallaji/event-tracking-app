@@ -1,11 +1,13 @@
 import {createGlobalStyle} from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 :root{
 --color-primary: #262931;
 --color-primary-hover: #41464c;
+--color-grey: #7a8593;
+--color-grey-hover: #9ba5b3;
 --color-white: white;
 --color-white-hover: #e4e4e4;
 --color-yellow: #fbb900;
@@ -28,6 +30,7 @@ const GlobalStyles = createGlobalStyle`
 margin:0px;
 padding: 0px;
 box-sizing: inherit;
+
 }
 
 html{
@@ -36,9 +39,10 @@ font-size: 62.5%;
 }
 body {
 box-sizing: border-box;
-font-family: 'Quicksand', sans-serif;
 height:100vh;
 width: 100vw;
+font-family: 'Quicksand', sans-serif;
+
 }
 `;
 export default GlobalStyles;

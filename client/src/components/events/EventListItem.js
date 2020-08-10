@@ -39,12 +39,12 @@ align-self: center;
 `;
 const EventListItem = ({event, getEvent}) => {
   //TODO CAM
-  const [showDialog, setShowDialog] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
 
   const open = () => setShowDialog(true);
 
   //TODO CAM
-  const close = () => setShowDialog(true);
+  const close = () => setShowDialog(false);
 
 
   const onAction = (id, getEvent) => {
@@ -72,7 +72,7 @@ const EventListItem = ({event, getEvent}) => {
         {event.name}
       </div>
     </div>
-    {showDialog &&
+    {!showDialog &&
     <EventDetails event={event} close={close}/>
     }
   </EventListItemComponent>)

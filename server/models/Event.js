@@ -36,17 +36,6 @@ const EventSchema = new Schema(
 );
 
 EventSchema.statics = {
-  // search: function (q) {
-  //   const query = (q && q !== '') ? {
-  //     $text: {
-  //       $search: q
-  //     }
-  //   } : {};
-  //   let users = User.find(query);
-  //   let usersIdMap = users.map((doc) => mongoose.Types.ObjectId(doc._id));
-  //   console.log(usersIdMap);
-  //   return this.find(query);
-  // }
   search: function (q) {
     //TODO: Make the query retrieve all possible matches
     const query = (q && q !== '') ? {

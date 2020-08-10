@@ -7,7 +7,7 @@ const InputComponent = styled.input.attrs(props => ({
   error: props.error
 }))`
   border: ${props => props.error ? `1px solid var(--color-red)` :
-    `1px solid var(--color-primary)`};
+    `1px solid var(--color-grey)`};
   display: block;
   margin: ${props => props.margin || "0 0 0.5em"};
   font-size: 1.6rem;

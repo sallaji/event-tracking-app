@@ -1,5 +1,4 @@
 import React from 'react'
-import eventService from "../../services/event-service";
 import {EventDialog} from "../dialogs";
 import EventForm from "../forms/EventForm";
 import styled from "styled-components";
@@ -11,7 +10,7 @@ const EventDetails = ({close, event}) => {
 
   return (
       <EventDetailsComponent>
-        <EventDialog close={close}>
+        <EventDialog title="Eventdaten" close={close}>
           <EventForm event={event}/>
         </EventDialog>
       </EventDetailsComponent>)
