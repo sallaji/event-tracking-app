@@ -38,8 +38,9 @@ const EventForm = ({fn, readOnly = false, event: evt}) => {
     setEvent(evt)
   }, [evt]);
 
-  const change = e =>
-      setEvent({...event, [e.target.name]: e.target.value});
+  const change = e =>{
+    setEvent({...event, [e.target.name]: e.target.value});
+  };
 
   return (
       <EventFormComponent>
@@ -66,16 +67,18 @@ const EventForm = ({fn, readOnly = false, event: evt}) => {
 
           put time picker
           {event.date}
+          {/*{new Date(event.date).getTime()}*/}
           <FormInput
               type="datepicker"
               className="grid-form-col-3"
-              labelText="Verantwortliche"
-              placeholder="Verantwortliche"
-              value={new Date()}
-              name="responsible"
+              labelText="Datum"
+              // placeholder="Verantwortliche"
+              value={new Date(event.date).getTime()}
+              name="date"
               // disabled={readOnly}
-              // onChange={change}
+              onChange={change}
           />
+
           <FormInput
               className="grid-form-col-2"
               placeholder="Eventname"

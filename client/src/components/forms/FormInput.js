@@ -1,13 +1,19 @@
-import React, {useState} from "react";
+import React, {forwardRef, useState} from "react";
 import styled from 'styled-components';
 import {Input} from "../inputs";
 import {Label} from "../labels";
 import DatePicker from 'react-datepicker';
-import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {registerLocale, setDefaultLocale} from "react-datepicker";
 import de from 'date-fns/locale/de';
+import _ from "lodash";
+registerLocale('de', de);
 
 const FormInputComponent = styled.div`
   width: ${props => props.width ? props.width : "100%"};
+.rasta-stripes{
+width:inherit;
+}
 `;
 
 export const FormInput = (
@@ -17,14 +23,25 @@ export const FormInput = (
       error, pattern
     }) => {
 
-  const [startDate, setStartDate] = useState(new Date(value));
-  const [open, setOpen] = useState(false);
-  const openDatePicker = () => setOpen(!open);
-  const CustomDatepickerInput = ({value}) => (
-      <button className="hoo" onClick={openDatePicker}>{value}</button>
-  );
+  const changeDate = (date) => {
+    const fakeTarget = {
+      target: {
+        name: name,
+        value: new Date(date).getTime()
+      }
+    };
+    (onChange || _.identity)(fakeTarget)
+  };
+
+  const ref = React.createRef();
+
+  const CustomDatepickerInput = forwardRef(({value, onClick},
+      _ref) => (
+      <div onClick={onClick}
+           ref={_ref}
+      >{value}</div>
+  ));
   return (
-      //TODO COntinuar aquimkkkk
       <FormInputComponent className={className}>
         {
           labelText && <Label for={name}
@@ -36,9 +53,18 @@ export const FormInput = (
         {type === 'datepicker' ?
             <DatePicker
                 selected={value}
-                onChange={date => setStartDate(date)}
+                onChange={date => changeDate(date)}
+                name="hola"
                 locale="de"
-                customInput={<CustomDatepickerInput/>
+                dateFormatCalendar={"MMM yyyy"}
+                //TODO Handle this min and max date with momentjs
+                // minDate={subMonths(new Date(), 6)}
+                // maxDate={addMonths(new Date(), 6)}
+                // showMonthYearDropdown
+                //TODO see when events will take place
+                // highlightDates={[subDays(new Date(), 7), addDays(new Date(), 7)]}
+                disabled={readOnly}
+                customInput={<CustomDatepickerInput ref={ref}/>
                 }
             /> :
             <Input id={id}
