@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components'
 import React from 'react'
+import { Button as MuiButton } from '@material-ui/core';
 
 const colors = {
   primary: {
@@ -40,7 +41,7 @@ const colors = {
   }
 };
 
-const DefaultButtonComponent = styled.button.attrs(props => ({
+const DefaultButtonComponent = styled(MuiButton).attrs(props => ({
   type: props.type || "button",
 }))`
 display: flex;

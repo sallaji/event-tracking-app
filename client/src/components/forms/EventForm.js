@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const EventFormComponent = styled.div`;
 .grid-form{
-background: red;
+//background: red;
 display: grid;
 grid-template-columns: 25% 25% 25% 25% ;
 }
@@ -51,7 +51,7 @@ const EventForm = ({fn, readOnly = false, event: evt}) => {
               placeholder="Eventname"
               value={event.name}
               name="name"
-              disabled={readOnly}
+              readOnly={readOnly}
               onChange={change}/>
 
               {/*TODO Replace with dropdown*/}
@@ -62,7 +62,7 @@ const EventForm = ({fn, readOnly = false, event: evt}) => {
               placeholder="Sparte"
               value={event.responsible}
               name="crew"
-              disabled={readOnly}
+              readOnly={readOnly}
               onChange={change}/>
 
           put time picker
@@ -72,10 +72,10 @@ const EventForm = ({fn, readOnly = false, event: evt}) => {
               type="datepicker"
               className="grid-form-col-3"
               labelText="Datum"
-              // placeholder="Verantwortliche"
+              placeholder="Datum"
               value={new Date(event.date).getTime()}
               name="date"
-              // disabled={readOnly}
+              readOnly={readOnly}
               onChange={change}
           />
 

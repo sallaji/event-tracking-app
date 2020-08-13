@@ -97,7 +97,7 @@ const EventToolbar = ({query, queryObject: qobj}) => {
 
   return <EventToolbarComponent>
     <div className="event-search">
-      <Input margin="0"
+      <Input
              name="search"
              onChange={handleInputValueChangeAndSearchAfterDelay}
              placeholder="Eventsuche"

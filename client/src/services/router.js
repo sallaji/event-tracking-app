@@ -6,6 +6,8 @@ import Login from "../pages/Login"
 import {UserContext} from "../contexts/UserContext";
 import AuthService from "../services/auth-service"
 import Events from "../pages/Events";
+import { StylesProvider } from '@material-ui/styles';
+import GlobalStyles from "../styles/Global";
 
 const AppRouter = ({serverUrl}) => {
   const [user, setUser] = useState(null);
@@ -27,11 +29,11 @@ const AppRouter = ({serverUrl}) => {
 
   return (
       <UserContext.Provider value={providerValue}>
-        <Router>
-          <Login path="/login" serverUrl={serverUrl}>Login</Login>
-          <Events path="/events" serverUrl={serverUrl}>Events</Events>
-          <Home path="/home"/>
-        </Router>
+          <Router>
+            <Login path="/login" serverUrl={serverUrl}>Login</Login>
+            <Events path="/events" serverUrl={serverUrl}>Events</Events>
+            <Home path="/home"/>
+          </Router>
       </UserContext.Provider>
   );
 };

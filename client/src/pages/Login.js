@@ -81,7 +81,6 @@ const Login = ({serverUrl}) => {
                  name="name"
                  value={loginUser.name}
                  placeholder="Name"
-                 margin="1.50rem 0rem"
                  error={error}
                  onFocus={e=> e.target.select()}
                  onChange={handleChange}/>
@@ -89,7 +88,6 @@ const Login = ({serverUrl}) => {
                  name="password"
                  value={loginUser.password}
                  placeholder="Passwort"
-                 margin="1.50rem 0rem"
                  error={error}
                  onFocus={e=> e.target.select()}
                  onChange={handleChange}/>

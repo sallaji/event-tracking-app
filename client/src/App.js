@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Router from './services/router';
 import doFetch from "./network/NetworkService";
-import GlobalStyles from "./styles/Global";
-
+import MuiAndStyledThemeWrapper from "./styles/MuiAndStyledThemeWrapper";
 const App = () => {
   const [config, setConfig] = useState(null);
   const [error, setError] = useState(false);
@@ -21,8 +20,9 @@ const App = () => {
       serverUrl={`${config.url}`}/> : null;
   return (
       <>
-        {renderRouter(config)}
-        <GlobalStyles/>
+        <MuiAndStyledThemeWrapper>
+      {renderRouter(config)}
+      </MuiAndStyledThemeWrapper>
       </>);
 };
 

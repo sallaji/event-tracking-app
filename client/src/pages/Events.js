@@ -8,6 +8,7 @@ import history from "../history";
 import {useLocation} from "@reach/router";
 import {parse} from "qs"
 import _ from 'lodash'
+import Datepicker from "../components/inputs/DatepickerInput";
 
 const Events = ({serverUrl}) => {
 

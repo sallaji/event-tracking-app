@@ -72,7 +72,7 @@ const EventListItem = ({event, getEvent}) => {
         {event.name}
       </div>
     </div>
-    {!showDialog &&
+    {showDialog &&
     <EventDetails event={event} close={close}/>
     }
   </EventListItemComponent>)
