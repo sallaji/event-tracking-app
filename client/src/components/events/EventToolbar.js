@@ -102,7 +102,7 @@ const EventToolbar = ({query, queryObject: qobj}) => {
              onChange={handleInputValueChangeAndSearchAfterDelay}
              placeholder="Eventsuche"
              value={queryObject.search}
-             type="text"
+             type="search"
              onFocus={e => e.target.select()}
       />
     </div>

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1
   },
   menuButton: {
-    color: theme.palette.yellow.main
+    color: theme.palette.warning.main
   },
   appBar: {
     // zIndex: theme.zIndex.drawer + 1
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   drawer: {},
   drawerPaper: {
     backgroundColor: theme.palette.primary.main,
-    color: theme.palette.yellow.main
+    color: theme.palette.warning.main
   },
   listItemLink: {
     '&:hover': {
@@ -93,7 +93,7 @@ const AppBar = ({routes}) => {
       <div className={classes.root}>
         <MuiAppBar position="fixed" className={classes.appBar}>
           <Toolbar variant="dense">
-            <IconButton edge="start"
+            <IconButton edge="end"
                         color="inherit"
                         aria-label="menu"
                         className={classes.menuButton}
@@ -101,7 +101,7 @@ const AppBar = ({routes}) => {
               <MenuIcon/>
             </IconButton>
             <Typography variant="h6">
-              News
+              Santi
             </Typography>
             <Button color="inherit">Login</Button>
           </Toolbar>

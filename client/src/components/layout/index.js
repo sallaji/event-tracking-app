@@ -1,6 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react'
-import Proptypes from 'prop-types'
-import Header from '../header'
 import {ContentWrapper, SectionContainer} from '../container'
 import {UserContext} from "../../contexts/UserContext";
 import userService from "../../services/user_service";
@@ -16,7 +14,6 @@ const Layout = ({children}) => {
     }
   }, [user]);
   return (<ContentWrapper>
-    {/*<Header routes={routes}/>*/}
     <AppBar routes={routes}/>
     <SectionContainer>{children}</SectionContainer>
   </ContentWrapper>);
