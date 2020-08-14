@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import Router from './services/router';
 import doFetch from "./network/NetworkService";
-import MuiAndStyledThemeWrapper from "./styles/MuiAndStyledThemeWrapper";
+import {ThemeProvider} from "@material-ui/core/styles"
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from './styles/theme';
+
 const App = () => {
   const [config, setConfig] = useState(null);
   const [error, setError] = useState(false);
@@ -19,11 +22,12 @@ const App = () => {
   const renderRouter = config => config ? <Router
       serverUrl={`${config.url}`}/> : null;
   return (
-      <>
-        <MuiAndStyledThemeWrapper>
-      {renderRouter(config)}
-      </MuiAndStyledThemeWrapper>
-      </>);
+      <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        {renderRouter(config)}
+      </ThemeProvider>
+
+  );
 };
 
 export default App;

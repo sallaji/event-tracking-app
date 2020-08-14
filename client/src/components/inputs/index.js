@@ -3,6 +3,7 @@ import styled from "styled-components"
 import PropTypes from 'prop-types';
 import MuInput from '@material-ui/core/Input';
 
+
 const InputComponent = styled.input.attrs(props => ({
       value: props.value,
       error: props.error

@@ -5,7 +5,7 @@ import eventService from "../services/event-service";
 import EventList from "../components/events/EventList";
 import EventToolbar from "../components/events/EventToolbar";
 import history from "../history";
-import {useLocation} from "@reach/router";
+import {useLocation} from 'react-router-dom';
 import {parse} from "qs"
 import _ from 'lodash'
 import Datepicker from "../components/inputs/DatepickerInput";

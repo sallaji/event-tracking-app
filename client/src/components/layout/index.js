@@ -4,6 +4,7 @@ import Header from '../header'
 import {ContentWrapper, SectionContainer} from '../container'
 import {UserContext} from "../../contexts/UserContext";
 import userService from "../../services/user_service";
+import AppBar from "../header/AppBar";
 
 const Layout = ({children}) => {
   const {user, setUser} = useContext(UserContext);
@@ -15,7 +16,8 @@ const Layout = ({children}) => {
     }
   }, [user]);
   return (<ContentWrapper>
-    <Header routes={routes}/>
+    {/*<Header routes={routes}/>*/}
+    <AppBar routes={routes}/>
     <SectionContainer>{children}</SectionContainer>
   </ContentWrapper>);
 };

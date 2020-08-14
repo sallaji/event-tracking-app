@@ -1,13 +1,19 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Router} from '@reach/router'
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+
 import history from '../history'
 import Home from "../pages/Home"
 import Login from "../pages/Login"
 import {UserContext} from "../contexts/UserContext";
 import AuthService from "../services/auth-service"
 import Events from "../pages/Events";
-import { StylesProvider } from '@material-ui/styles';
-import GlobalStyles from "../styles/Global";
 
 const AppRouter = ({serverUrl}) => {
   const [user, setUser] = useState(null);
@@ -30,9 +36,17 @@ const AppRouter = ({serverUrl}) => {
   return (
       <UserContext.Provider value={providerValue}>
           <Router>
-            <Login path="/login" serverUrl={serverUrl}>Login</Login>
-            <Events path="/events" serverUrl={serverUrl}>Events</Events>
-            <Home path="/home"/>
+            <Switch>
+              <Route path="/login" exact>
+                <Login serverUrl={serverUrl}>Login</Login>
+              </Route>
+              <Route path="/home" exact>
+                <Home path="/home"/>
+              </Route>
+              <Route path="/events" exact>
+                <Events path="/events" serverUrl={serverUrl}>Events</Events>
+              </Route>
+            </Switch>
           </Router>
       </UserContext.Provider>
   );
