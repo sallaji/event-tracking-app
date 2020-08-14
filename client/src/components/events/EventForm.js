@@ -73,7 +73,7 @@ import {makeStyles} from "@material-ui/core";
 import {Input} from '../inputs'
 import Datepicker from "../inputs/DatepickerInput";
 import styled from 'styled-components';
-import EventTicket from "./tickets/EventTicket";
+import EventTicketListElement from "./tickets/EventTicketListElement";
 import EventTicketList from "./tickets/EventTicketList";
 
 const EventFormComponent = styled.div`
@@ -146,33 +146,12 @@ const EventForm = ({readOnly = false, event: evt}) => {
               onChange={change}
               label="Datum"/>
 
-          <EventTicket
-              ticket={{price: '', quantity: ''}}
-
-          />
-          <EventTicketList className="gridFormCol4"/>
-          <Datepicker
-              className="gridFormCol2 inputField"
-              name="date"
-              value={event.date}
-              disabled={readOnly}
-              onChange={change}
-              label="Datum"/>
-          <Datepicker
-              className="gridFormCol2 inputField"
-              name="date"
-              value={event.date}
-              disabled={readOnly}
-              onChange={change}
-              label="Datum"/>
-          <Datepicker
-              className="gridFormCol2 inputField"
-              name="date"
-              value={event.date}
-              disabled={readOnly}
-              onChange={change}
-              label="Datum"/>
-
+          <EventTicketList className="gridFormCol4"
+          tickets={[
+            {price: 'CHF 15', quantity: '2'},
+            {price: 'CHF 10', quantity: '4'},
+            {price: 'CHF 20', quantity: '6'}
+          ]}/>
         </form>
       </EventFormComponent>
   )

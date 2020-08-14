@@ -3,16 +3,12 @@ import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import clsx from "clsx";
-import {ListItemIcon} from "@material-ui/core";
 import AddCircleOutlinedIcon from '@material-ui/icons/AddCircleOutlined';
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
+import _ from 'lodash'
+import EventTicketListElement from "./EventTicketListElement";
 
 const useStyles = makeStyles((theme) => ({
   root:{
@@ -48,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const EventTicketList = ({className}) => {
+const EventTicketList = ({className, tickets}) => {
   const classes = useStyles();
 
   return (
@@ -70,12 +66,12 @@ const EventTicketList = ({className}) => {
 
         <List className={clsx(classes.ticketList)}>
 
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-
-              <ListItem key={item}>
-                <ListItemText primary={`Item ${item}`}/>
-              </ListItem>
-          ))}
+          {
+            _.map(tickets, (ticket,index)=> (
+                <EventTicketListElement ticket={ticket} key={index}
+                                        confirmButtonText="updaten"/>
+            ))
+          }
         </List>
       </div>
 
