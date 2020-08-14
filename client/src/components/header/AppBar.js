@@ -22,19 +22,30 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1
   },
-  menuButton: {},
+  menuButton: {
+    color: theme.palette.yellow.main
+  },
   appBar: {
     // zIndex: theme.zIndex.drawer + 1
   },
-  drawer: {
-    backgroundColor: theme.primary
+  list: {
+    width: 250,
+  },
+  drawer: {},
+  drawerPaper: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.yellow.main
+  },
+  listItemLink: {
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+      color: "white"
+    }
   }
-
 }));
 
-
-const ListItemLink = (props)=> {
-  const {icon, primary,to} = props;
+const ListItemLink = (props) => {
+  const {icon, primary, to, className} = props;
 
   const CustomLink = React.useMemo(
       () =>
@@ -46,9 +57,9 @@ const ListItemLink = (props)=> {
 
   return (
       <li>
-        <ListItem button component={CustomLink}>
-          {icon? <ListItemIcon>{icon}</ListItemIcon>:null}
-          <ListItemText primary={primary} />
+        <ListItem className={className} button component={CustomLink}>
+          {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+          <ListItemText primary={primary}/>
         </ListItem>
       </li>
   );
@@ -56,15 +67,13 @@ const ListItemLink = (props)=> {
 
 const AppBar = ({routes}) => {
   const classes = useStyles();
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const handleOpenClose = () => setOpen(!open);
 
-
   const list = () => (
       <div
-          className={clsx(classes.list, {
-            // [classes.fullList]: anchor === 'top' || anchor === 'bottom'
-          })}
+          className={classes.list}
           role="presentation"
           onClick={handleOpenClose}
           onKeyDown={handleOpenClose}
@@ -72,8 +81,9 @@ const AppBar = ({routes}) => {
         <List>
           {
             _.map(routes, (route, index) => (
-                <ListItemLink key={index} to={route.path}
-                primary={route.name}/>
+                <ListItemLink className={classes.listItemLink} key={index}
+                              to={route.path}
+                              primary={route.name}/>
             ))
           }
         </List>
@@ -97,9 +107,17 @@ const AppBar = ({routes}) => {
           </Toolbar>
         </MuiAppBar>
         <Drawer className={classes.drawer}
+                classes={{paper: classes.drawerPaper}}
                 anchor="left"
                 open={open}
                 onClose={handleOpenClose}>
+          <div className={classes.drawerHeader}>
+            <IconButton className={classes.menuButton}
+                        onClick={handleOpenClose}>
+              {theme.direction === 'ltr' ? <ChevronLeftIcon/> :
+                  <ChevronRightIcon/>}
+            </IconButton>
+          </div>
           {list()}
         </Drawer>
       </div>
