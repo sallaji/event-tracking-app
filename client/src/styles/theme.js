@@ -1,13 +1,13 @@
-import {createMuiTheme} from "@material-ui/core/styles";
+import {createMuiTheme, responsiveFontSizes} from "@material-ui/core/styles";
 import palette from './palette'
 
-const theme = createMuiTheme({
+let theme = createMuiTheme({
 
       palette: {
         ...palette
       },
       typography: {
-        fontFamily: ['Quicksand', 'Roboto'].join(',')
+        fontFamily: ['Quicksand', 'Roboto'].join(','),
       },
 
       overrides: {
@@ -30,5 +30,5 @@ const theme = createMuiTheme({
       }
     }
 );
-
+theme = responsiveFontSizes(theme);
 export default theme;

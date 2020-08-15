@@ -85,7 +85,6 @@ padding: 0 1rem;
 //max-width: 50%
 }
 .gridFormCol4 {
-
 grid-column: 1/5;
 }
 .gridFormCol3 {
@@ -177,6 +176,12 @@ const EventForm = ({readOnly = false, event: evt}) => {
           />
 
 
+          <EventTicketList className="gridFormCol4"
+                           tickets={[
+                             {price: 'CHF 15', quantity: '2'},
+                             {price: 'CHF 10', quantity: '4'},
+                             {price: 'CHF 20', quantity: '6'}
+                           ]}/>
           <EventTicketList className="gridFormCol4"
                            tickets={[
                              {price: 'CHF 15', quantity: '2'},

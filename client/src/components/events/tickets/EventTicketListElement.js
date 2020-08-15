@@ -3,10 +3,9 @@ import ListItem from "@material-ui/core/ListItem";
 import EventTicketDialog from "./EventTicketDialog";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {Button} from "../../buttons";
 import {makeStyles} from '@material-ui/core/styles';
-import theme from "../../../styles/theme";
 import clsx from "clsx";
+import IconButton from "@material-ui/core/IconButton";
 
 
 const useStyles = makeStyles((theme)=>({
@@ -24,12 +23,13 @@ const useStyles = makeStyles((theme)=>({
     cursor: "pointer",
 
   },
-  editIcon:{
+  button:{
     // backgroundColor: theme.palette.info.main,
-    color: theme.palette.info.main,
+    color: theme.palette.primary.main,
+    transition: "0.3s",
     '&:hover': {
-      color: theme.palette.info.dark,
-      // backgroundColor: theme.palette.info.contrastText,
+      color: theme.palette.info.main,
+      transition: "0.3s",
     },
   }
 }));
@@ -45,14 +45,14 @@ const EventTicketListElement = ({ticket}) => {
           </div>
           <div className={classes.ticketListItemIcons}>
             <EventTicketDialog ticket={ticket} confirmButtonText="updaten">
-            <Button className={clsx(classes.editIcon, "info")}>
+            <IconButton className={clsx(classes.button, "info")}>
               <EditIcon/>
-            </Button>
+            </IconButton>
             </EventTicketDialog>
             <div>
-              <Button>
+              <IconButton className={clsx(classes.button)}>
                 <DeleteIcon/>
-              </Button>
+              </IconButton>
             </div>
 
           </div>

@@ -1,26 +1,67 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import clsx from "clsx";
 import AddCircleOutlinedIcon from '@material-ui/icons/AddCircleOutlined';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import {Button} from '../../buttons'
 import Typography from "@material-ui/core/Typography";
 import _ from 'lodash'
 import EventTicketListElement from "./EventTicketListElement";
+import {IconButton} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  root:{
+  root: {
     width: '95%',
     border: `1px solid ${theme.palette.gray.main}`,
-    margin: '2rem 0'
+    margin: '0.1rem 0'
   },
-  ticketList: {
+  listHeader:{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0 2rem",
+    transition: "0.3s",
+    '&:hover':{
+      backgroundColor: theme.palette.primary.ultralight,
+      color: theme.palette.primary.main,
+      transition: "0.3s",
+    }
+  },
 
-    // maxWidth: 360,
-    // backgroundColor: theme.palette.gray.light,
+  animatedArrowUp:{
+    animation: `$doArrowUp 1000ms`,
+    animationFillMode: "forwards"
+  },
+  "@keyframes doArrowUp":{
+    "0%":{
+      transform: "rotate(0deg)"
+    },
+    "100%":{
+      transform: "rotate(180deg)"
+    }
+  },
+  animatedArrowDown:{
+    animation: `$doArrowDown 1000ms`,
+    animationFillMode: "forwards"
+  },
+  "@keyframes doArrowDown":{
+    "0%":{
+      transform: "rotate(180deg)"
+    },
+    "100%":{
+      transform: "rotate(0deg)"
+    }
+  },
+
+  ticketList: {
     position: 'relative',
     overflow: 'auto',
-      padding:"0.5rem"
+    padding: "0.5rem",
+    maxHeight: 300
+  },
+  hideList: {
+    display: "none"
   },
 
   addTicketButton: {
@@ -41,11 +82,20 @@ const useStyles = makeStyles((theme) => ({
 
 const EventTicketList = ({className, tickets}) => {
   const classes = useStyles();
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
   return (
       <div className={clsx(classes.root, className)}>
+        <div className={classes.listHeader} onClick={handleOpen}>
+          <Typography variant="h6">Tickets</Typography>
+          <IconButton>
+            <KeyboardArrowDownIcon className={clsx({
+              [classes.animatedArrowUp]: open, [classes.animatedArrowDown]: !open,
+            })}/>
+          </IconButton>
+        </div>
+        <div className={clsx({[classes.hideList]: !open})}>
           <div className={classes.listSubheaderContainer}>
-            <Typography variant="h6">Tickets</Typography>
             <div>
               <Button
                   className={classes.addTicketButton}
@@ -59,17 +109,17 @@ const EventTicketList = ({className, tickets}) => {
             </div>
           </div>
 
-        <List className={clsx(classes.ticketList)}>
+          <List className={clsx(classes.ticketList)}>
 
-          {
-            _.map(tickets, (ticket,index)=> (
-                <EventTicketListElement ticket={ticket} key={index}
-                                        confirmButtonText="updaten"/>
-            ))
-          }
-        </List>
+            {
+              _.map(tickets, (ticket, index) => (
+                  <EventTicketListElement ticket={ticket} key={index}
+                                          confirmButtonText="updaten"/>
+              ))
+            }
+          </List>
+        </div>
       </div>
-
   );
 };
 export default EventTicketList;
