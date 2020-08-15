@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 import {Input} from "../inputs";
 import {AddCircle} from "@styled-icons/ionicons-solid";
-import {Button} from "../buttons";
+import {Button} from '../buttons'
 import {Icon} from "../icons";
 import {Dropdown, DropdownItem} from "../dropdowns";
 import _ from 'lodash'

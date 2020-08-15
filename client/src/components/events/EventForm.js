@@ -81,19 +81,49 @@ const EventFormComponent = styled.div`
 display: grid;
 grid-template-columns: repeat(4,1fr);
 padding: 0 1rem;
+
+//max-width: 50%
 }
 .gridFormCol4 {
+
 grid-column: 1/5;
 }
 .gridFormCol3 {
 grid-column: 1/4;
 }
 .gridFormCol2 {
-grid-column: 1/3;
+grid-column: 1/2;
 }
 
 .inputField{
 margin: 0.25rem 0;
+
+    /* default styles here for older browsers. 
+       I tend to go for a 600px - 960px width max but using percentages
+    */
+    @media only screen and (min-width: 960px) {
+        /* styles for browsers larger than 960px; */
+    }
+    @media only screen and (min-width: 1440px) {
+        /* styles for browsers larger than 1440px; */
+    }
+    @media only screen and (min-width: 2000px) {
+        /* for sumo sized (mac) screens */
+    }
+    @media only screen and (max-device-width: 480px) {
+       /* styles for mobile browsers smaller than 480px; (iPhone) */
+    }
+    @media only screen and (device-width: 768px) {
+       /* default iPad screens */
+    }
+    /* different techniques for iPad screening */
+    @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
+      /* For portrait layouts only */
+    }
+
+    @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+      /* For landscape layouts only */
+    }
 }
 `;
 
@@ -118,6 +148,13 @@ const EventForm = ({readOnly = false, event: evt}) => {
       event &&
       <EventFormComponent>
         <form className="gridForm inputField" action="">
+          <Datepicker
+              className="gridFormCol3 inputField"
+              name="date"
+              value={event.date}
+              disabled={readOnly}
+              onChange={change}
+              label="Datum"/>
           <Input
               className="gridFormCol4 inputField"
               onChange={change}
@@ -129,29 +166,23 @@ const EventForm = ({readOnly = false, event: evt}) => {
               type="text"
           />
           <Input
-              className="gridFormCol2 inputField"
+              className="gridFormCol4 inputField"
               onChange={change}
-              name="name"
+              name="responsible"
               defaultValue={event.responsible}
               disabled={readOnly}
-              label="name"
+              label="Verantwortliche"
               required={false}
               type="text"
           />
-          <Datepicker
-              className="gridFormCol2 inputField"
-              name="date"
-              value={event.date}
-              disabled={readOnly}
-              onChange={change}
-              label="Datum"/>
+
 
           <EventTicketList className="gridFormCol4"
-          tickets={[
-            {price: 'CHF 15', quantity: '2'},
-            {price: 'CHF 10', quantity: '4'},
-            {price: 'CHF 20', quantity: '6'}
-          ]}/>
+                           tickets={[
+                             {price: 'CHF 15', quantity: '2'},
+                             {price: 'CHF 10', quantity: '4'},
+                             {price: 'CHF 20', quantity: '6'}
+                           ]}/>
         </form>
       </EventFormComponent>
   )

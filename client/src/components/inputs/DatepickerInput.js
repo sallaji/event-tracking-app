@@ -12,22 +12,31 @@ import {makeStyles} from '@material-ui/core/styles'
 import {Input} from '../inputs/index'
 import theme from "../../styles/theme";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
+import clsx from "clsx";
 
 moment.locale("de");
 
 const defaultMaterialTheme = createMuiTheme({
   palette: {
-    primary: theme.palette.primary
+    primary: theme.palette.info
   },
+
   typography: {
     fontFamily: theme.typography.fontFamily,
   },
+
 });
+
+const useStyles = makeStyles((theme) => ({
+  root:{
+
+  }
+}));
 
 const Datepicker = ({value, onChange, readOnly = false, name, className, label}) => {
   const [selectedDate, setSelectedDate] = useState(new Date(value).getTime());
   const [locale, setLocale] = useState("de");
-
+  const classes = useStyles();
   const handleDateChange = date => {
     if (!readOnly) {
       const dateAsObjectDate = new Date(date).getTime();
@@ -40,6 +49,7 @@ const Datepicker = ({value, onChange, readOnly = false, name, className, label})
       setSelectedDate(dateAsObjectDate);
       (onChange || _.identity)(fakeTarget)
     }
+
   };
   return (
       <ThemeProvider theme={defaultMaterialTheme}>
@@ -51,9 +61,10 @@ const Datepicker = ({value, onChange, readOnly = false, name, className, label})
           <DateTimePicker value={selectedDate}
                           disabled={readOnly}
                           onChange={date => handleDateChange(date)}
-                          className={className}
+                          className={clsx(className, classes.root)}
                           label={label}
                           name={name}
+
           />
 
         </MuiPickersUtilsProvider>

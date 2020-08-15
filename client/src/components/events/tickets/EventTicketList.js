@@ -1,11 +1,9 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import clsx from "clsx";
 import AddCircleOutlinedIcon from '@material-ui/icons/AddCircleOutlined';
-import Button from "@material-ui/core/Button";
+import {Button} from '../../buttons'
 import Typography from "@material-ui/core/Typography";
 import _ from 'lodash'
 import EventTicketListElement from "./EventTicketListElement";
@@ -22,10 +20,7 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: theme.palette.gray.light,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: 400,
-    '& li':{
-      padding:"0.5rem 0"
-    }
+      padding:"0.5rem"
   },
 
   addTicketButton: {

@@ -17,6 +17,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import clsx from 'clsx';
 import {ListItemIcon} from "@material-ui/core";
 import {Link} from "react-router-dom";
+import Dlogo from "../logos/Dlogo";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,6 +94,10 @@ const AppBar = ({routes}) => {
       <div className={classes.root}>
         <MuiAppBar position="fixed" className={classes.appBar}>
           <Toolbar variant="dense">
+
+            <Typography variant="h6">
+            </Typography>
+            <Dlogo/>
             <IconButton edge="end"
                         color="inherit"
                         aria-label="menu"
@@ -100,10 +105,8 @@ const AppBar = ({routes}) => {
                         onClick={handleOpenClose}>
               <MenuIcon/>
             </IconButton>
-            <Typography variant="h6">
-              Santi
-            </Typography>
-            <Button color="inherit">Login</Button>
+
+            {/*<Button color="inherit">Login</Button>*/}
           </Toolbar>
         </MuiAppBar>
         <Drawer className={classes.drawer}
