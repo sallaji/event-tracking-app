@@ -3,6 +3,7 @@ const palette = {
     main: "#262931",
     dark: "#0a0a0e",
     light: "#667286",
+    ultralight: "#c8dbf2",
     contrastText: "#FFFFFF"
   },
   secondary: {
