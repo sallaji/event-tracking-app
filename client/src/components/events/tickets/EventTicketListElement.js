@@ -34,11 +34,10 @@ const useStyles = makeStyles((theme)=>({
   }
 }));
 
-const EventTicketListElement = ({ticket}) => {
+const EventTicketListElement = ({item:ticket}) => {
   const classes = useStyles();
 
   return <div className={classes.ticketListItemContainer}>
-
           <div className={classes.ticketListItemInfo}>
             <p><strong>Preis: </strong>{ticket.price}</p>
             <p><strong>Verkauft: </strong>{ticket.quantity}</p>

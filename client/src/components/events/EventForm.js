@@ -74,7 +74,7 @@ import {Input} from '../inputs'
 import Datepicker from "../inputs/DatepickerInput";
 import styled from 'styled-components';
 import EventTicketListElement from "./tickets/EventTicketListElement";
-import EventTicketList from "./tickets/EventTicketList";
+import SubList from "./tickets/SubList";
 
 const EventFormComponent = styled.div`
 .gridForm {
@@ -176,18 +176,15 @@ const EventForm = ({readOnly = false, event: evt}) => {
           />
 
 
-          <EventTicketList className="gridFormCol4"
-                           tickets={[
+          <SubList className="gridFormCol4"
+                           items={[
                              {price: 'CHF 15', quantity: '2'},
                              {price: 'CHF 10', quantity: '4'},
                              {price: 'CHF 20', quantity: '6'}
-                           ]}/>
-          <EventTicketList className="gridFormCol4"
-                           tickets={[
-                             {price: 'CHF 15', quantity: '2'},
-                             {price: 'CHF 10', quantity: '4'},
-                             {price: 'CHF 20', quantity: '6'}
-                           ]}/>
+                           ]}
+
+            />
+
         </form>
       </EventFormComponent>
   )
