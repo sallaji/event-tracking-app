@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import clsx from "clsx";
@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import _ from 'lodash'
 import {IconButton} from "@material-ui/core";
 import SubListItem from "./SubListItem";
+import SubListItemDialog from "./SubListItemDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,10 +71,11 @@ const useStyles = makeStyles((theme) => ({
 const SubListHeader = (props) => {
   const classes = useStyles();
   return (<div className={classes.subListHeader} onClick={props.handleOpen}>
-        <Typography variant="h6">Tickets</Typography>
+        <Typography variant="h6">{props.subListName}</Typography>
         <IconButton className={clsx({
           [classes.dropdownButtonUp]: props.open,
-          [classes.dropdownButtonDown]: !(props.open)})}>
+          [classes.dropdownButtonDown]: !(props.open)
+        })}>
           <KeyboardArrowDownIcon/>
         </IconButton>
       </div>
@@ -90,20 +92,35 @@ const SubListContainer = (props) => {
   })}>
     <div className={classes.listSubheaderContainer}>
       <div>
-        <Button
-            className={classes.addItemButton}
-            variant="outlined"
-            aria-label="menu"
-            onClick={() => {
-            }}>
-          <AddCircleOutlinedIcon/> Hinzufügen
-        </Button>
+        <SubListItemDialog
+            readOnly={props.readOnly}
+            nameKey0={props.nameKey0}
+            nameKey1={props.nameKey1}
+            confirmButtonText="hinzufügen"
+            item={{key0: '', key1: ''}}
+            actionFn={props.create}>
+          <Button
+              className={classes.addItemButton}
+              variant="outlined"
+              disabled={props.readOnly}
+              aria-label="menu">
+            <AddCircleOutlinedIcon/> hinzufügen
+          </Button>
+        </SubListItemDialog>
       </div>
     </div>
     <List className={clsx(classes.subList)}>
       {
         _.map(props.items, (item, index) => {
-          return <SubListItem item={item} key={index}/>
+          return <SubListItem
+              item={item}
+              key={index}
+              update={props.update}
+              _delete={props._delete}
+              nameKey0={props.nameKey0}
+              nameKey1={props.nameKey1}
+              readOnly={props.readOnly}
+          />
         })
       }
     </List>
@@ -112,33 +129,85 @@ const SubListContainer = (props) => {
 
 const SubList = ({
   className,
-  items
+  items: originalItems,
+  target,
+  readOnly,
+  subListName,
+  nameKey0,
+  nameKey1,
+  key0,
+  key0Type = 'text',
+  key1Type = 'text',
+  key0Required = false,
+  key1Required = false,
+  key1
 }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [items, setItems] = useState(null);
   const handleOpen = () => setOpen(!open);
-  const create = () => {
-    console.log("create desde sublist")
+  useEffect(() => {
+    parseToGenericKeys();
+  }, [originalItems]);
+
+  const parseToGenericKeys = () => {
+    let itemsWithGenericKeys = [];
+    _.map(originalItems, (item, index) => {
+      let itemWithGenericKeys = {
+        key0: item[key0],
+        key1: item[key1],
+        id: item.id || index
+      };
+      itemsWithGenericKeys.push(itemWithGenericKeys);
+    });
+    setItems(itemsWithGenericKeys);
   };
 
-  const update = () => {
+  const parseToOriginalKeys = () => {
+    let itemsWithOriginalKeys = [];
+    _.map(originalItems, (item, index) => {
+      let itemWithOriginalKeys = {
+        [key0]: item.key0,
+        [key1]: item.key1,
+        id: item.id || index
+      };
+      itemsWithOriginalKeys.push(itemWithOriginalKeys);
+    });
+    setItems(itemsWithOriginalKeys);
+  };
+
+  const create = (item) => {
+    if (!item.id) {
+      item.id = items.length
+    }
+    setItems(_.concat(items, item));
+    console.log("create desde sublist", item)
+  };
+
+  const update = (item) => {
+    setItems(
+        _.map(items, itm => itm.id === item.id ? item : itm));
     console.log("update desde sublist")
   };
 
-  const _delete = () => {
+  const _delete = (id) => {
+    setItems(_.reject(items, {id: id}));
     console.log("_delete desde sublist")
   };
 
   return (
       <div className={clsx(classes.root, className)}>
         <SubListHeader handleOpen={handleOpen}
-                       open={open}/>
+                       open={open}
+                       subListName={subListName}/>
         <SubListContainer items={items}
                           open={open}
-                          subListElement={subListElement}
+                          nameKey0={nameKey0}
+                          nameKey1={nameKey1}
                           create={create}
                           update={update}
-                          _delete={_delete}/>
+                          _delete={_delete}
+                          readOnly={readOnly}/>
       </div>
   )
 };

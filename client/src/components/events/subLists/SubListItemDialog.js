@@ -6,11 +6,12 @@ import {Input} from "../../inputs";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import React, {useEffect, useState} from "react";
+import _ from 'lodash';
 
 const SubListItemDialog = ({
   children,
   actionFn,
-  item: itm,
+  item:itm,
   nameKey0,
   nameKey1,
   required,
@@ -22,13 +23,22 @@ const SubListItemDialog = ({
   const [item, setItem] = useState(itm);
   const [open, setOpen] = useState(false);
 
-  const handleDialogOpen = () => setOpen(!open);
+  const handleDialogOpen = () => {
+    if(!readOnly){
+      setOpen(!open);
+    }
+  };
+
   const cancelInput = () => {
     setItem(tempItem);
     handleDialogOpen()
   };
+  const handleConfirmation = () => {
+    (actionFn || _.identity)(item);
+    handleDialogOpen();
+  };
   useEffect(() => {
-    // setTicket(tkt)
+    setItem(itm);
   }, [itm]);
 
   const change = event => {
@@ -70,8 +80,8 @@ const SubListItemDialog = ({
           </DialogContent>
           <DialogActions>
             <Button onClick={cancelInput} color="primary">Ablehnen</Button>
-            <Button onClick={() => {
-            }} color="secondary"
+            <Button onClick={handleConfirmation}
+                    color="secondary"
                     variant="contained">{confirmButtonText}</Button>
           </DialogActions>
         </Dialog>

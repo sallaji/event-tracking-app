@@ -75,6 +75,7 @@ import Datepicker from "../inputs/DatepickerInput";
 import styled from 'styled-components';
 import SubListItem from "./subLists/SubListItem";
 import SubList from "./subLists/SubList";
+import currencyUtils from "../../utils/currencyUtils";
 
 const EventFormComponent = styled.div`
 .gridForm {
@@ -174,13 +175,40 @@ const EventForm = ({readOnly = false, event: evt}) => {
               required={false}
               type="text"
           />
+          <Input
+              className="gridFormCol4 inputField"
+              onChange={change}
+              name="barSales"
+              defaultValue={event.barSales}
+              disabled={readOnly}
+              label="Umsatz-Bar"
+              required={false}
+              type="currency"
+          />
+          <Input
+              className="gridFormCol4 inputField"
+              onChange={change}
+              name="ticketSales"
+              defaultValue={event.ticketSales}
+              disabled={readOnly}
+              label="Umsatz-Eintritte"
+              required={false}
+              type="text"
+          />
 
           <SubList className="gridFormCol4"
                    items={[
-                     {id: 'mira un id bb',price: 'CHF 15', quantity: '2'},
-                     {price: 'CHF 10', quantity: '4'},
-                     {price: 'CHF 20', quantity: '6'}
+                     {price: 'CHF 15', quantity: '2'},
+                     {id: 1, price: 'CHF 10', quantity: '4'},
+                     {id: 2, price: 'CHF 20', quantity: '6'}
                    ]}
+                   target="tickets"
+                   subListName="Tickets"
+                   nameKey0="Preis"
+                   nameKey1="Verkauft"
+                   key0="price"
+                   key1="quantity"
+                   readOnly={readOnly}
           />
         </form>
       </EventFormComponent>
