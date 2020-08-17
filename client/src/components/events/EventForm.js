@@ -73,8 +73,8 @@ import {makeStyles} from "@material-ui/core";
 import {Input} from '../inputs'
 import Datepicker from "../inputs/DatepickerInput";
 import styled from 'styled-components';
-import EventTicketListElement from "./tickets/EventTicketListElement";
-import SubList from "./tickets/SubList";
+import SubListItem from "./subLists/SubListItem";
+import SubList from "./subLists/SubList";
 
 const EventFormComponent = styled.div`
 .gridForm {
@@ -175,16 +175,13 @@ const EventForm = ({readOnly = false, event: evt}) => {
               type="text"
           />
 
-
           <SubList className="gridFormCol4"
-                           items={[
-                             {price: 'CHF 15', quantity: '2'},
-                             {price: 'CHF 10', quantity: '4'},
-                             {price: 'CHF 20', quantity: '6'}
-                           ]}
-
-            />
-
+                   items={[
+                     {id: 'mira un id bb',price: 'CHF 15', quantity: '2'},
+                     {price: 'CHF 10', quantity: '4'},
+                     {price: 'CHF 20', quantity: '6'}
+                   ]}
+          />
         </form>
       </EventFormComponent>
   )

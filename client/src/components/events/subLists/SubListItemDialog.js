@@ -7,25 +7,32 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import React, {useEffect, useState} from "react";
 
-const EventTicketDialog = ({
-  children, actionFn, ticket: tkt, required, readOnly, confirmButtonText
+const SubListItemDialog = ({
+  children,
+  actionFn,
+  item: itm,
+  nameKey0,
+  nameKey1,
+  required,
+  readOnly,
+  confirmButtonText
 }) => {
 
-  const tempTicket = tkt;
-  const [ticket, setTicket] = useState(tkt);
+  const tempItem = itm;
+  const [item, setItem] = useState(itm);
   const [open, setOpen] = useState(false);
 
   const handleDialogOpen = () => setOpen(!open);
   const cancelInput = () => {
-    setTicket(tempTicket);
+    setItem(tempItem);
     handleDialogOpen()
   };
   useEffect(() => {
     // setTicket(tkt)
-  }, [tkt]);
+  }, [itm]);
 
   const change = event => {
-    setTicket({...ticket, [event.target.name]: event.target.value});
+    setItem({...item, [event.target.name]: event.target.value});
   };
 
   return (
@@ -44,19 +51,19 @@ const EventTicketDialog = ({
             </DialogContentText>
             <Input
                 onChange={change}
-                name="price"
-                defaultValue={ticket.price}
+                name="key0"
+                defaultValue={item.key0}
                 disabled={readOnly}
-                label="Preis"
+                label={nameKey0}
                 required={required}
                 type="text"
             />
             <Input
                 onChange={change}
-                name="quantity"
-                defaultValue={ticket.quantity}
+                name="key1"
+                defaultValue={item.key1}
                 disabled={readOnly}
-                label="Verkaufte Tickets"
+                label={nameKey1}
                 required={required}
                 type="text"
             />
@@ -71,4 +78,4 @@ const EventTicketDialog = ({
       </div>
   );
 };
-export default EventTicketDialog
+export default SubListItemDialog

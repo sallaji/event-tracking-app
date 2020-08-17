@@ -5,7 +5,9 @@ import styled from "styled-components";
 
 const EventListComponent = styled.div`
 `;
-const EventList = ({events, getEvent}) => {
+const EventList = ({events, getEvent, createEvent, updateEvent,
+  deleteEvent}) => {
+
   const renderEventListItems = () =>
       <EventListComponent>
         {
@@ -14,7 +16,6 @@ const EventList = ({events, getEvent}) => {
                                              key={index}/> : null
           )
         }
-
       </EventListComponent>;
   return (renderEventListItems())
 };
