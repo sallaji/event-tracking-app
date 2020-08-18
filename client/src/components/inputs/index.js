@@ -23,15 +23,23 @@ export const Input = (props) => {
 
   const classes = useStyles();
   return (
-      props.type === 'currency' ?
+      props.type === 'number' ?
           <NumberFormat customInput={StyledInputComponent}
                         decimalScale={2}
-                        prefix={'Fr. '}
-                        thousandSeparator={true}
+                        onFocus={e => e.target.select()}
                         {...props}/> :
-          <StyledInputComponent
-              className={clsx(classes.textField, classes.underline)}
-              {...props}>
-          </StyledInputComponent>
+          props.type === 'currency' ?
+              <NumberFormat customInput={StyledInputComponent}
+                            decimalScale={2}
+                            thousandSeparator={true}
+                            onFocus={e => e.target.select()}
+                            prefix='Fr. '
+                            {...props}/> :
+              <StyledInputComponent
+                  className={clsx(classes.textField, classes.underline)}
+                  onFocus={e => e.target.select()}
+                  {...props}>
+              </StyledInputComponent>
+
   )
 };

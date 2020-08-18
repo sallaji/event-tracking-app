@@ -68,6 +68,108 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem"
   }
 }));
+
+const SubList = ({
+  className,
+  items: originalItems,
+  target,
+  readOnly,
+  subListName,
+  nameKey0,
+  nameKey1,
+  key0,
+  key1,
+  key0Type = 'text',
+  key1Type = 'text',
+  key0Required = false,
+  key1Required = false,
+  updateSubList,
+}) => {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState(null);
+  const [subListMustUpdate, setSubListMustUpdate] = useState(false);
+  const handleOpen = () => setOpen(!open);
+  useEffect(() => {
+    parseToGenericKeys();
+    if (subListMustUpdate) {
+      sendSubListUpdateToParent();
+    }
+  }, [subListMustUpdate]);
+
+  const sendSubListUpdateToParent = () => {
+    (updateSubList || _.identity)(parseToOriginalKeys(), target);
+    setSubListMustUpdate(false)
+  };
+
+  const parseToGenericKeys = () => {
+    let itemsWithGenericKeys = [];
+    _.map(originalItems, (item, index) => {
+      let itemWithGenericKeys = {
+        key0: item[key0],
+        key1: item[key1],
+        id: item.id || index
+      };
+      itemsWithGenericKeys.push(itemWithGenericKeys);
+    });
+    setItems(itemsWithGenericKeys);
+  };
+
+  const parseToOriginalKeys = () => {
+    let itemsWithOriginalKeys = [];
+    _.map(items, (item, index) => {
+      let itemWithOriginalKeys = {
+        [key0]: item.key0,
+        [key1]: item.key1,
+        id: item.id || new Date().getTime()
+      };
+      itemsWithOriginalKeys.push(itemWithOriginalKeys);
+    });
+    return itemsWithOriginalKeys;
+  };
+
+  const create = (item) => {
+    if (!item.id) {
+      item.id = items.length
+    }
+    setItems(_.concat(items, item));
+    setSubListMustUpdate(true);
+    console.log("create desde sublist", item)
+  };
+
+  const update = (item) => {
+    setItems(
+        _.map(items, itm => itm.id === item.id ? item : itm));
+    setSubListMustUpdate(true);
+    console.log("update desde sublist")
+  };
+
+  const _delete = (id) => {
+    setItems(_.reject(items, {id: id}));
+    setSubListMustUpdate(true);
+    console.log("_delete desde sublist")
+  };
+  return (
+      <div className={clsx(classes.root, className)}>
+        <SubListHeader handleOpen={handleOpen}
+                       open={open}
+                       subListName={subListName}/>
+        <SubListContainer items={items}
+                          open={open}
+                          nameKey0={nameKey0}
+                          nameKey1={nameKey1}
+                          key0Type={key0Type}
+                          key1Type={key1Type}
+                          key0Required={key0Required}
+                          key1Required={key1Required}
+                          create={create}
+                          update={update}
+                          _delete={_delete}
+                          readOnly={readOnly}/>
+      </div>
+  )
+};
+
 const SubListHeader = (props) => {
   const classes = useStyles();
   return (<div className={classes.subListHeader} onClick={props.handleOpen}>
@@ -96,6 +198,10 @@ const SubListContainer = (props) => {
             readOnly={props.readOnly}
             nameKey0={props.nameKey0}
             nameKey1={props.nameKey1}
+            key0Type={props.key0Type}
+            key1Type={props.key1Type}
+            key0Required={props.key0Required}
+            key1Required={props.key1Required}
             confirmButtonText="hinzufügen"
             item={{key0: '', key1: ''}}
             actionFn={props.create}>
@@ -125,90 +231,5 @@ const SubListContainer = (props) => {
       }
     </List>
   </div>)
-};
-
-const SubList = ({
-  className,
-  items: originalItems,
-  target,
-  readOnly,
-  subListName,
-  nameKey0,
-  nameKey1,
-  key0,
-  key0Type = 'text',
-  key1Type = 'text',
-  key0Required = false,
-  key1Required = false,
-  key1
-}) => {
-  const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [items, setItems] = useState(null);
-  const handleOpen = () => setOpen(!open);
-  useEffect(() => {
-    parseToGenericKeys();
-  }, [originalItems]);
-
-  const parseToGenericKeys = () => {
-    let itemsWithGenericKeys = [];
-    _.map(originalItems, (item, index) => {
-      let itemWithGenericKeys = {
-        key0: item[key0],
-        key1: item[key1],
-        id: item.id || index
-      };
-      itemsWithGenericKeys.push(itemWithGenericKeys);
-    });
-    setItems(itemsWithGenericKeys);
-  };
-
-  const parseToOriginalKeys = () => {
-    let itemsWithOriginalKeys = [];
-    _.map(originalItems, (item, index) => {
-      let itemWithOriginalKeys = {
-        [key0]: item.key0,
-        [key1]: item.key1,
-        id: item.id || index
-      };
-      itemsWithOriginalKeys.push(itemWithOriginalKeys);
-    });
-    setItems(itemsWithOriginalKeys);
-  };
-
-  const create = (item) => {
-    if (!item.id) {
-      item.id = items.length
-    }
-    setItems(_.concat(items, item));
-    console.log("create desde sublist", item)
-  };
-
-  const update = (item) => {
-    setItems(
-        _.map(items, itm => itm.id === item.id ? item : itm));
-    console.log("update desde sublist")
-  };
-
-  const _delete = (id) => {
-    setItems(_.reject(items, {id: id}));
-    console.log("_delete desde sublist")
-  };
-
-  return (
-      <div className={clsx(classes.root, className)}>
-        <SubListHeader handleOpen={handleOpen}
-                       open={open}
-                       subListName={subListName}/>
-        <SubListContainer items={items}
-                          open={open}
-                          nameKey0={nameKey0}
-                          nameKey1={nameKey1}
-                          create={create}
-                          update={update}
-                          _delete={_delete}
-                          readOnly={readOnly}/>
-      </div>
-  )
 };
 export default SubList;

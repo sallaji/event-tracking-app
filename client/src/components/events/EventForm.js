@@ -76,14 +76,13 @@ import styled from 'styled-components';
 import SubListItem from "./subLists/SubListItem";
 import SubList from "./subLists/SubList";
 import currencyUtils from "../../utils/currencyUtils";
+import NumberFormat from "react-number-format";
 
 const EventFormComponent = styled.div`
 .gridForm {
 display: grid;
 grid-template-columns: repeat(4,1fr);
 padding: 0 1rem;
-
-//max-width: 50%
 }
 .gridFormCol4 {
 grid-column: 1/5;
@@ -94,9 +93,8 @@ grid-column: 1/4;
 .gridFormCol2 {
 grid-column: 1/2;
 }
-
 .inputField{
-margin: 0.25rem 0;
+margin: 0.75rem 0;
 
     /* default styles here for older browsers. 
        I tend to go for a 600px - 960px width max but using percentages
@@ -127,21 +125,34 @@ margin: 0.25rem 0;
 }
 `;
 
-const EventForm = ({readOnly = false, event: evt}) => {
+const EventForm = ({
+  readOnly = false,
+  event: evt,
+  updateTemporaryChanges
+}) => {
   const {user, setUser} = useContext(UserContext);
   const [event, setEvent] = useState(evt);
+  const [dataMustUpdate, setDataMustUpdate] = useState(false);
   /**
    * evt ist das Event, das als props in die Komponente
    * hinein gegeben wird. Wenn sich evt ändert, wollen wir diese Änderung übernehmen.
    */
   useEffect(() => {
-    // let parsedDate = new Date(evt.date).toISOString()
-    // .substring(0, (mk.indexOf("T")|0) + 6|0);
-    setEvent(evt)
-  }, [evt]);
+    setEvent(evt);
+    if (dataMustUpdate) {
+      updateTemporaryChanges(event);
+      setDataMustUpdate(false)
+    }
+  }, [evt, dataMustUpdate]);
 
   const change = e => {
     setEvent({...event, [e.target.name]: e.target.value});
+    setDataMustUpdate(true)
+  };
+
+  const updateSubList = (subListItems, target) => {
+    setEvent({...event, ...{[target]: subListItems}});
+    setDataMustUpdate(true)
   };
 
   return (
@@ -193,22 +204,23 @@ const EventForm = ({readOnly = false, event: evt}) => {
               disabled={readOnly}
               label="Umsatz-Eintritte"
               required={false}
-              type="text"
+              type="currency"
           />
 
           <SubList className="gridFormCol4"
-                   items={[
-                     {price: 'CHF 15', quantity: '2'},
-                     {id: 1, price: 'CHF 10', quantity: '4'},
-                     {id: 2, price: 'CHF 20', quantity: '6'}
-                   ]}
+                   items={event.tickets}
                    target="tickets"
                    subListName="Tickets"
                    nameKey0="Preis"
                    nameKey1="Verkauft"
+                   key0Type="currency"
+                   key1Type="number"
+                   key0Required={false}
+                   key1Required={false}
                    key0="price"
                    key1="quantity"
                    readOnly={readOnly}
+                   updateSubList={updateSubList}
           />
         </form>
       </EventFormComponent>

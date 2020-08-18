@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import Dialog from "@material-ui/core/Dialog";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -23,9 +23,17 @@ const Transition = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props}/>
 });
 const EventDetails = ({close, event, open, text}) => {
+  const [modifiedEvent, setModifiedEvent] = useState(null);
   const classes = useStyles();
   useEffect(()=>{
   });
+  const save = () => {
+    console.log(modifiedEvent)
+  };
+
+  const updateTemporaryChanges = (event) => {
+    setModifiedEvent(event)
+  };
   return (
       <div>
         <Dialog fullScreen open={!open}
@@ -40,13 +48,15 @@ const EventDetails = ({close, event, open, text}) => {
               <Typography variant="h6" className={classes.title}>
                 Event {text}
               </Typography>
-              <Button autoFocus color="inherit" onClick={close}>
+              <Button autoFocus color="inherit" onClick={save}>
                 save
               </Button>
             </Toolbar>
           </AppBar>
           {/*{event || null}*/}
-          <EventForm event={event} readOnly={false}/>
+          <EventForm event={event}
+                     readOnly={false}
+                     updateTemporaryChanges={updateTemporaryChanges}/>
         </Dialog>
       </div>
   )
