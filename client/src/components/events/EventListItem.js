@@ -4,11 +4,12 @@ import _ from 'lodash'
 import EventDetails from "./EventDetails";
 import theme from "../../styles/theme";
 import Moment from 'react-moment'
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete"
 
 const EventListItemComponent = styled.div`
-
+position:relative;
 background-image: linear-gradient(to bottom right, #f0f0f0, #ffffff);
-//margin: 0.25rem auto;
 border: 1px solid #f0f0f0;
 transition: 0.4s;
 cursor: pointer;
@@ -18,17 +19,42 @@ ${theme.palette.primary.main}, ${theme.palette.primary.light});
 color: white;
 transition: 0.4s;
 z-index: 2;
+& .deleteIcon {
+color: ${theme.palette.warning.main}
+}
 }
 .listItemWrapper {
 font-size: 0.875rem;
 display: flex;
 justify-content: space-between;
 align-items: center;
-padding: 0.5rem 2rem;
+padding: 0.5rem 1rem;
 }
 .eventName{
 font-size: 1rem;
 font-weight: 600;
+}
+.dialogTrigger{
+position:absolute;
+border: 1px solid red;
+width:100%;
+top:0;
+left:0;
+right:0;
+bottom:0;
+}
+.eventListItemDetails{
+flex:1
+}
+.deleteIcon{
+flex:1;
+padding: 1.5rem;
+}
+.deleteIcon{
+& :hover{
+color:red;
+transition: 0.4s
+}
 }
 `;
 const EventListItem = ({event, getEvent}) => {
@@ -45,9 +71,10 @@ const EventListItem = ({event, getEvent}) => {
     open()
   };
   return (<EventListItemComponent>
-    <div className="listItemWrapper"
-         onClick={_.partial(onAction, event.id, getEvent)}>
-      <div className="eventListItemDetails">
+    <div className="listItemWrapper">
+      {/*<div className="dialogTrigger"></div>*/}
+      <div className="eventListItemDetails"
+           onClick={_.partial(onAction, event.id, getEvent)}>
         <div className="eventName">
           {event.name}
         </div>
@@ -62,29 +89,12 @@ const EventListItem = ({event, getEvent}) => {
           {event.user.name}
         </div>
       </div>
+      <div>
+        <IconButton className="deleteIcon">
+          <DeleteIcon/>
+        </IconButton>
+      </div>
     </div>
-
-    {/*<div onClick={_.partial(onAction, event.id, getEvent)}*/}
-    {/*     className="event-description">*/}
-    {/*  <div className="date-and-crew">*/}
-    {/*    <Typography variant="h6">{event.user.name}</Typography>*/}
-    {/*    <div>*/}
-    {/*    </div>*/}
-    {/*    <div>*/}
-    {/*      <small>*/}
-    {/*        {new Intl.DateTimeFormat("de-CH", {*/}
-    {/*          year: "numeric",*/}
-    {/*          month: "numeric",*/}
-    {/*          day: "2-digit"*/}
-    {/*        }).format(new Date(event.date))}*/}
-    {/*      </small>*/}
-    {/*    </div>*/}
-
-    {/*  </div>*/}
-    {/*  <div className="description">*/}
-    {/*    {event.name}*/}
-    {/*  </div>*/}
-    {/*</div>*/}
     {
       <EventDetails close={close} event={event} open={showDialog}
                     text="bearbeiten"/>
