@@ -64,6 +64,7 @@ const Datepicker = ({value, onChange, readOnly = false, name, className, label})
                           className={clsx(className, classes.root)}
                           label={label}
                           name={name}
+                          inputVariant="outlined"
 
           />
 

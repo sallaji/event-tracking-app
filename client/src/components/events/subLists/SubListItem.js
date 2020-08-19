@@ -3,8 +3,9 @@ import SubListItemDialog from "./SubListItemDialog";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {makeStyles} from '@material-ui/core/styles';
-import clsx from "clsx";
 import IconButton from "@material-ui/core/IconButton";
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import clsx from "clsx";
 import _ from 'lodash'
 
 const useStyles = makeStyles((theme) => ({
@@ -23,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
 
   },
   button: {
-    // backgroundColor: theme.palette.info.main,
     color: theme.palette.primary.main,
     transition: "0.3s",
     '&:hover': {
+      backgroundColor: fade(theme.palette.gray.light, 1),
       color: theme.palette.info.main,
       transition: "0.3s",
     },
@@ -38,6 +39,10 @@ const SubListItem = ({
   nameKey0,
   nameKey1,
   readOnly,
+  key0Type,
+  key1Type,
+  key0Required,
+  key1Required,
   update,
   _delete
 }) => {
@@ -59,6 +64,10 @@ const SubListItem = ({
           nameKey0={nameKey0}
           nameKey1={nameKey1}
           readOnly={readOnly}
+          key0Type={key0Type}
+          key1Type={key1Type}
+          key0Required={key0Required}
+          key1Required={key1Required}
           item={item}
           actionFn={update}
           confirmButtonText="updaten">

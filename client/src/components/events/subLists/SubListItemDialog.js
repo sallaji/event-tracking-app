@@ -65,7 +65,7 @@ const SubListItemDialog = ({
             <Input
                 onChange={change}
                 name="key0"
-                defaultValue={item.key0}
+                value={item.key0}
                 disabled={readOnly}
                 label={nameKey0}
                 required={key0Required}
@@ -74,7 +74,7 @@ const SubListItemDialog = ({
             <Input
                 onChange={change}
                 name="key1"
-                defaultValue={item.key1}
+                value={item.key1}
                 disabled={readOnly}
                 label={nameKey1}
                 required={key1Required}

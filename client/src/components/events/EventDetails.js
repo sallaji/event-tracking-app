@@ -25,8 +25,6 @@ const Transition = React.forwardRef((props, ref) => {
 const EventDetails = ({close, event, open, text}) => {
   const [modifiedEvent, setModifiedEvent] = useState(null);
   const classes = useStyles();
-  useEffect(()=>{
-  });
   const save = () => {
     console.log(modifiedEvent)
   };
@@ -36,7 +34,7 @@ const EventDetails = ({close, event, open, text}) => {
   };
   return (
       <div>
-        <Dialog fullScreen open={!open}
+        <Dialog fullScreen open={open}
                 onClose={close}
                 TransitionComponent={Transition}>
           <AppBar className={classes.appBar}>

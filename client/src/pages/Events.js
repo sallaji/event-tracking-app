@@ -16,6 +16,7 @@ const Events = ({serverUrl}) => {
   const {user, setUser} = useContext(UserContext);
   const location = useLocation();
   const [queryStringParams, setQueryStringParams] = useState(location.search);
+
   const loadEvents = () => {
     if (user) {
       eventService.getAll(serverUrl, queryStringParams)
@@ -24,6 +25,11 @@ const Events = ({serverUrl}) => {
       })
     }
   };
+
+  useEffect(
+      loadEvents, [user, queryStringParams]);
+
+
   const getEvent = (id) => {
     if (user) {
       eventService.getEvent(serverUrl, id)
@@ -44,8 +50,6 @@ const Events = ({serverUrl}) => {
   const deleteEvent = event => {
     console.log("from deleteEvent")
   };
-
-  useEffect(loadEvents, [user, queryStringParams]);
 
   const query = (queryString) => {
 

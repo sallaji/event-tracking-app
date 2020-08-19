@@ -13,20 +13,25 @@ import SubListItemDialog from "./SubListItemDialog";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '95%',
-    border: `1px solid ${theme.palette.gray.main}`,
-    margin: '0.1rem 0'
+    // border: `1px solid ${theme.palette.gray.main}`,
+    margin: '0.1rem 0.1rem',
+    borderBottom: "1px solid rgba(195, 195, 195)"
   },
   subListHeader: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: "0 2rem",
+    padding: "0.5rem 2rem",
     transition: "0.3s",
+    backgroundColor: "white",
+    cursor: "pointer",
     '&:hover': {
-      backgroundColor: theme.palette.primary.ultralight,
-      color: theme.palette.primary.main,
+      backgroundColor: theme.palette.info.main,
+      color: theme.palette.info.contrastText,
       transition: "0.3s",
+      '& $dropdownButtonDown , $dropdownButtonUp':{
+        color: theme.palette.info.contrastText,
+      },
     }
   },
   subListContainer: {
@@ -44,22 +49,27 @@ const useStyles = makeStyles((theme) => ({
 
   dropdownButtonUp: {
     transform: "rotate(180deg)",
-    transition: "0.3s"
+    transition: "0.3s",
+    color: theme.palette.info.main,
   },
 
   subList: {
     position: 'relative',
     overflow: 'auto',
     padding: "0.5rem",
-    maxHeight: 300
+    maxHeight: 300,
+    backgroundColor: theme.palette.gray.light
   },
   addItemButton: {
-    backgroundColor: theme.palette.info.main,
-    color: theme.palette.info.contrastText,
+    color: theme.palette.info.main,
+    backgroundColor: theme.palette.info.contrastText,
     '&:hover': {
-      color: theme.palette.info.main,
-      backgroundColor: theme.palette.info.contrastText,
+      backgroundColor: theme.palette.info.main,
+      color: theme.palette.info.contrastText,
     }
+  },
+  addCircleOutlinedIcon:{
+    marginRight: 10
   },
   listSubheaderContainer: {
     display: 'flex',
@@ -207,10 +217,9 @@ const SubListContainer = (props) => {
             actionFn={props.create}>
           <Button
               className={classes.addItemButton}
-              variant="outlined"
               disabled={props.readOnly}
               aria-label="menu">
-            <AddCircleOutlinedIcon/> hinzufügen
+            <AddCircleOutlinedIcon className={classes.addCircleOutlinedIcon}/>hinzufügen
           </Button>
         </SubListItemDialog>
       </div>
@@ -225,7 +234,12 @@ const SubListContainer = (props) => {
               _delete={props._delete}
               nameKey0={props.nameKey0}
               nameKey1={props.nameKey1}
+              key0Type={props.key0Type}
+              key1Type={props.key1Type}
+              key0Required={props.key0Required}
+              key1Required={props.key1Required}
               readOnly={props.readOnly}
+
           />
         })
       }

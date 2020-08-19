@@ -1,88 +1,20 @@
-// import React, {useContext, useEffect, useState} from 'react'
-// import {UserContext} from "../../contexts/UserContext";
-// import {makeStyles} from "@material-ui/core";
-// import {Input} from '../inputs/index'
-// import Datepicker from "../inputs/DatepickerInput";
-// import clsx from "clsx";
-// const useStyles = makeStyles((theme) => ({
-//       gridForm: {
-//         display: "grid",
-//         gridTemplateColumns: "25% 25% 25% 25%",
-//         '& $gridFormCol4':{
-//           backgroundColor: "red"
-//         }
-//       },
-//
-//       gridFormCol4: {
-//         gridColumn: "1/5"
-//       },
-//       gridFormCol3: {
-//         gridColumn: "1/4"
-//       },
-//       gridFormCol2: {
-//         gridColumn: "1/3"
-//       },
-//
-//     }
-// ));
-// const EventForm = ({readOnly = false, event: evt}) => {
-//   const {user, setUser} = useContext(UserContext);
-//   const [event, setEvent] = useState(evt);
-//   const classes = useStyles();
-//   /**
-//    * evt ist das Event, das als props in die Komponente
-//    * hinein gegeben wird. Wenn sich evt ändert, wollen wir diese Änderung übernehmen.
-//    */
-//   useEffect(() => {
-//     // let parsedDate = new Date(evt.date).toISOString()
-//     // .substring(0, (mk.indexOf("T")|0) + 6|0);
-//     setEvent(evt)
-//   }, [evt]);
-//
-//   const change = e => {
-//     setEvent({...event, [e.target.name]: e.target.value});
-//   };
-//
-//   return (
-//       event &&
-//       <div>
-//         <form className={classes.gridForm} action="">
-//           <Input
-//               className={clsx(classes.gridFormCol4)}
-//               onChange={change}
-//               name="name"
-//               defaultValue={event.name}
-//               disabled={readOnly}
-//               label="name"
-//               required={false}
-//               type="text"
-//           />
-//           <Datepicker/>
-//
-//
-//         </form>
-//       </div>
-//   )
-// };
-//
-// export default EventForm;
-
 import React, {useContext, useEffect, useState} from 'react'
 import {UserContext} from "../../contexts/UserContext";
-import {makeStyles} from "@material-ui/core";
 import {Input} from '../inputs'
 import Datepicker from "../inputs/DatepickerInput";
 import styled from 'styled-components';
-import SubListItem from "./subLists/SubListItem";
 import SubList from "./subLists/SubList";
-import currencyUtils from "../../utils/currencyUtils";
-import NumberFormat from "react-number-format";
 
 const EventFormComponent = styled.div`
+display: flex;
+justify-content: center;
+width: 100%;
 .gridForm {
 display: grid;
 grid-template-columns: repeat(4,1fr);
 padding: 0 1rem;
+max-width: 50%;
+flex-grow: 1;
 }
 .gridFormCol4 {
 grid-column: 1/5;
@@ -95,33 +27,12 @@ grid-column: 1/2;
 }
 .inputField{
 margin: 0.75rem 0;
+}
 
-    /* default styles here for older browsers. 
-       I tend to go for a 600px - 960px width max but using percentages
-    */
-    @media only screen and (min-width: 960px) {
-        /* styles for browsers larger than 960px; */
-    }
-    @media only screen and (min-width: 1440px) {
-        /* styles for browsers larger than 1440px; */
-    }
-    @media only screen and (min-width: 2000px) {
-        /* for sumo sized (mac) screens */
-    }
-    @media only screen and (max-device-width: 480px) {
-       /* styles for mobile browsers smaller than 480px; (iPhone) */
-    }
-    @media only screen and (device-width: 768px) {
-       /* default iPad screens */
-    }
-    /* different techniques for iPad screening */
-    @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait) {
-      /* For portrait layouts only */
-    }
-
-    @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
-      /* For landscape layouts only */
-    }
+@media only screen and (max-width: 768px){
+.gridForm{
+max-width: 90%;
+}
 }
 `;
 
@@ -133,26 +44,23 @@ const EventForm = ({
   const {user, setUser} = useContext(UserContext);
   const [event, setEvent] = useState(evt);
   const [dataMustUpdate, setDataMustUpdate] = useState(false);
-  /**
-   * evt ist das Event, das als props in die Komponente
-   * hinein gegeben wird. Wenn sich evt ändert, wollen wir diese Änderung übernehmen.
-   */
+
   useEffect(() => {
     setEvent(evt);
-    if (dataMustUpdate) {
-      updateTemporaryChanges(event);
-      setDataMustUpdate(false)
-    }
-  }, [evt, dataMustUpdate]);
+    // setDataMustUpdate(false)
+  }, [dataMustUpdate,evt]);
 
   const change = e => {
-    setEvent({...event, [e.target.name]: e.target.value});
-    setDataMustUpdate(true)
+    const newData = {...event, [e.target.name]: e.target.value};
+    updateTemporaryChanges(newData);
+    setEvent(newData);
+    // setDataMustUpdate(true)
   };
 
   const updateSubList = (subListItems, target) => {
-    setEvent({...event, ...{[target]: subListItems}});
-    setDataMustUpdate(true)
+    const newData = {...event, [target]: subListItems};
+    updateTemporaryChanges(newData);
+    setEvent(newData);
   };
 
   return (
@@ -170,7 +78,7 @@ const EventForm = ({
               className="gridFormCol4 inputField"
               onChange={change}
               name="name"
-              defaultValue={event.name}
+              value={event.name}
               disabled={readOnly}
               label="name"
               required={true}
@@ -180,7 +88,7 @@ const EventForm = ({
               className="gridFormCol4 inputField"
               onChange={change}
               name="responsible"
-              defaultValue={event.responsible}
+              value={event.responsible}
               disabled={readOnly}
               label="Verantwortliche"
               required={false}
@@ -190,7 +98,7 @@ const EventForm = ({
               className="gridFormCol4 inputField"
               onChange={change}
               name="barSales"
-              defaultValue={event.barSales}
+              value={event.barSales}
               disabled={readOnly}
               label="Umsatz-Bar"
               required={false}
@@ -200,7 +108,7 @@ const EventForm = ({
               className="gridFormCol4 inputField"
               onChange={change}
               name="ticketSales"
-              defaultValue={event.ticketSales}
+              value={event.ticketSales}
               disabled={readOnly}
               label="Umsatz-Eintritte"
               required={false}
@@ -220,8 +128,37 @@ const EventForm = ({
                    key0="price"
                    key1="quantity"
                    readOnly={readOnly}
-                   updateSubList={updateSubList}
-          />
+                   updateSubList={updateSubList}/>
+
+          <SubList className="gridFormCol4"
+                   items={event.sponsors}
+                   target="sponsors"
+                   subListName="Sponsoren"
+                   nameKey0="Name"
+                   nameKey1="Betrag"
+                   key0Type="text"
+                   key1Type="currency"
+                   key0Required={false}
+                   key1Required={false}
+                   key0="name"
+                   key1="amount"
+                   readOnly={readOnly}
+                   updateSubList={updateSubList}/>
+
+          <SubList className="gridFormCol4"
+                   items={event.expenses}
+                   target="expenses"
+                   subListName="Ausgaben"
+                   nameKey0="Bezeichnung"
+                   nameKey1="Betrag"
+                   key0Type="text"
+                   key1Type="currency"
+                   key0Required={false}
+                   key1Required={false}
+                   key0="description"
+                   key1="amount"
+                   readOnly={readOnly}
+                   updateSubList={updateSubList}/>
         </form>
       </EventFormComponent>
   )

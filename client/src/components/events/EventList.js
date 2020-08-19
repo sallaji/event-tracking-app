@@ -12,8 +12,10 @@ const EventList = ({events, getEvent, createEvent, updateEvent,
       <EventListComponent>
         {
           _.map(events, (event, index) =>
-              (index === 0) ? <EventListItem event={event} getEvent={getEvent}
-                                             key={index}/> : null
+              // (index === 0) ?
+                  <EventListItem event={event} getEvent={getEvent}
+                                             key={index}/>
+                                             // : null
           )
         }
       </EventListComponent>;
