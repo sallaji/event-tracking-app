@@ -2,8 +2,8 @@ import doFetch from "../network/NetworkService";
 
 const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
 
-const getAll = (serverUrl, queryObject) =>
-    fetch(`${serverUrl}/events${queryObject || ''}`, {
+const getAll = ({serverUrl, queryStringParams}) =>
+    fetch(`${serverUrl}/events${queryStringParams || ''}`, {
       method: 'GET',
       ...headers
     })

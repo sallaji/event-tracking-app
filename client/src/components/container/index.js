@@ -2,8 +2,9 @@ import React from 'react'
 import styled from "styled-components";
 import palette from "../../styles/palette";
 const ContentWrapperComponent = styled.div`
-width: 100%;
+width: 98%;
 height: 100%;
+margin: 0 auto;
 `;
 export const ContentWrapper = ({children}) =>
     (<ContentWrapperComponent>{children}</ContentWrapperComponent>);

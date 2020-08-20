@@ -1,14 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import _ from 'lodash'
 import EventListItem from "./EventListItem";
 import styled from "styled-components";
-
+import {Loader} from '../loaders/index'
 const EventListComponent = styled.div`
 `;
 const EventList = ({events, getEvent, createEvent, updateEvent,
-  deleteEvent}) => {
+  deleteEvent, loading}) => {
 
   const renderEventListItems = () =>
+      !loading? <Loader/>:
       <EventListComponent>
         {
           _.map(events, (event, index) =>

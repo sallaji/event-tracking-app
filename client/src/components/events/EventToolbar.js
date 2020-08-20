@@ -6,6 +6,8 @@ import {Button} from '../buttons'
 import {Icon} from "../icons";
 import {Dropdown, DropdownItem} from "../dropdowns";
 import _ from 'lodash'
+import theme from "../../styles/theme";
+import EventDetails from "./EventDetails";
 
 const EventToolbarComponent = styled.div`
 display: grid;
@@ -22,6 +24,17 @@ align-items: center;
 .add-event{
 justify-self: right;
 }
+
+.add-event-button{
+background-image: linear-gradient(to bottom right, 
+${theme.palette.info.main}, ${theme.palette.info.light});
+ color: ${theme.palette.info.contrastText};
+ &:hover{
+ background-image: linear-gradient(to bottom right, 
+${theme.palette.info.light}, ${theme.palette.info.main});
+ color: ${theme.palette.info.contrastText};
+ }
+}
 .event-sort{
 display: flex;
 justify-content: center;
@@ -33,8 +46,14 @@ const EventToolbar = ({query, queryObject: qobj}) => {
 
   const [queryObject, setQueryObject] = useState(qobj);
   const [raiseQuery, setRaiseQuery] = useState(false);
+  const [showEventDetails, setShowEventDetails] = useState(false);
   const [disabled, setDisabled] = useState(!qobj.search);
   const [searchDelayTime, setSearchDelayTime] = useState(null);
+
+  const handleEventDetailsOpen = () => {
+    setShowEventDetails(true)
+  };
+
   const handleInputValueChangeAndSearchAfterDelay = async (e) => {
     clearTimeout(searchDelayTime);
     let value = e.target.value;
@@ -108,12 +127,17 @@ const EventToolbar = ({query, queryObject: qobj}) => {
     </div>
     <div className="add-event">
       <Button text="Event Hinzufügen"
-              color="pink"
+              className="add-event-button"
+              color="primary"
+              onClick={handleEventDetailsOpen}
               width="200px">
         <Icon>
           <AddCircle/>
         </Icon>
       </Button>
+      <EventDetails
+          event={[]} onClose={handleEventDetailsOpen} open={showEventDetails}
+      text="erstellen"/>
     </div>
     <div className="event-sort">
       <Dropdown text={`Sortiert nach ${getGermanSortName(queryObject.sort)}`}>

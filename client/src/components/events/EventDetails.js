@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginLeft: theme.spacing(2),
-    flex:1
+    flex: 1
   }
 }));
 const Transition = React.forwardRef((props, ref) => {
@@ -51,7 +51,7 @@ const EventDetails = ({close, event, open, text}) => {
               </Button>
             </Toolbar>
           </AppBar>
-          {/*{event || null}*/}
+          <pre>{event || null}</pre>
           <EventForm event={event}
                      readOnly={false}
                      updateTemporaryChanges={updateTemporaryChanges}/>

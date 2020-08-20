@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// todo: https://mongoosejs.com/docs/subdocs.html
 const TicketSchema = new Schema(
     {
       price: {

@@ -13,15 +13,17 @@ import Datepicker from "../components/inputs/DatepickerInput";
 const Events = ({serverUrl}) => {
 
   const [events, setEvents] = useState(null);
+  const [loading, setLoading] = useState(false);
   const {user, setUser} = useContext(UserContext);
   const location = useLocation();
   const [queryStringParams, setQueryStringParams] = useState(location.search);
 
   const loadEvents = () => {
     if (user) {
-      eventService.getAll(serverUrl, queryStringParams)
+      eventService.getAll({serverUrl, queryStringParams})
       .then(events => {
-        setEvents(events)
+        setEvents(events);
+        setLoading(true)
       })
     }
   };
@@ -52,9 +54,11 @@ const Events = ({serverUrl}) => {
   };
 
   const query = (queryString) => {
-
-    history.push({pathname: "/events", search: queryString});
-    setQueryStringParams(queryString)
+    if(queryString !== queryStringParams){
+      setLoading(false);
+      history.push({pathname: "/events", search: queryString});
+      setQueryStringParams(queryString)
+    }
   };
 
   const parseQuery = () => parse(location.search, {ignoreQueryPrefix: true});
@@ -66,6 +70,7 @@ const Events = ({serverUrl}) => {
                createEvent={createEvent}
                updateEvent={updateEvent}
                deleteEvent={deleteEvent}
+               loading={loading}
     />
   </Layout>;
   return (renderEventList())
