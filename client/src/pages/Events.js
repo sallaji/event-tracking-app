@@ -8,7 +8,6 @@ import history from "../history";
 import {useLocation} from 'react-router-dom';
 import {parse} from "qs"
 import _ from 'lodash'
-import Datepicker from "../components/inputs/DatepickerInput";
 
 const Events = ({serverUrl}) => {
 
@@ -23,6 +22,7 @@ const Events = ({serverUrl}) => {
       eventService.getAll({serverUrl, queryStringParams})
       .then(events => {
         setEvents(events);
+        console.log(events);
         setLoading(true)
       })
     }

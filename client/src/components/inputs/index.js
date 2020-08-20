@@ -34,7 +34,6 @@ export const Input = (props) => {
                         decimalScale={2}
                         onFocus={e => e.target.select()}
                         variant="outlined"
-
                         {...props}/> :
           props.type === 'currency' ?
               <NumberFormat customInput={StyledInputComponent}

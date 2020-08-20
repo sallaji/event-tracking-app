@@ -1,11 +1,10 @@
 import doFetch from "../network/NetworkService";
-
-const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
+import authHeader from "./data_service";
 
 const getAll = ({serverUrl, queryStringParams}) =>
     fetch(`${serverUrl}/events${queryStringParams || ''}`, {
       method: 'GET',
-      ...headers
+      ...authHeader(),
     })
     .then(response => {
       if (!response.ok) {
@@ -18,7 +17,7 @@ const getAll = ({serverUrl, queryStringParams}) =>
 const getEvent = (serverUrl, id) =>
     fetch(`${serverUrl}/events/${id}`, {
       method: 'GET',
-      ...headers
+      ...authHeader()
     })
     .then(response => {
       if (!response.ok) {

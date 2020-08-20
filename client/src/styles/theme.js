@@ -4,7 +4,11 @@ import palette from './palette'
 let theme = createMuiTheme({
 
       palette: {
-        ...palette
+        ...palette,
+        background: {
+          // paper: "white",
+          default: "white"
+        },
       },
       typography: {
         fontFamily: ['Quicksand', 'Roboto'].join(','),

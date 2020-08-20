@@ -74,6 +74,15 @@ UserSchema.pre('save', function (next) {
   });
 });
 
+
+
+UserSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+UserSchema.set('toJSON', {
+  virtuals: true
+});
+
 UserSchema.statics.validPassword = async (password, userPassword, callback) =>
     await bcrypt.compare(password, userPassword, (err, isMatch) =>
         callback(isMatch));

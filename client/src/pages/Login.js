@@ -30,7 +30,7 @@ const Login = ({serverUrl}) => {
     .then(user => {
       if (user) {
         setUser(user);
-        navigate("/events")
+        history.push("/events")
       }
     })
     .catch(error => {

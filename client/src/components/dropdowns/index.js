@@ -3,12 +3,13 @@ import styled from "styled-components";
 import {Button} from '../buttons/index'
 import {ArrowDropDown} from '@styled-icons/material/ArrowDropDown'
 import {Icon} from "../icons";
+import palette from "../../styles/palette";
 
 const DropdownItemComponent = styled.a`
 /* Change color of dropdown links on hover */
 width:100%;
 display: inline-block;
-font-size: 1.4rem;
+font-size: 0.875rem;
 padding: 1.075rem;
 cursor: pointer;
 &:hover {
@@ -25,7 +26,7 @@ export const DropdownItem = ({text, name, onClick}) => (
     </DropdownItemComponent>);
 
 const DropdownContentComponent = styled.div`
-width: 100%;
+max-width: 10rem;
 display: block;
 position:absolute;
 background: white;
@@ -43,6 +44,7 @@ const DropdownComponent = styled.div`
 width: ${props => props.width || "100%"};
 position:relative;
 display: inline-block;
+
 /* Show the dropdown menu on hover */
 &:hover .dropdown-content{
   display: block;
@@ -51,7 +53,7 @@ display: inline-block;
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
 &:hover .dropdown-btn {
-  background-color: var(--color-white-hover)
+  background-color: ${palette.gray.light}
 }
 &:hover .arrow-dropdown{
 transform: rotate(180deg);
@@ -64,6 +66,7 @@ text-decoration: underline;
 
 const ArrowDropDownComponent = styled(ArrowDropDown)`
 transition: 0.4s;
+
 `;
 
 const DropdownButton = ({children}) => (<DropdownButtonComponent>{children}

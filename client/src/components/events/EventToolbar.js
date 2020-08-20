@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import styled from "styled-components";
 import {Input} from "../inputs";
-import {AddCircle} from "@styled-icons/ionicons-solid";
+import AddIcon from '@material-ui/icons/Add';
 import {Button} from '../buttons'
-import {Icon} from "../icons";
 import {Dropdown, DropdownItem} from "../dropdowns";
 import _ from 'lodash'
 import theme from "../../styles/theme";
@@ -26,19 +25,32 @@ justify-self: right;
 }
 
 .add-event-button{
+padding: 14px;
+margin:0;
 background-image: linear-gradient(to bottom right, 
-${theme.palette.info.main}, ${theme.palette.info.light});
+${theme.palette.info.light}, ${theme.palette.info.main});
  color: ${theme.palette.info.contrastText};
  &:hover{
  background-image: linear-gradient(to bottom right, 
-${theme.palette.info.light}, ${theme.palette.info.main});
+
+ ${theme.palette.info.main}, ${theme.palette.info.light});
  color: ${theme.palette.info.contrastText};
  }
 }
+.add-event-icon{
+ color: ${theme.palette.info.light}
+ }
 .event-sort{
 display: flex;
 justify-content: center;
 align-items: center;
+padding: 0.875rem 0;
+}
+@media only screen and (max-width: 768px){
+.add-event-button{
+font-size: 0.7rem;
+}
+
 }
 `;
 
@@ -51,13 +63,13 @@ const EventToolbar = ({query, queryObject: qobj}) => {
   const [searchDelayTime, setSearchDelayTime] = useState(null);
 
   const handleEventDetailsOpen = () => {
-    setShowEventDetails(true)
+    setShowEventDetails(!showEventDetails)
   };
 
   const handleInputValueChangeAndSearchAfterDelay = async (e) => {
     clearTimeout(searchDelayTime);
     let value = e.target.value;
-      setQueryObject(_.omit(queryObject, 'search'));
+    setQueryObject(_.omit(queryObject, 'search'));
     updateQueryObject({search: value});
     setSearchDelayTime(setTimeout(() => {
       setRaiseQuery(true)
@@ -79,7 +91,7 @@ const EventToolbar = ({query, queryObject: qobj}) => {
   };
 
   const doOrdering = e => {
-    let value = e.target.name === 'ascending'? 'true': 'false';
+    let value = e.target.name === 'ascending' ? 'true' : 'false';
     updateQueryObject({ascending: value});
     setRaiseQuery(true)
   };
@@ -117,12 +129,12 @@ const EventToolbar = ({query, queryObject: qobj}) => {
   return <EventToolbarComponent>
     <div className="event-search">
       <Input
-             name="search"
-             onChange={handleInputValueChangeAndSearchAfterDelay}
-             placeholder="Eventsuche"
-             value={queryObject.search}
-             type="search"
-             onFocus={e => e.target.select()}
+          name="search"
+          onChange={handleInputValueChangeAndSearchAfterDelay}
+          placeholder="Eventsuche"
+          value={queryObject.search}
+          type="search"
+          onFocus={e => e.target.select()}
       />
     </div>
     <div className="add-event">
@@ -131,30 +143,34 @@ const EventToolbar = ({query, queryObject: qobj}) => {
               color="primary"
               onClick={handleEventDetailsOpen}
               width="200px">
-        <Icon>
-          <AddCircle/>
-        </Icon>
+
+        <AddIcon className="add-event-icon"/>
+
       </Button>
       <EventDetails
-          event={[]} onClose={handleEventDetailsOpen} open={showEventDetails}
-      text="erstellen"/>
+          close={handleEventDetailsOpen} open={showEventDetails}
+          text="erstellen"/>
     </div>
     <div className="event-sort">
       <Dropdown text={`Sortiert nach ${getGermanSortName(queryObject.sort)}`}>
-        <DropdownItem text={getGermanSortName('own')} name="own" onClick={doSort}/>
-        <DropdownItem text={getGermanSortName('date')} name="date" onClick={doSort}/>
-        <DropdownItem text={getGermanSortName('user')} name="user" onClick={doSort}/>
-        <DropdownItem text={getGermanSortName('name')} name="name" onClick={doSort}/>
+        <DropdownItem text={getGermanSortName('own')} name="own"
+                      onClick={doSort}/>
+        <DropdownItem text={getGermanSortName('date')} name="date"
+                      onClick={doSort}/>
+        <DropdownItem text={getGermanSortName('user')} name="user"
+                      onClick={doSort}/>
+        <DropdownItem text={getGermanSortName('name')} name="name"
+                      onClick={doSort}/>
       </Dropdown>
-      <div>
-        <Dropdown text={queryObject.ascending === 'true' ? 'Aufsteigend'
-            : 'Absteigend'}>
-          <DropdownItem text="Aufsteigend" name="ascending"
-                        onClick={doOrdering}/>
-          <DropdownItem text="Absteigend" name="descending"
-                        onClick={doOrdering}/>
-        </Dropdown>
-      </div>
+    </div>
+    <div className="event-sort">
+      <Dropdown text={queryObject.ascending === 'true' ? 'Aufsteigend'
+          : 'Absteigend'}>
+        <DropdownItem text="Aufsteigend" name="ascending"
+                      onClick={doOrdering}/>
+        <DropdownItem text="Absteigend" name="descending"
+                      onClick={doOrdering}/>
+      </Dropdown>
     </div>
   </EventToolbarComponent>;
 };

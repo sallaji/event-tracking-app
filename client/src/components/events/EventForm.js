@@ -4,6 +4,7 @@ import {Input} from '../inputs'
 import Datepicker from "../inputs/DatepickerInput";
 import styled from 'styled-components';
 import SubList from "./subLists/SubList";
+import {eventModel} from "../../models/event";
 
 const EventFormComponent = styled.div`
 display: flex;
@@ -43,12 +44,10 @@ const EventForm = ({
 }) => {
   const {user, setUser} = useContext(UserContext);
   const [event, setEvent] = useState(evt);
-  const [dataMustUpdate, setDataMustUpdate] = useState(false);
 
   useEffect(() => {
     setEvent(evt);
-    // setDataMustUpdate(false)
-  }, [dataMustUpdate,evt]);
+  }, [evt]);
 
   const change = e => {
     const newData = {...event, [e.target.name]: e.target.value};

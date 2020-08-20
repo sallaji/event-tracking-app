@@ -1,3 +1,5 @@
+const headers = {headers: {'Content-Type': 'application/json; charset=utf-8'}};
+
 const getNavigationLinks = (user) => new Promise(resolve => {
   let authentication =
       user ?
@@ -30,6 +32,19 @@ const getNavigationLinks = (user) => new Promise(resolve => {
       resolve([authentication]);
   }
 });
+
+const getUsers = ({serverUrl}) =>
+    fetch(`${serverUrl}/users}`, {
+      method: 'GET',
+      ...headers
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Problema cargando usuarios')
+      }
+      return response.json()
+    })
+    .catch(e => console.error(e));
 const userService = {
   getNavigationLinks
 };

@@ -2,25 +2,27 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import _ from 'lodash'
 import EventDetails from "./EventDetails";
-import theme from "../../styles/theme";
+import palette from "../../styles/palette";
 import Moment from 'react-moment'
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete"
 
 const EventListItemComponent = styled.div`
 position:relative;
-background-image: linear-gradient(to bottom right, #f0f0f0, #ffffff);
-border: 1px solid #f0f0f0;
+background-image: linear-gradient(to bottom right, rgb(253,253,253),
+rgb(255,255,255));
+box-shadow: -1px 4px 8px #f4f4f4;
+border: 1px solid #fbfbfb;
 transition: 0.4s;
 cursor: pointer;
 :hover{
 background-image: linear-gradient(to bottom right, 
-${theme.palette.primary.main}, ${theme.palette.primary.light});
+${palette.primary.main}, ${palette.primary.light});
 color: white;
 transition: 0.4s;
 z-index: 2;
 & .deleteIcon {
-color: ${theme.palette.warning.main}
+color: ${palette.secondary.main}
 }
 }
 .listItemWrapper {
@@ -34,15 +36,7 @@ padding: 0.5rem 1rem;
 font-size: 1rem;
 font-weight: 600;
 }
-.dialogTrigger{
-position:absolute;
-border: 1px solid red;
-width:100%;
-top:0;
-left:0;
-right:0;
-bottom:0;
-}
+
 .eventListItemDetails{
 flex:1
 }
@@ -72,7 +66,6 @@ const EventListItem = ({event, getEvent}) => {
   };
   return (<EventListItemComponent>
     <div className="listItemWrapper">
-      {/*<div className="dialogTrigger"></div>*/}
       <div className="eventListItemDetails"
            onClick={_.partial(onAction, event.id, getEvent)}>
         <div className="eventName">

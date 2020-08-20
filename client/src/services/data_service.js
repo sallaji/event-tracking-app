@@ -4,6 +4,7 @@ export default function authHeader() {
   if (user && user.token) {
     return {
       headers: {
+        'Content-Type': 'application/json; charset=utf-8',
         Authorization: user.token
       }
     };

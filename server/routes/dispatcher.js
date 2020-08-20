@@ -2,17 +2,25 @@ const dispatcher = require('express').Router();
 const auth_controller = require('./auth-controller');
 //TODO: IMplement authjwt
 const {authJwt} = require("../middlewares");
-
+const passport = require('passport');
 const user_controller = require('./user_controller');
 const event_controller = require('./event-controller');
 const ticket_controller = require('./ticket_controller');
-
-//TODO: Reeplace with jwt based authorization
 const isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-  res.status(401).send('Zugriff verboten')
+  passport.authenticate('jwt', function (err, user, info) {
+    if (user) {
+      req.user = {
+        id: user.id,
+        name: user.name,
+        type: user.type,
+        // token: user.token,
+        // expiresIn: user.expires
+      };
+      return next()
+    } else {
+      res.status(403).send("User not logged in")
+    }
+  })(req, res);
 };
 
 dispatcher.route('/login')
@@ -25,7 +33,7 @@ dispatcher.route('/users')
 
 dispatcher.route('/events')
 .post(event_controller.create)
-.get(event_controller.findAll);
+.get(isLoggedIn,event_controller.findAll);
 
 dispatcher.route('/events/:id')
 .put(event_controller.update)

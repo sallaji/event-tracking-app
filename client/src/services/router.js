@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 
 import {
-  BrowserRouter as Router,
+  Router,
   Switch,
   Route,
   Link
@@ -35,7 +35,7 @@ const AppRouter = ({serverUrl}) => {
 
   return (
       <UserContext.Provider value={providerValue}>
-          <Router>
+          <Router history={history}>
             <Switch>
               <Route path="/login" exact>
                 <Login serverUrl={serverUrl}>Login</Login>

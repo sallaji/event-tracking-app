@@ -1,17 +1,21 @@
+const passport = require('passport')
 const jwt = require("jsonwebtoken");
 //TODO Replace with jwt passport structure
-const verifyToken = (req, res, next) => {
-  let token = req.headers["x-access-token"];
-  if (!token) {
-    return res.status(403).send("Kein Token gegeben")
-  }
-  jwt.verify(token, process.env.SESSION_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).send("error en token")
+const verifyToken = async (req, res) => {
+  await passport.authenticate('jwt', function (err, user,info) {
+    if (user) {
+      req.user = {
+        id: user.id,
+        name: user.name,
+        type: user.type,
+        // token: user.token,
+        // expiresIn: user.expires
+      };
+    } else {
+      res.status(403).send("User not logged in")
     }
-    req._id = decoded.id;
-    next();
-  })
+  })(req, res)
+
 };
 
 const authJwt = {
