@@ -10,6 +10,8 @@ import Slide from "@material-ui/core/Slide";
 import {makeStyles} from "@material-ui/core";
 import EventForm from "./EventForm";
 import {eventModel} from "../../models/event";
+import _ from 'lodash';
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: 'relative'
@@ -22,12 +24,18 @@ const useStyles = makeStyles((theme) => ({
 const Transition = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props}/>
 });
-const EventDetails = ({close, event=eventModel, open, text}) => {
+const EventDetails = ({close, event = eventModel, open, text, actionFn}) => {
   const [modifiedEvent, setModifiedEvent] = useState(null);
   const classes = useStyles();
   const save = () => {
-    console.log(modifiedEvent)
+    (actionFn || _.identity)(modifiedEvent);
+    close();
   };
+  useEffect(() => {
+    if (!open) {
+      setModifiedEvent(null)
+    }
+  }, [open]);
   const updateTemporaryChanges = (event) => {
     setModifiedEvent(event)
   };

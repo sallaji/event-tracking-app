@@ -51,7 +51,7 @@ transition: 0.4s
 }
 }
 `;
-const EventListItem = ({event, getEvent}) => {
+const EventListItem = ({event, getEvent, update}) => {
   //TODO CAM
   const [showDialog, setShowDialog] = useState(false);
 
@@ -89,7 +89,10 @@ const EventListItem = ({event, getEvent}) => {
       </div>
     </div>
     {
-      <EventDetails close={close} event={event} open={showDialog}
+      <EventDetails close={close}
+                    event={event}
+                    open={showDialog}
+                    actionFn={update}
                     text="bearbeiten"/>
     }
 

@@ -11,16 +11,14 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-
   let {search, sort = 'date', ascending = 'true'} = req.query;
   Event.search(search).sort((ascending === 'true' ? '' : '-') + sort)
   .then(events => {
-    console.log("hola desde eventcontroller");
-    // if(sort === 'own'){
-    //   _.reject(events, event => event.user.id === req.user.id)
-    // }
-    res.status(200).json(events)
-  })
+    if (sort === 'own') {
+      return events.filter(event => event.user.id === req.user.id);
+    }
+    return events
+  }).then(events => res.status(200).json(events))
   .catch(err => res.status(500).send('Database Error'));
 };
 
@@ -32,7 +30,6 @@ exports.findById = (req, res) => {
     res.status(404).send(err)
   })
 };
-
 
 exports.update = (req, res) => {
   Event.findById(req.params.id)

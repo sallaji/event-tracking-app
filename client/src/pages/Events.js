@@ -22,15 +22,15 @@ const Events = ({serverUrl}) => {
       eventService.getAll({serverUrl, queryStringParams})
       .then(events => {
         setEvents(events);
-        console.log(events);
         setLoading(true)
       })
     }
   };
 
   useEffect(
-      loadEvents, [user, queryStringParams]);
-
+      loadEvents
+      , [user, queryStringParams]
+  );
 
   const getEvent = (id) => {
     if (user) {
@@ -41,20 +41,21 @@ const Events = ({serverUrl}) => {
     }
   };
 
-  const createEvent = event => {
+  const create = event => {
     console.log("from createEvent")
   };
 
-  const updateEvent = event => {
-    console.log("from updateEvent")
+  const update = event => {
+    console.log("from updateEvent");
+    console.log(event)
   };
 
-  const deleteEvent = event => {
+  const _delete = event => {
     console.log("from deleteEvent")
   };
 
   const query = (queryString) => {
-    if(queryString !== queryStringParams){
+    if (queryString !== queryStringParams) {
       setLoading(false);
       history.push({pathname: "/events", search: queryString});
       setQueryStringParams(queryString)
@@ -67,9 +68,9 @@ const Events = ({serverUrl}) => {
     <EventToolbar query={query} queryObject={parseQuery()}/>
     <EventList events={events}
                getEvent={getEvent}
-               createEvent={createEvent}
-               updateEvent={updateEvent}
-               deleteEvent={deleteEvent}
+               create={create}
+               update={update}
+               _delete={_delete}
                loading={loading}
     />
   </Layout>;

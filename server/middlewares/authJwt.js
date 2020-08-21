@@ -1,8 +1,7 @@
-const passport = require('passport')
-const jwt = require("jsonwebtoken");
+const passport = require('passport');
 //TODO Replace with jwt passport structure
-const verifyToken = async (req, res) => {
-  await passport.authenticate('jwt', function (err, user,info) {
+const isLoggedIn = (req, res, next) => {
+  passport.authenticate('jwt', function (err, user, info) {
     if (user) {
       req.user = {
         id: user.id,
@@ -11,14 +10,14 @@ const verifyToken = async (req, res) => {
         // token: user.token,
         // expiresIn: user.expires
       };
+      return next()
     } else {
       res.status(403).send("User not logged in")
     }
-  })(req, res)
-
+  })(req, res);
 };
 
 const authJwt = {
-  verifyToken
+  isLoggedIn
 };
 module.exports = authJwt;

@@ -5,6 +5,7 @@ import Datepicker from "../inputs/DatepickerInput";
 import styled from 'styled-components';
 import SubList from "./subLists/SubList";
 import {eventModel} from "../../models/event";
+import NumberFormat from "react-number-format";
 
 const EventFormComponent = styled.div`
 display: flex;
@@ -53,7 +54,6 @@ const EventForm = ({
     const newData = {...event, [e.target.name]: e.target.value};
     updateTemporaryChanges(newData);
     setEvent(newData);
-    // setDataMustUpdate(true)
   };
 
   const updateSubList = (subListItems, target) => {
@@ -95,7 +95,9 @@ const EventForm = ({
           />
           <Input
               className="gridFormCol4 inputField"
-              onChange={change}
+              onChange={(value)=> {
+                change(value)
+              }}
               name="barSales"
               value={event.barSales}
               disabled={readOnly}
