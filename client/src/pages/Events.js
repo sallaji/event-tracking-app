@@ -61,7 +61,7 @@ const Events = ({serverUrl}) => {
       setQueryStringParams(queryString)
     }
   };
-
+//TODO: hacer generico
   const parseQuery = () => parse(location.search, {ignoreQueryPrefix: true});
 
   const renderEventList = () => <Layout>
