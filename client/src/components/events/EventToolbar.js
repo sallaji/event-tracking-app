@@ -126,6 +126,25 @@ const EventToolbar = ({create, query, queryObject: qobj}) => {
     }
   }, [raiseQuery]);
 
+
+  let keysPressed = {};
+
+  useEffect(() => {
+    window.addEventListener('keydown', (event) => {
+      keysPressed[event.key] = true;
+      if(keysPressed['Control'] && keysPressed['Alt'] && event.key === 'n'){
+        if(!showEventDetails){
+          handleEventDetailsOpen()
+        }
+      }
+    });
+
+    return () =>
+        window.removeEventListener('keyup', (event) => {
+          delete keysPressed[event.key]
+        });
+  }, []);
+
   return <EventToolbarComponent>
     <div className="event-search">
       <Input

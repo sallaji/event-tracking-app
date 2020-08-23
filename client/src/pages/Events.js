@@ -32,21 +32,6 @@ const Events = ({serverUrl}) => {
       , [user, queryStringParams]
   );
 
-  let keysPressed = {};
-
-  useEffect(() => {
-    window.addEventListener('keydown', (event) => {
-      keysPressed[event.key] = true;
-      // if(keysPressed[''])
-      console.log(event.key)
-    });
-
-    return () =>
-        window.removeEventListener('keyup', (event) => {
-          delete keysPressed[event.key]
-        });
-  }, []);
-
   const getEvent = (id) => {
     if (user) {
       eventService.get(serverUrl, id)
