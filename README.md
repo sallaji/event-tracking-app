@@ -30,5 +30,4 @@ Once logged in, the user (administrator type) can create, update or delete previ
 
 <h4>Queries</h4>
 <p>
-Existing events can be searched and/or sorted by date of creation, event or creator name
-</p>
+Existing events can be searched and/or sorted by date of creation, event or creator name</p>
