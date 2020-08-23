@@ -14,7 +14,7 @@ const getAll = ({serverUrl, queryStringParams}) =>
     })
     .catch(e => console.error(e));
 
-const getEvent = (serverUrl, id) =>
+const get = (serverUrl, id) =>
     fetch(`${serverUrl}/events/${id}`, {
       method: 'GET',
       ...authHeader()
@@ -28,9 +28,29 @@ const getEvent = (serverUrl, id) =>
     })
     .catch(e => console.error(e));
 
+const create = (serverUrl, event) =>
+    fetch(`${serverUrl}/events`, {
+      method: 'POST',
+      body: JSON.stringify(event),
+      ...authHeader()
+    })
+    .then(response => response.json())
+    .catch(err => console.error(err));
+
+const update = (serverUrl, event) =>
+    fetch(`${serverUrl}/events/${event.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(event),
+      ...authHeader()
+    })
+    .then(response => response.json())
+    .catch(err => console.error(err));
+
 const eventService = {
   getAll,
-  getEvent
+  get,
+  create,
+  update
 };
 
 export default eventService;

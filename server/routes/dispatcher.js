@@ -15,12 +15,12 @@ dispatcher.route('/users')
 .post(user_controller.createUser);
 
 dispatcher.route('/events')
-.post(event_controller.create)
+.post(authJwt.isLoggedIn, event_controller.create)
 .get(authJwt.isLoggedIn,event_controller.findAll);
 
 dispatcher.route('/events/:id')
-.put(event_controller.update)
-.get(event_controller.findById);
+.put(authJwt.isLoggedIn, event_controller.update)
+.get(authJwt.isLoggedIn, event_controller.findById);
 
 dispatcher.route('/events/:id/tickets')
 .post(ticket_controller.create)

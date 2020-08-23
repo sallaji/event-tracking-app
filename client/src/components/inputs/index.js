@@ -58,7 +58,7 @@ const CustomNumberFormat = (props) => {
 export const Input = (props) => {
   const classes = useStyles();
   return (
-      props.type === 'text' ?
+      props.type === 'text' || props.type === 'search' ?
           <StyledInputComponent
               className={clsx(classes.textField, classes.underline)}
               onFocus={e => e.target.select()}

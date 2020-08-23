@@ -46,7 +46,6 @@ const localStrategy = new LocalStrategy({usernameField: 'name'},
         if (!user) {
           return done(null, false, {message: 'Inkorrekter Name'});
         }
-        //TODO: Reeplace with utils.validatepassword
         User.validPassword(password, user.password, (isMatch) => {
           if (isMatch) {
             return done(null, user);

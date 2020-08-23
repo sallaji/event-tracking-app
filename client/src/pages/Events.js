@@ -32,23 +32,48 @@ const Events = ({serverUrl}) => {
       , [user, queryStringParams]
   );
 
+  let keysPressed = {};
+
+  useEffect(() => {
+    window.addEventListener('keydown', (event) => {
+      keysPressed[event.key] = true;
+      // if(keysPressed[''])
+      console.log(event.key)
+    });
+
+    return () =>
+        window.removeEventListener('keyup', (event) => {
+          delete keysPressed[event.key]
+        });
+  }, []);
+
   const getEvent = (id) => {
     if (user) {
-      eventService.getEvent(serverUrl, id)
+      eventService.get(serverUrl, id)
       .then(event => setEvents(
           _.map(events, evt => evt.id === event.id ? event : evt)))
       .catch(error => console.error(error))
     }
   };
 
-  const create = event => {
-    console.log("from createEvent")
-  };
+  const create = (event => {
+    if (user) {
+      eventService.create(serverUrl, event)
+      .then(event => setEvents((_.concat(events, event)),
+      ))
+      .catch(error => console.error(error))
+    }
+  });
 
-  const update = event => {
-    console.log("from updateEvent");
-    console.log(event)
-  };
+  const update = (event => {
+    if (user) {
+      eventService.update(serverUrl, event)
+      .then(event => setEvents((
+          _.map(events, evt => evt.id === event.id ? event : evt)
+      )))
+      .catch(error => console.error(error))
+    }
+  });
 
   const _delete = event => {
     console.log("from deleteEvent")
@@ -61,14 +86,15 @@ const Events = ({serverUrl}) => {
       setQueryStringParams(queryString)
     }
   };
-//TODO: hacer generico
+
   const parseQuery = () => parse(location.search, {ignoreQueryPrefix: true});
 
   const renderEventList = () => <Layout>
-    <EventToolbar query={query} queryObject={parseQuery()}/>
+    <EventToolbar query={query}
+                  create={create}
+                  queryObject={parseQuery()}/>
     <EventList events={events}
                getEvent={getEvent}
-               create={create}
                update={update}
                _delete={_delete}
                loading={loading}

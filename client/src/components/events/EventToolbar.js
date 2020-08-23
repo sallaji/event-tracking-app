@@ -54,7 +54,7 @@ font-size: 0.7rem;
 }
 `;
 
-const EventToolbar = ({query, queryObject: qobj}) => {
+const EventToolbar = ({create, query, queryObject: qobj}) => {
 
   const [queryObject, setQueryObject] = useState(qobj);
   const [raiseQuery, setRaiseQuery] = useState(false);
@@ -148,6 +148,7 @@ const EventToolbar = ({query, queryObject: qobj}) => {
 
       </Button>
       <EventDetails
+          actionFn={create}
           close={handleEventDetailsOpen} open={showEventDetails}
           text="erstellen"/>
     </div>

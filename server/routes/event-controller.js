@@ -4,11 +4,17 @@ exports.create = (req, res) => {
   const {name, date, responsible, uid} = req.body;
   const user = req.user;
   const userId = uid ? uid : user.id;
-  const event = Event({name, date, responsible, user: userId});
+  const event = Event({
+    name,
+    date,
+    responsible,
+    user: userId,
+  });
   event.save()
   .then(createdEvent => res.status(200).json(createdEvent))
   .catch(err => res.status(412).json(err.errors))
 };
+
 
 exports.findAll = (req, res) => {
   let {search, sort = 'date', ascending = 'true'} = req.query;

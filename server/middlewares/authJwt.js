@@ -1,5 +1,4 @@
 const passport = require('passport');
-//TODO Replace with jwt passport structure
 const isLoggedIn = (req, res, next) => {
   passport.authenticate('jwt', function (err, user, info) {
     if (user) {
