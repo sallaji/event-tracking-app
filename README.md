@@ -26,18 +26,18 @@ The application uses the JSON Web Token (JWT) standard in order to login and che
 of active sessions of logged-in users.
 </p>
 
-<img src="resources/login_success.gif" alt="Login Success"/>
+<img style="width: 320px" src="resources/login_success.gif" alt="Login Success"/>
 <img src="resources/login_failed.gif" alt="Login Failed"/>
 
 <h4>Creation, update and deletion of events</h4>
 <p>
 Once logged in, the user (administrator type) can create, update or delete previously created events.
 </p>
-<img src="resources/create_event.gif" alt="Create Event"/>
+<img style="width: 320px" src="resources/create_event.gif" alt="Create Event"/>
 
 <h4>Queries</h4>
 <p>
 Existing events can be searched and/or sorted by date of creation, event or creator name</p>
-<img src="resources/search_query.gif" alt="Search query"/>
-<img src="resources/filter_and_sort.gif" alt="Filter and Sort"/>
+<img style="width: 320px" src="resources/search_query.gif" alt="Search query"/>
+<img style="width: 320px" src="resources/filter_and_sort.gif" alt="Filter and Sort"/>
 
