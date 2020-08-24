@@ -41,3 +41,6 @@ Existing events can be searched and/or sorted by date of creation, event or crea
 <img style="width: 320px" src="resources/search_query.gif" alt="Search query"/>
 <img style="width: 320px" src="resources/filter_and_sort.gif" alt="Filter and Sort"/>
 
+<h3>Screenshots</h3>
+<img style="width: 320px" src="resources/event_details.png" alt="Event details"/>
+<img style="width: 320px" src="resources/event_page.png" alt="Event page"/>
