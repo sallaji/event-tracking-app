@@ -54,7 +54,10 @@ font-size: 0.7rem;
 }
 `;
 
-const EventToolbar = ({create, query, queryObject: qobj}) => {
+const EventToolbar = ({
+  create,
+  query,
+  queryObject: qobj}) => {
 
   const [queryObject, setQueryObject] = useState(qobj);
   const [raiseQuery, setRaiseQuery] = useState(false);
@@ -127,8 +130,8 @@ const EventToolbar = ({create, query, queryObject: qobj}) => {
   }, [raiseQuery]);
 
 
+  //TODO: Avoid open when another eventdetails component is currently open
   let keysPressed = {};
-
   useEffect(() => {
     window.addEventListener('keydown', (event) => {
       keysPressed[event.key] = true;

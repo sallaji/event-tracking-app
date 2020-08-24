@@ -58,14 +58,14 @@ const CustomNumberFormat = (props) => {
 export const Input = (props) => {
   const classes = useStyles();
   return (
-      props.type === 'text' || props.type === 'search' ?
+      props.type === 'currency' || props.type === 'number' ?
+          <CustomNumberFormat {...props}/> :
           <StyledInputComponent
               className={clsx(classes.textField, classes.underline)}
               onFocus={e => e.target.select()}
               variant="outlined"
               {...props}>
-          </StyledInputComponent> :
-          <CustomNumberFormat {...props}/>
+          </StyledInputComponent>
 
   )
 };

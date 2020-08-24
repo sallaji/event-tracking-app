@@ -6,26 +6,27 @@ import authService from "../services/auth-service";
 import history from "../history";
 import UseAnimations from "react-useanimations";
 import alertOctagon from 'react-useanimations/lib/alertOctagon'
-
-import {navigate} from "@reach/router";
+import theme from "../styles/theme";
 import {Button} from "../components/buttons";
 import {
   CenteredSectionContainer,
   LoginFormContainer
 } from "../components/container";
 
+
 const Login = ({serverUrl}) => {
   const [loginUser, setLoginUser] = useState({name: '', password: ''});
   const [error, setError] = useState(false);
+  const [message, setMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
   const {user, setUser} = useContext(UserContext);
   const handleChange = evt => {
-    setError(null);
+    setError(false);
+    setMessage('');
     setLoginUser({...loginUser, [evt.target.name]: evt.target.value});
   };
 
   const doLogin = () => {
-    // if (!disabled) {
     authService.login(serverUrl, loginUser)
     .then(user => {
       if (user) {
@@ -35,9 +36,9 @@ const Login = ({serverUrl}) => {
     })
     .catch(error => {
       setLoginUser({...loginUser, password: ''});
-      setError(error)
+      setError(true);
+      setMessage(error.message)
     });
-    // }
   };
   useEffect(() => {
     setDisabled(!(loginUser.name && loginUser.password));
@@ -47,57 +48,36 @@ const Login = ({serverUrl}) => {
   const renderLogin = () => <Layout>
     <CenteredSectionContainer>
       <LoginFormContainer>
-        <div
-            style={{
-              height: "76px",
-              alignItems: "center",
-              justifyContent: "center",
-              display: "grid",
-            }}>
-
+        <div className="login-failed-animation-and-text">
           {
-            error && <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
+            error && <div>
               <UseAnimations animation={alertOctagon}
                              size={56}
-                             strokeColor={"var(--color-red)"}
-                             wrapperStyle={{
-                               margin: "auto",
-                             }}/>
-              <h3 style={{
-                color: "var(--color-red)",
-                textAlign: "center"
-              }}>{error.message}</h3>
+                             strokeColor={theme.palette.error.main}
+                             wrapperStyle={{}}/>
+              <h3>{message}</h3>
             </div>
           }
         </div>
-
-
-        <form>
           <Input type="text"
                  name="name"
                  value={loginUser.name}
-                 placeholder="Name"
+                 label="Name"
                  error={error}
-                 onFocus={e=> e.target.select()}
-                 onChange={handleChange}/>
+                 onChange={handleChange}
+                 className="form-controller"/>
           <Input type="password"
                  name="password"
                  value={loginUser.password}
-                 placeholder="Passwort"
+                 label="Passwort"
                  error={error}
-                 onFocus={e=> e.target.select()}
-                 onChange={handleChange}/>
+                 onChange={handleChange}
+                 className="form-controller"/>
           <Button text="Einloggen"
-                  color="yellow"
+                  variant="contained"
+                  color="secondary"
                   onClick={doLogin}
-                  disabled={disabled}
-
-          />
-        </form>
+                  disabled={disabled}/>
       </LoginFormContainer>
     </CenteredSectionContainer>
 

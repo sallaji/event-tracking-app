@@ -31,7 +31,7 @@ display: block;
 position:absolute;
 background: white;
 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-z-index: 2;
+z-index: 3;
 
 `;
 const DropdownContent = ({onClick, children}) => (

@@ -28,7 +28,11 @@ const Events = ({serverUrl}) => {
   };
 
   useEffect(
-      loadEvents
+      () => {
+        setTimeout(()=> {
+          loadEvents()
+        },1000)
+      }
       , [user, queryStringParams]
   );
 

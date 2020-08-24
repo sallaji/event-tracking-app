@@ -21,13 +21,23 @@ MongoDB database, namely mongoose.
 
 <h3>Functionalities<h3/>
 <h4>Authentication</h4>
-The application uses the JSON Web Token (JWT) standard to verify authenticity and active sessions 
-of logged-in users. 
+<p>
+The application uses the JSON Web Token (JWT) standard in order to login and check authenticity 
+of active sessions of logged-in users.
+</p>
+
+<img src="resources/login_success.gif" alt="Login Success"/>
+<img src="resources/login_failed.gif" alt="Login Failed"/>
+
 <h4>Creation, update and deletion of events</h4>
 <p>
 Once logged in, the user (administrator type) can create, update or delete previously created events.
 </p>
+<img src="resources/create_event.gif" alt="Create Event"/>
 
 <h4>Queries</h4>
 <p>
 Existing events can be searched and/or sorted by date of creation, event or creator name</p>
+<img src="resources/search_query.gif" alt="Search query"/>
+<img src="resources/filter_and_sort.gif" alt="Filter and Sort"/>
+
