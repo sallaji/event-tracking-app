@@ -1,20 +1,87 @@
 const Event = require('../models/Event');
-
+const Profit = require('../models/Profit');
+const Expense = require('../models/Expense');
+const Ticket = require('../models/Ticket');
+const Sponsor = require('../models/Sponsor');
 exports.create = (req, res) => {
-  const {name, date, responsible, uid} = req.body;
-  const user = req.user;
-  const userId = uid ? uid : user.id;
-  const event = Event({
+  const {
     name,
     date,
     responsible,
-    user: userId,
-  });
-  event.save()
-  .then(createdEvent => res.status(200).json(createdEvent))
-  .catch(err => res.status(412).json(err.errors))
-};
+    uid,
+    profits,
+    tickets,
+    sponsors,
+    expenses
+  } = req.body;
+  const user = req.user;
+  const userId = uid ? uid : user.id;
 
+  const event = new Event({
+    date,
+    name,
+    responsible,
+    user: userId
+  });
+
+  event.save()
+  .then(event => {
+        profits.forEach(profit => {
+          const prf = new Profit({...profit, event: event.id});
+          prf.save()
+          .then(prf => {
+            if (prf) {
+              event.profits.push(prf)
+            }
+          });
+        });
+        tickets.forEach(ticket => {
+          const tkt = new Ticket({...ticket, event: event.id});
+          tkt.save()
+          .then(tkt => {
+            if (tkt) {
+              event.tickets.push(tkt);
+            }
+          })
+        });
+        sponsors.forEach(sponsor => {
+          const spr = new Sponsor({...sponsor, event: event.id});
+          spr.save()
+          .then(spr => {
+            if (spr) {
+              event.sponsors.push(spr)
+            }
+          });
+        });
+        expenses.forEach(expense => {
+          const exp = new Sponsor({...expense, event: event.id});
+          exp.save()
+          .then(exp => {
+            if (exp) {
+              event.expenses.push(exp);
+            }
+          });
+        })
+      }
+  )
+  ;
+
+// event.save()
+// .then((createdEvent) => {
+//   if (createdEvent) {
+//     profit.event = createdEvent.id;
+//     profit.save()
+//     .then((error, profit) => {
+//
+//       if (profit) {
+//         res.status(200).json(createdEvent)
+//       }
+//     })
+//   }
+// })
+// .catch(err => res.status(412).json(err.errors))
+}
+;
 
 exports.findAll = (req, res) => {
   let {search, sort = 'date', ascending = 'true'} = req.query;

@@ -6,5 +6,6 @@ export const eventModel = {
     ticketSales: '',
     tickets: [],
     sponsors: [],
-    expenses: []
+    expenses: [],
+    user: ''
 };

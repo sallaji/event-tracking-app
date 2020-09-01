@@ -3,35 +3,50 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const EventSchema = new Schema(
     {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        autopopulate: {
-          select: ['name', 'type']
-        }
+      date: {
+        type: Date,
+        required: 'Datum nicht eingegeben'
       },
       name: {
         type: String,
         required: 'Eventname nicht eingegeben',
       },
-      date: {
-        type: Date,
-        required: 'Datum nicht eingegeben'
-      },
       responsible: {
         type: String
       },
-      profit: {type: mongoose.Schema.Types.ObjectId, ref: 'Profit'}
-
-      // income: {type: mongoose.Schema.Types.ObjectId, ref: 'Income'},
-      // tickets: [
-      //   {
-      //     type: mongoose.Schema.Types.ObjectId,
-      //     ref: 'Ticket'
-      //   }
-      // ],
-      // costs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Cost'}],
-      // sponsors: [{type: mongoose.Schema.Types.ObjectId, ref: 'Sponsor'}]
+      profits: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Profit',
+        autopopulate: true
+      }],
+      tickets: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Ticket',
+          autopopulate: true
+        }
+      ],
+      expenses: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Expense',
+          autopopulate: true
+        }
+      ],
+      sponsors: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Sponsor',
+          autopopulate: true
+        }
+      ],
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        autopopulate: {
+          select: ['name', 'type']
+        }
+      }
     }
 );
 
@@ -52,7 +67,6 @@ EventSchema.statics = {
 };
 
 EventSchema.index({name: 'text', responsible: 'text'});
-
 
 EventSchema.virtual('id').get(function () {
   return this._id.toHexString();

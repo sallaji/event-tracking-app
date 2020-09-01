@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// todo: https://mongoosejs.com/docs/subdocs.html
 const TicketSchema = new Schema(
     {
       price: {
@@ -14,7 +13,7 @@ const TicketSchema = new Schema(
       event: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
-        required: 'Es wurde dem Ticket kein Event zugewiesen'
+        required: 'keinem Event zugeordnet'
       }
     }
 );

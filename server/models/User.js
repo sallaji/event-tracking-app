@@ -15,7 +15,7 @@ const UserSchema = new Schema(
             let userIsUnique = true;
             await this.constructor.findOne({name: v},
                 (err, user) => {
-                  userIsUnique = user? self.id === user.id : !user
+                  userIsUnique = user ? self.id === user.id : !user
                 });
             return userIsUnique;
           },
@@ -73,8 +73,6 @@ UserSchema.pre('save', function (next) {
     });
   });
 });
-
-
 
 UserSchema.virtual('id').get(function () {
   return this._id.toHexString();

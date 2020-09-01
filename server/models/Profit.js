@@ -4,16 +4,17 @@ const Schema = mongoose.Schema;
 
 const ProfitSchema = new Schema(
     {
-      bar: {
-        type: Number
+      description: {
+        type: String
       },
-      entrance: {
+      amount: {
         type: Number
       },
       event: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
-        autopopulate: true
+        required: 'keinem Event zugeordnet'
       }
     }
 );
+module.exports = mongoose.model('Profit', ProfitSchema);
