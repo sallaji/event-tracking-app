@@ -1,0 +1,46 @@
+{
+  "profits": [
+    {
+      "description": "bar",
+      "amount": 120.25
+    },
+    {
+      "description": "tickets",
+      "amount": 10.50
+    }
+  ],
+  "tickets": [
+    {
+      "price": 10,
+      "quantity": 2
+    },
+    {
+      "price": 12,
+      "quantity": 6
+    }
+  ],
+  "expenses": [
+    {
+      "description": "pizza",
+      "amount": 14.50
+    },
+    {
+      "description": "tamarindo",
+      "amount": 6.05
+    }
+  ],
+  "sponsors": [
+    {
+      "name": "ibb",
+      "amount": 1000
+    },
+    {
+      "name": "Stadt Brugg",
+      "amount": 2500
+    }
+  ],
+  "name": "Mas y mas creado",
+  "date": "2020-01-01T15:00:00.000Z",
+  "responsible": "Adriano Ramirez",
+  "user": "5f0f7863f45426fdac2eea8e"
+}

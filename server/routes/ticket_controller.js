@@ -10,8 +10,15 @@ exports.create = (req, res) => {
   .catch(err => res.status(412).json(err.errors));
 };
 
+// exports.findAll = (req, res) => {
+//   Ticket.find({event:req.params.id}).populate('event')
+//   .then(tickets => res.status(200).json(tickets))
+//   .catch(err => res.status(500).send('Database Error'));
+// };
 exports.findAll = (req, res) => {
-  Ticket.find({event:req.params.id}).populate('event')
+  Ticket.find()
+  // .populate('event')
   .then(tickets => res.status(200).json(tickets))
   .catch(err => res.status(500).send('Database Error'));
 };
+

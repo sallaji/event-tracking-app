@@ -18,4 +18,11 @@ const TicketSchema = new Schema(
     }
 );
 
+TicketSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+TicketSchema.set('toJSON', {
+  virtuals: true
+});
+
 module.exports = mongoose.model('Ticket', TicketSchema);

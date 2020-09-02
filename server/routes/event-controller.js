@@ -3,7 +3,7 @@ const Profit = require('../models/Profit');
 const Expense = require('../models/Expense');
 const Ticket = require('../models/Ticket');
 const Sponsor = require('../models/Sponsor');
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   const {
     name,
     date,
@@ -16,55 +16,56 @@ exports.create = (req, res) => {
   } = req.body;
   const user = req.user;
   const userId = uid ? uid : user.id;
+  try {
+    let event = await new Event({
+      date,
+      name,
+      responsible,
+      user: userId
+    });
 
-  const event = new Event({
-    date,
-    name,
-    responsible,
-    user: userId
-  });
-
-  event.save()
-  .then(event => {
-        profits.forEach(profit => {
-          const prf = new Profit({...profit, event: event.id});
-          prf.save()
-          .then(prf => {
-            if (prf) {
-              event.profits.push(prf)
-            }
-          });
-        });
-        tickets.forEach(ticket => {
-          const tkt = new Ticket({...ticket, event: event.id});
-          tkt.save()
-          .then(tkt => {
-            if (tkt) {
-              event.tickets.push(tkt);
-            }
-          })
-        });
-        sponsors.forEach(sponsor => {
-          const spr = new Sponsor({...sponsor, event: event.id});
-          spr.save()
-          .then(spr => {
-            if (spr) {
-              event.sponsors.push(spr)
-            }
-          });
-        });
-        expenses.forEach(expense => {
-          const exp = new Sponsor({...expense, event: event.id});
-          exp.save()
-          .then(exp => {
-            if (exp) {
-              event.expenses.push(exp);
-            }
-          });
-        })
+    for (const profit of profits) {
+      const tempProfit = await new Profit({...profit, event: event.id});
+      const error = await tempProfit.validate();
+      if (error) {
+        throw new Error(error)
       }
-  )
-  ;
+      event.profits.push(tempProfit);
+    }
+    for (const ticket of tickets) {
+      const tempTicket = await new Ticket({...ticket, event: event.id});
+      const error = await tempTicket.validate();
+      if (error) {
+        throw new Error(error)
+      }
+      event.tickets.push(tempTicket);
+    }
+    for (const sponsor of sponsors) {
+      const tempSponsor = await new Sponsor({...sponsor, event: event.id});
+      const error = await tempSponsor.validate();
+      if (error) {
+        throw new Error(error)
+      }
+      event.sponsors.push(tempSponsor);
+    }
+    for (const expense of expenses) {
+      const tempExpenses = await new Expense({...expense, event: event.id});
+      const error = await tempExpenses.validate();
+      if (error) {
+        throw new Error(error)
+      }
+      event.expenses.push(tempExpenses);
+    }
+    event.profits.forEach(item => item.save());
+    event.tickets.forEach(item => item.save());
+    event.sponsors.forEach(item => item.save());
+    event.expenses.forEach(item => item.save());
+    event.save();
+    res.status(200).json(event);
+  } catch (e) {
+    console.error("Error ocurred: ", e);
+    res.status(412).json(e.errors)
+  }
 
 // event.save()
 // .then((createdEvent) => {

@@ -22,7 +22,10 @@ dispatcher.route('/events/:id')
 .put(authJwt.isLoggedIn, event_controller.update)
 .get(authJwt.isLoggedIn, event_controller.findById);
 
-dispatcher.route('/events/:id/tickets')
-.post(ticket_controller.create)
+// dispatcher.route('/events/:id/tickets')
+// .post(ticket_controller.create)
+// .get(ticket_controller.findAll);
+
+dispatcher.route('/tickets')
 .get(ticket_controller.findAll);
 module.exports = dispatcher;
